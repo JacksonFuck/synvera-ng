@@ -1,0 +1,22 @@
+[Unit]
+# O shim que orquestra RAG + Meissa em paralelo e consolida no Gemma.
+# Até agora rodava como processo solto, sem unit e sem restart — apesar de ser o
+# endpoint principal referenciado pelo librechat.yaml.
+Description=Synvera Orquestrador (RAG + Meissa + Gemma)
+Documentation=file:%h/Projetos/Synvera-ng/docs/HANDOFF.md
+After=network-online.target synvera-rag-gateway.service
+Wants=network-online.target
+StartLimitIntervalSec=120
+StartLimitBurst=10
+
+[Service]
+Type=simple
+WorkingDirectory=%h/Projetos/Synvera-ng/services/orchestrator
+ExecStart=/usr/bin/bash -lc 'set -a; [ -f ../../.env ] && . ../../.env; set +a; exec .venv/bin/python -m uvicorn app:app --host 127.0.0.1 --port 8100'
+Restart=always
+RestartSec=5
+KillSignal=SIGINT
+TimeoutStopSec=15
+
+[Install]
+WantedBy=default.target

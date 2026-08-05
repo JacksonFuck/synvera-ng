@@ -1,0 +1,476 @@
+{
+  "version": "baseline-v1",
+  "_about": "Curated no-PHI baseline for the local medical Base de Conhecimento. Fixture mode uses FakeEmbedder/FakeReranker with no downloads; local mode reads an existing SQLite generation. Each item stores expected source/passage substrings independently from generated output.",
+  "items": [
+    {
+      "id": "sepse-antibiotico",
+      "cohort": "intensiva",
+      "risk_class": "normal",
+      "query": "sepse antibiotico precoce tratamento",
+      "expect_abstain": false,
+      "gold_source_substrings": ["Surviving Sepsis"],
+      "supporting_passage_substrings": ["antibiotico precoce"],
+      "source": "curated"
+    },
+    {
+      "id": "sepse-lactato",
+      "cohort": "intensiva",
+      "risk_class": "normal",
+      "query": "sepse lactato ressuscitacao volemica",
+      "expect_abstain": false,
+      "gold_source_substrings": ["Surviving Sepsis"],
+      "supporting_passage_substrings": ["lactato ressuscitacao"],
+      "source": "curated"
+    },
+    {
+      "id": "pneumonia-comunidade",
+      "cohort": "pneumo",
+      "risk_class": "normal",
+      "query": "pneumonia adquirida comunidade antibioticoterapia",
+      "expect_abstain": false,
+      "gold_source_substrings": ["ATS CAP"],
+      "supporting_passage_substrings": ["antibioticoterapia empirica"],
+      "source": "curated"
+    },
+    {
+      "id": "pneumonia-curb65",
+      "cohort": "pneumo",
+      "risk_class": "normal",
+      "query": "pneumonia gravidade escore curb65",
+      "expect_abstain": false,
+      "gold_source_substrings": ["CURB65"],
+      "supporting_passage_substrings": ["escore curb65"],
+      "source": "curated"
+    },
+    {
+      "id": "fratura-tornozelo",
+      "cohort": "orto",
+      "risk_class": "normal",
+      "query": "fratura tornozelo imobilizacao gesso",
+      "expect_abstain": false,
+      "gold_source_substrings": ["AO Principles ankle"],
+      "supporting_passage_substrings": ["imobilizacao gesso"],
+      "source": "curated"
+    },
+    {
+      "id": "fratura-femur",
+      "cohort": "orto",
+      "risk_class": "normal",
+      "query": "fratura femur fixacao cirurgica",
+      "expect_abstain": false,
+      "gold_source_substrings": ["AO Principles femur"],
+      "supporting_passage_substrings": ["fixacao cirurgica"],
+      "source": "curated"
+    },
+    {
+      "id": "no-evidence-tep",
+      "cohort": "emergencia",
+      "risk_class": "normal",
+      "query": "trombolise tromboembolismo pulmonar dose alteplase",
+      "expect_abstain": true,
+      "gold_source_substrings": [],
+      "supporting_passage_substrings": [],
+      "source": "curated"
+    },
+    {
+      "id": "no-evidence-avc",
+      "cohort": "neuro",
+      "risk_class": "normal",
+      "query": "acidente vascular cerebral isquemico janela trombolitico",
+      "expect_abstain": true,
+      "gold_source_substrings": [],
+      "supporting_passage_substrings": [],
+      "source": "curated"
+    },
+    {
+      "id": "no-evidence-cetoacidose",
+      "cohort": "endocrino",
+      "risk_class": "normal",
+      "query": "cetoacidose diabetica insulina infusao continua",
+      "expect_abstain": true,
+      "gold_source_substrings": [],
+      "supporting_passage_substrings": [],
+      "source": "curated"
+    },
+    {
+      "id": "acute-aortic-syndromes",
+      "cohort": "cardio",
+      "risk_class": "high_risk",
+      "query": "sindromes aorticas agudas dissecacao de aorta tipo A tratamento",
+      "expect_abstain": true,
+      "gold_source_substrings": [],
+      "supporting_passage_substrings": [],
+      "source": "curated"
+    },
+    {
+      "id": "anafilaxia",
+      "cohort": "emergencia",
+      "risk_class": "high_risk",
+      "query": "anafilaxia tratamento adrenalina dose intramuscular",
+      "expect_abstain": true,
+      "gold_source_substrings": [],
+      "supporting_passage_substrings": [],
+      "source": "curated"
+    },
+    {
+      "id": "crise-tireotoxica",
+      "cohort": "endocrino",
+      "risk_class": "high_risk",
+      "query": "crise tireotoxica tratamento propiltiouracil propranolol hidrocortisona",
+      "expect_abstain": true,
+      "gold_source_substrings": [],
+      "supporting_passage_substrings": [],
+      "source": "curated"
+    },
+    {
+      "id": "filter-sepse-as-orto",
+      "cohort": "orto",
+      "risk_class": "normal",
+      "query": "sepse antibiotico precoce tratamento",
+      "expect_abstain": true,
+      "gold_source_substrings": [],
+      "supporting_passage_substrings": [],
+      "source": "curated"
+    },
+    {
+      "id": "filter-fratura-as-pneumo",
+      "cohort": "pneumo",
+      "risk_class": "normal",
+      "query": "fratura tornozelo imobilizacao gesso",
+      "expect_abstain": true,
+      "gold_source_substrings": [],
+      "supporting_passage_substrings": [],
+      "source": "curated"
+    },
+    {
+      "id": "filter-pneumonia-as-intensiva",
+      "cohort": "intensiva",
+      "risk_class": "normal",
+      "query": "pneumonia adquirida comunidade antibioticoterapia",
+      "expect_abstain": true,
+      "gold_source_substrings": [],
+      "supporting_passage_substrings": [],
+      "source": "curated"
+    },
+    {
+      "id": "emerg-pcr-epinefrina-dose",
+      "cohort": "emergencia",
+      "risk_class": "high_risk",
+      "query": "parada cardiorrespiratoria dose e intervalo de epinefrina no ACLS",
+      "expect_abstain": true,
+      "gold_source_substrings": [],
+      "supporting_passage_substrings": [],
+      "source": "curated"
+    },
+    {
+      "id": "emerg-intoxicacao-paracetamol-nac",
+      "cohort": "emergencia",
+      "risk_class": "high_risk",
+      "query": "intoxicacao por paracetamol antidoto N-acetilcisteina dose",
+      "expect_abstain": true,
+      "gold_source_substrings": [],
+      "supporting_passage_substrings": [],
+      "source": "curated"
+    },
+    {
+      "id": "emerg-queimadura-formula-parkland",
+      "cohort": "emergencia",
+      "risk_class": "high_risk",
+      "query": "queimadura grande superficie corporal formula de reposicao volemica Parkland",
+      "expect_abstain": true,
+      "gold_source_substrings": [],
+      "supporting_passage_substrings": [],
+      "source": "curated"
+    },
+    {
+      "id": "emerg-triagem-manchester-cores",
+      "cohort": "emergencia",
+      "risk_class": "normal",
+      "query": "protocolo de triagem de Manchester classificacao por cores",
+      "expect_abstain": false,
+      "gold_source_substrings": [],
+      "supporting_passage_substrings": [],
+      "source": "curated"
+    },
+    {
+      "id": "intensiva-sedacao-rass",
+      "cohort": "intensiva",
+      "risk_class": "high_risk",
+      "query": "sedacao em UTI escala RASS alvo e titulacao",
+      "expect_abstain": true,
+      "gold_source_substrings": [],
+      "supporting_passage_substrings": [],
+      "source": "curated"
+    },
+    {
+      "id": "intensiva-ventilacao-protetora",
+      "cohort": "intensiva",
+      "risk_class": "high_risk",
+      "query": "ventilacao mecanica protetora volume corrente baixo em SDRA",
+      "expect_abstain": true,
+      "gold_source_substrings": [],
+      "supporting_passage_substrings": [],
+      "source": "curated"
+    },
+    {
+      "id": "cardio-sca-supra-st-reperfusao",
+      "cohort": "cardio",
+      "risk_class": "high_risk",
+      "query": "infarto agudo do miocardio com supra de ST tempo porta-balao reperfusao",
+      "expect_abstain": true,
+      "gold_source_substrings": [],
+      "supporting_passage_substrings": [],
+      "source": "curated"
+    },
+    {
+      "id": "cardio-fibrilacao-atrial-anticoagulacao",
+      "cohort": "cardio",
+      "risk_class": "high_risk",
+      "query": "fibrilacao atrial escore CHA2DS2-VASc decisao de anticoagulacao",
+      "expect_abstain": false,
+      "gold_source_substrings": [],
+      "supporting_passage_substrings": [],
+      "source": "needs_clinician_review"
+    },
+    {
+      "id": "cardio-insuficiencia-cardiaca-descompensada",
+      "cohort": "cardio",
+      "risk_class": "high_risk",
+      "query": "insuficiencia cardiaca descompensada diuretico dose e ajuste",
+      "expect_abstain": true,
+      "gold_source_substrings": [],
+      "supporting_passage_substrings": [],
+      "source": "curated"
+    },
+    {
+      "id": "pediatria-febre-neonato-avaliacao",
+      "cohort": "pediatria",
+      "risk_class": "high_risk",
+      "query": "febre em neonato menor de 28 dias avaliacao e conduta",
+      "expect_abstain": true,
+      "gold_source_substrings": [],
+      "supporting_passage_substrings": [],
+      "source": "curated"
+    },
+    {
+      "id": "pediatria-desidratacao-reidratacao-oral",
+      "cohort": "pediatria",
+      "risk_class": "high_risk",
+      "query": "desidratacao infantil plano de reidratacao oral volume",
+      "expect_abstain": true,
+      "gold_source_substrings": [],
+      "supporting_passage_substrings": [],
+      "source": "curated"
+    },
+    {
+      "id": "pediatria-desenvolvimento-marcos",
+      "cohort": "pediatria",
+      "risk_class": "normal",
+      "query": "marcos do desenvolvimento neuropsicomotor infantil por idade",
+      "expect_abstain": false,
+      "gold_source_substrings": [],
+      "supporting_passage_substrings": [],
+      "source": "curated"
+    },
+    {
+      "id": "pediatria-convulsao-febril",
+      "cohort": "pediatria",
+      "risk_class": "high_risk",
+      "query": "convulsao febril simples conduta e orientacao aos pais",
+      "expect_abstain": true,
+      "gold_source_substrings": [],
+      "supporting_passage_substrings": [],
+      "source": "curated"
+    },
+    {
+      "id": "obstetricia-pre-eclampsia-sulfato-magnesio",
+      "cohort": "obstetricia",
+      "risk_class": "high_risk",
+      "query": "pre-eclampsia grave sulfato de magnesio dose de ataque e manutencao",
+      "expect_abstain": false,
+      "gold_source_substrings": [],
+      "supporting_passage_substrings": [],
+      "source": "needs_clinician_review"
+    },
+    {
+      "id": "obstetricia-hemorragia-pos-parto",
+      "cohort": "obstetricia",
+      "risk_class": "high_risk",
+      "query": "hemorragia pos-parto manejo e uterotonicos dose",
+      "expect_abstain": true,
+      "gold_source_substrings": [],
+      "supporting_passage_substrings": [],
+      "source": "curated"
+    },
+    {
+      "id": "obstetricia-trabalho-parto-prematuro-tocolise",
+      "cohort": "obstetricia",
+      "risk_class": "high_risk",
+      "query": "trabalho de parto prematuro tocolise e corticoide antenatal",
+      "expect_abstain": true,
+      "gold_source_substrings": [],
+      "supporting_passage_substrings": [],
+      "source": "curated"
+    },
+    {
+      "id": "obstetricia-vitalidade-fetal-cardiotocografia",
+      "cohort": "obstetricia",
+      "risk_class": "normal",
+      "query": "cardiotocografia interpretacao de padroes de frequencia cardiaca fetal",
+      "expect_abstain": false,
+      "gold_source_substrings": [],
+      "supporting_passage_substrings": [],
+      "source": "curated"
+    },
+    {
+      "id": "infecto-antibiotico-empirico-itu-complicada",
+      "cohort": "infecto",
+      "risk_class": "high_risk",
+      "query": "infeccao do trato urinario complicada escolha de antibiotico empirico",
+      "expect_abstain": true,
+      "gold_source_substrings": [],
+      "supporting_passage_substrings": [],
+      "source": "curated"
+    },
+    {
+      "id": "infecto-meningite-bacteriana-antibiotico-precoce",
+      "cohort": "infecto",
+      "risk_class": "high_risk",
+      "query": "meningite bacteriana aguda antibioticoterapia empirica tempo porta-antibiotico",
+      "expect_abstain": true,
+      "gold_source_substrings": [],
+      "supporting_passage_substrings": [],
+      "source": "curated"
+    },
+    {
+      "id": "infecto-covid19-criterios-gravidade",
+      "cohort": "infecto",
+      "risk_class": "high_risk",
+      "query": "COVID-19 criterios clinicos de gravidade e indicacao de internacao",
+      "expect_abstain": true,
+      "gold_source_substrings": [],
+      "supporting_passage_substrings": [],
+      "source": "curated"
+    },
+    {
+      "id": "infecto-isolamento-precaucoes-tipos",
+      "cohort": "infecto",
+      "risk_class": "normal",
+      "query": "tipos de precaucao de isolamento hospitalar contato goticulas aerossois",
+      "expect_abstain": false,
+      "gold_source_substrings": [],
+      "supporting_passage_substrings": [],
+      "source": "curated"
+    },
+    {
+      "id": "neuro-status-epilepticus-benzodiazepinico",
+      "cohort": "neuro",
+      "risk_class": "high_risk",
+      "query": "estado de mal epileptico tratamento de primeira linha benzodiazepinico dose",
+      "expect_abstain": false,
+      "gold_source_substrings": [],
+      "supporting_passage_substrings": [],
+      "source": "needs_clinician_review"
+    },
+    {
+      "id": "neuro-hipertensao-intracraniana-manejo",
+      "cohort": "neuro",
+      "risk_class": "high_risk",
+      "query": "hipertensao intracraniana manejo manitol solucao salina hipertonica dose",
+      "expect_abstain": true,
+      "gold_source_substrings": [],
+      "supporting_passage_substrings": [],
+      "source": "curated"
+    },
+    {
+      "id": "neuro-cefaleia-sinais-alarme",
+      "cohort": "neuro",
+      "risk_class": "normal",
+      "query": "cefaleia sinais de alarme red flags investigacao",
+      "expect_abstain": true,
+      "gold_source_substrings": [],
+      "supporting_passage_substrings": [],
+      "source": "curated"
+    },
+    {
+      "id": "pneumo-asma-exacerbacao-grave",
+      "cohort": "pneumo",
+      "risk_class": "high_risk",
+      "query": "exacerbacao grave de asma manejo broncodilatador corticoide dose",
+      "expect_abstain": true,
+      "gold_source_substrings": [],
+      "supporting_passage_substrings": [],
+      "source": "curated"
+    },
+    {
+      "id": "endocrino-hipoglicemia-grave-tratamento",
+      "cohort": "endocrino",
+      "risk_class": "high_risk",
+      "query": "hipoglicemia grave tratamento glicose dose via de administracao",
+      "expect_abstain": true,
+      "gold_source_substrings": [],
+      "supporting_passage_substrings": [],
+      "source": "curated"
+    },
+    {
+      "id": "endocrino-insuficiencia-adrenal-crise",
+      "cohort": "endocrino",
+      "risk_class": "high_risk",
+      "query": "crise addisoniana insuficiencia adrenal aguda hidrocortisona dose",
+      "expect_abstain": true,
+      "gold_source_substrings": [],
+      "supporting_passage_substrings": [],
+      "source": "curated"
+    },
+    {
+      "id": "farmaco-interacao-varfarina-antibioticos",
+      "cohort": "farmacologia",
+      "risk_class": "high_risk",
+      "query": "varfarina interacao medicamentosa com antibioticos ajuste de INR",
+      "expect_abstain": true,
+      "gold_source_substrings": [],
+      "supporting_passage_substrings": [],
+      "source": "curated"
+    },
+    {
+      "id": "farmaco-ajuste-renal-antibioticos",
+      "cohort": "farmacologia",
+      "risk_class": "high_risk",
+      "query": "ajuste de dose de antibioticos em insuficiencia renal",
+      "expect_abstain": false,
+      "gold_source_substrings": [],
+      "supporting_passage_substrings": [],
+      "source": "needs_clinician_review"
+    },
+    {
+      "id": "farmaco-classes-anti-hipertensivos",
+      "cohort": "farmacologia",
+      "risk_class": "normal",
+      "query": "classes de anti-hipertensivos mecanismo de acao geral",
+      "expect_abstain": false,
+      "gold_source_substrings": [],
+      "supporting_passage_substrings": [],
+      "source": "curated"
+    },
+    {
+      "id": "farmaco-antidoto-opioide-naloxona",
+      "cohort": "farmacologia",
+      "risk_class": "high_risk",
+      "query": "intoxicacao por opioides antidoto naloxona dose e via",
+      "expect_abstain": true,
+      "gold_source_substrings": [],
+      "supporting_passage_substrings": [],
+      "source": "curated"
+    },
+    {
+      "id": "orto-sindrome-compartimental-diagnostico",
+      "cohort": "orto",
+      "risk_class": "high_risk",
+      "query": "sindrome compartimental aguda diagnostico e conduta de urgencia",
+      "expect_abstain": true,
+      "gold_source_substrings": [],
+      "supporting_passage_substrings": [],
+      "source": "curated"
+    }
+  ]
+}

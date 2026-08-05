@@ -1,0 +1,52 @@
+# ── Segredos ────────────────────────────────────────────────────────────────
+# Só .env.example é versionado. Nunca o .env real.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+
+# ── Dados ───────────────────────────────────────────────────────────────────
+# Nada de dado entra no git. Corpus tratado e bruto ficam em ~/synvera-data/
+# sob DVC (ponteiros .dvc são versionados, os bytes não). Índices são artefato
+# derivado e nem em DVC entram — regeneráveis a partir de processed/.
+data/
+!data/*.dvc
+!data/.gitignore
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+*.lance/
+lancedb_*/
+parsed_markdown/
+
+# ── Modelos ─────────────────────────────────────────────────────────────────
+# GGUF e safetensors vêm do HuggingFace. Ver ops/llama/README.md.
+*.gguf
+*.safetensors
+*.bin
+models/
+
+# ── Python ──────────────────────────────────────────────────────────────────
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+
+# ── Node ────────────────────────────────────────────────────────────────────
+node_modules/
+dist/
+build/
+
+# ── Runtime ─────────────────────────────────────────────────────────────────
+*.log
+*.out
+logs/
+results/
+.DS_Store

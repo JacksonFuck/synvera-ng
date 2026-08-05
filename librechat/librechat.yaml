@@ -1,0 +1,69 @@
+# Synvera — configuração do LibreChat.
+#
+# Merge de duas fontes que estavam separadas e não versionadas:
+#   - os endpoints da instalação em produção (que não tinha bloco `interface:`)
+#   - o bloco `interface:` da branch `clinical` do fork SYNVERA, que era melhor
+#
+# Sem `interface:` o schema aplica os defaults do upstream e liga ~16 recursos
+# (agents, runCode, webSearch, mcpServers, multiConvo...). Para um usuário clínico
+# isso é superfície inútil; para PHI, é rota de egress. Aqui tudo que não serve
+# ao caso de uso está explicitamente desligado.
+version: 1.2.8
+cache: true
+
+interface:
+  customWelcome: 'Synvera — apoio à decisão clínica ancorado em evidência. Toda resposta cita fonte e página; sem evidência no corpus, o sistema recusa em vez de inventar.'
+
+  # Necessários ao uso clínico
+  endpointsMenu: true
+  modelSelect: true
+
+  # Desligados: são superfície de dev, não de consulta clínica
+  parameters: false        # temperature/top_p — alterar isso muda o comportamento clínico
+  presets: false
+  multiConvo: false        # comparar modelos lado a lado
+  bookmarks: false
+  memories: false
+  temporaryChat: false
+  buildInfo: false
+
+  # Desligados: rotas de egress ou de execução arbitrária
+  agents: { use: false, create: false }
+  mcpServers: { use: false, create: false }
+  prompts: { use: false, create: false }
+  runCode: false           # execução de código no chat
+  webSearch: false         # sai da máquina
+  fileSearch: false        # RAG próprio do LibreChat — usamos o Super-RAG (:8099)
+  fileCitations: false
+
+  peoplePicker: { users: false, groups: false, roles: false }
+
+endpoints:
+  custom:
+    # Entrada principal. Orquestra RAG + Meissa em paralelo e consolida no Gemma-4.
+    # Toda resposta é ancorada no corpus; sem evidência o serviço recusa.
+    - name: 'Synvera (RAG + Meissa + Gemma)'
+      apiKey: 'not-needed'
+      baseURL: 'http://host.docker.internal:8100/v1'
+      models:
+        default: ['simvera-triangulo']
+        fetch: true
+      titleConvo: true
+      titleModel: 'simvera-triangulo'
+
+    # ATENÇÃO: os dois abaixo falam com os modelos DIRETO, sem RAG e sem a regra
+    # anti-alucinação. Existem para debug e para comparar contra a entrada principal.
+    # Não são caminho de uso clínico — remover antes de qualquer piloto com usuário real.
+    - name: 'Gemma 4 12B (debug, sem RAG)'
+      apiKey: 'not-needed'
+      baseURL: 'http://host.docker.internal:8081/v1'
+      models:
+        default: ['gemma-4-12b']
+        fetch: true
+
+    - name: 'Meissa 4B (debug, sem RAG)'
+      apiKey: 'not-needed'
+      baseURL: 'http://host.docker.internal:8003/v1'
+      models:
+        default: ['meissa']
+        fetch: true

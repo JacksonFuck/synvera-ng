@@ -1,0 +1,31 @@
+# Override do compose upstream do LibreChat.
+#
+# Três coisas acontecem aqui:
+#   1. `build` em vez de `image` — a imagem passa a ser a nossa, com synvera_rag
+#      embutida. Antes a ferramenta vivia só na camada gravável do container.
+#   2. `librechat.yaml` montado a partir deste repo, versionado.
+#   3. Serviços que não usamos ficam desligados (perfil `unused`), porque o
+#      Super-RAG externo (:8099) já faz o trabalho de recuperação.
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: synvera/librechat:local
+    volumes:
+      - ./librechat.yaml:/app/librechat.yaml:ro
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+
+  # O par pgvector + rag_api é o RAG interno do LibreChat. Redundante: nossa
+  # recuperação é o Super-RAG em :8099, com BGE-M3, reranker e grafo. Manter os
+  # dois significa dois índices divergentes e duas fontes de verdade.
+  rag_api:
+    profiles: ['unused']
+  vectordb:
+    profiles: ['unused']
+
+  # Painel administrativo publicado em 0.0.0.0:3001 pelo compose upstream.
+  # Não faz parte do uso clínico e não deve escutar em todas as interfaces.
+  admin-panel:
+    profiles: ['unused']

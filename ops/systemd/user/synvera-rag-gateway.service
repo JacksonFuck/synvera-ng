@@ -1,0 +1,28 @@
+[Unit]
+# Super-RAG: busca híbrida (BM25 + denso + grafo), RRF e rerank sobre o corpus clínico.
+# Substitui apppocus-rag-gateway.service, que apontava para ~/Projetos/Apppocus-2.0 e
+# tinha um drop-in invertendo RAG_REAL_MODELS — a unit base dizia 0, o override dizia 1,
+# e quem lesse só a base concluía errado. Aqui o valor está declarado uma vez só.
+Description=Synvera Super-RAG
+Documentation=file:%h/Projetos/Synvera-ng/services/rag-gateway/README.md
+After=network-online.target
+Wants=network-online.target
+StartLimitIntervalSec=120
+StartLimitBurst=10
+
+[Service]
+Type=simple
+WorkingDirectory=%h/Projetos/Synvera-ng/services/rag-gateway
+Environment=RAG_REAL_MODELS=1
+# `set -a; . ./.env` carrega o .env: raggw/config.py lê os.environ direto e NÃO
+# interpreta arquivo .env por conta própria.
+ExecStart=/usr/bin/bash -lc 'set -a; . ./.env; set +a; exec .venv/bin/python -m uvicorn raggw.api:app --host "$RAG_HOST" --port "$RAG_PORT"'
+Restart=always
+RestartSec=5
+KillSignal=SIGINT
+# Carregar BGE-M3 e o reranker leva dezenas de segundos; SIGKILL cedo corrompe nada,
+# mas deixa a GPU ocupada até o driver limpar.
+TimeoutStopSec=30
+
+[Install]
+WantedBy=default.target

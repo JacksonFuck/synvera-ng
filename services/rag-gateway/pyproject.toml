@@ -1,0 +1,58 @@
+[project]
+name = "rag-gateway"
+version = "0.1.0"
+description = "Local-only medical RAG ingestion gateway (zero PHI egress). Phase 1: tiered parse -> citable chunks -> store."
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.34",
+    "pydantic>=2.7",
+    "pypdf>=5.0",
+    "python-multipart>=0.0.9",   # upload .zip de skill (POST /admin/skills, Fase 4)
+    "httpx>=0.27",               # inbox_watcher fala HTTP loopback com a própria API (Inc 2)
+]
+
+[project.optional-dependencies]
+# Heavy parsers — installed in background. liteparse = simple/fast docs, MinerU = complex docs.
+# Both emit high-quality Markdown for semantic RAG. Wired behind the Parser port (raggw/parsing).
+parsers = [
+    "liteparse",
+    "mineru",
+    # MinerU pipeline deps its wheel underspecifies (layout + paddle-OCR). Without these it
+    # raises ModuleNotFoundError and silently degrades to pdftotext. Validated 2026-07-11.
+    "torchvision",
+    "shapely",
+    "ftfy",
+    "pyclipper",
+]
+# Real embeddings + vector index (Phase 2+). Phase 1 tests use FakeEmbedder — no model download.
+embeddings = [
+    "FlagEmbedding",
+    "lancedb",
+    "onnxruntime",
+    "optimum[onnxruntime]",  # reranker bge-reranker-v2-m3 em ONNX (contorna bug do FlagReranker)
+]
+dev = [
+    "pytest>=8.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["raggw"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+filterwarnings = [
+    # starlette TestClient's own httpx deprecation — third-party, not our code
+    "ignore:Using `httpx` with `starlette.testclient`",
+]
+
+[project.scripts]
+rag-parse = "raggw.scripts.parse_file:main"
+rag-inbox-watcher = "raggw.scripts.inbox_watcher:main"
+rag-seed = "raggw.scripts.seed_corpus:main"
+rag-evals = "raggw.scripts.run_evals:main"

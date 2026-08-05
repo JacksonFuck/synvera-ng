@@ -1,0 +1,2788 @@
+{
+  "entities": [
+    {
+      "id": "sepse",
+      "label": "Sepse e choque séptico",
+      "kind": "disease",
+      "surfaces": [
+        "Sepse e choque séptico",
+        "choque séptico",
+        "SOFA",
+        "qSOFA",
+        "infecção grave",
+        "SIRS",
+        "A41.9"
+      ]
+    },
+    {
+      "id": "intoxicacao-exogena",
+      "label": "Intoxicação exógena — abordagem inicial",
+      "kind": "disease",
+      "surfaces": [
+        "Intoxicação exógena — abordagem inicial",
+        "intoxicação",
+        "envenenamento",
+        "overdose",
+        "toxidrome",
+        "síndrome tóxica",
+        "T65.9"
+      ]
+    },
+    {
+      "id": "anafilaxia",
+      "label": "Anafilaxia",
+      "kind": "disease",
+      "surfaces": [
+        "Anafilaxia",
+        "choque anafilático",
+        "reação alérgica",
+        "adrenalina",
+        "angioedema",
+        "urticária",
+        "T78.2"
+      ]
+    },
+    {
+      "id": "sca-ssst",
+      "label": "Síndrome coronariana aguda SEM supra (AI/IAMSSST)",
+      "kind": "disease",
+      "surfaces": [
+        "Síndrome coronariana aguda SEM supra (AI/IAMSSST)",
+        "SCA",
+        "angina instável",
+        "IAMSSST",
+        "NSTEMI",
+        "dor torácica",
+        "infarto",
+        "GRACE",
+        "I20.0",
+        "I21.4"
+      ]
+    },
+    {
+      "id": "iamcsst",
+      "label": "IAM com supra de ST (IAMCSST)",
+      "kind": "disease",
+      "surfaces": [
+        "IAM com supra de ST (IAMCSST)",
+        "IAM",
+        "STEMI",
+        "infarto",
+        "SCA",
+        "supra de ST",
+        "reperfusão",
+        "trombólise",
+        "I21.3"
+      ]
+    },
+    {
+      "id": "avc-isquemico",
+      "label": "AVC isquêmico agudo",
+      "kind": "disease",
+      "surfaces": [
+        "AVC isquêmico agudo",
+        "AVCi",
+        "AVC",
+        "derrame",
+        "NIHSS",
+        "trombólise",
+        "trombectomia",
+        "alteplase",
+        "I63.9"
+      ]
+    },
+    {
+      "id": "tep",
+      "label": "Tromboembolismo pulmonar (TEP)",
+      "kind": "disease",
+      "surfaces": [
+        "Tromboembolismo pulmonar (TEP)",
+        "TEP",
+        "embolia pulmonar",
+        "TEV",
+        "Wells",
+        "D-dímero",
+        "PESI",
+        "I26.9"
+      ]
+    },
+    {
+      "id": "cad-ehh",
+      "label": "Cetoacidose diabética e estado hiperosmolar (CAD/EHH)",
+      "kind": "disease",
+      "surfaces": [
+        "Cetoacidose diabética e estado hiperosmolar (CAD/EHH)",
+        "CAD",
+        "EHH",
+        "cetoacidose",
+        "hiperglicemia",
+        "diabetes",
+        "estado hiperosmolar",
+        "E14.1",
+        "E14.0"
+      ]
+    },
+    {
+      "id": "choque",
+      "label": "Choque",
+      "kind": "disease",
+      "surfaces": [
+        "Choque",
+        "hipoperfusão",
+        "distributivo",
+        "cardiogênico",
+        "hipovolêmico",
+        "obstrutivo",
+        "RUSH",
+        "lactato",
+        "vasopressor",
+        "R57.9"
+      ]
+    },
+    {
+      "id": "crise-hipertensiva",
+      "label": "Emergência e urgência hipertensiva",
+      "kind": "disease",
+      "surfaces": [
+        "Emergência e urgência hipertensiva",
+        "crise hipertensiva",
+        "emergência hipertensiva",
+        "urgência hipertensiva",
+        "pseudocrise",
+        "pico hipertensivo",
+        "PA alta",
+        "I10"
+      ]
+    },
+    {
+      "id": "asma",
+      "label": "Asma — exacerbação",
+      "kind": "disease",
+      "surfaces": [
+        "Asma — exacerbação",
+        "asma",
+        "broncoespasmo",
+        "crise asmática",
+        "sibilância",
+        "bombinha",
+        "J45.9",
+        "J46"
+      ]
+    },
+    {
+      "id": "dpoc",
+      "label": "DPOC — exacerbação",
+      "kind": "disease",
+      "surfaces": [
+        "DPOC — exacerbação",
+        "DPOC",
+        "enfisema",
+        "bronquite crônica",
+        "exacerbação",
+        "Anthonisen",
+        "descompensação",
+        "J44.1"
+      ]
+    },
+    {
+      "id": "fibrilacao-atrial",
+      "label": "Fibrilação atrial",
+      "kind": "disease",
+      "surfaces": [
+        "Fibrilação atrial",
+        "arritmia",
+        "CHA2DS2-VASc",
+        "cardioversão",
+        "anticoagulação",
+        "flutter",
+        "I48"
+      ]
+    },
+    {
+      "id": "taquiarritmias",
+      "label": "Taquiarritmias (TSV e TV)",
+      "kind": "disease",
+      "surfaces": [
+        "Taquiarritmias (TSV e TV)",
+        "taquicardia",
+        "TSV",
+        "TPSV",
+        "taquicardia ventricular",
+        "adenosina",
+        "torsades",
+        "I47.1",
+        "I47.2"
+      ]
+    },
+    {
+      "id": "bradicardia",
+      "label": "Bradicardia e bloqueios AV",
+      "kind": "disease",
+      "surfaces": [
+        "Bradicardia e bloqueios AV",
+        "bradicardia",
+        "BAV",
+        "bloqueio atrioventricular",
+        "atropina",
+        "marca-passo",
+        "BAVT",
+        "I44.2",
+        "I49.5"
+      ]
+    },
+    {
+      "id": "ic-aguda",
+      "label": "Insuficiência cardíaca aguda / EAP",
+      "kind": "disease",
+      "surfaces": [
+        "Insuficiência cardíaca aguda / EAP",
+        "ICA",
+        "edema agudo de pulmão",
+        "EAP",
+        "congestão",
+        "Stevenson",
+        "SCAPE",
+        "descompensação",
+        "I50.1"
+      ]
+    },
+    {
+      "id": "avc-hemorragico",
+      "label": "AVC hemorrágico (hemorragia intracerebral)",
+      "kind": "disease",
+      "surfaces": [
+        "AVC hemorrágico (hemorragia intracerebral)",
+        "AVCh",
+        "hemorragia intracerebral",
+        "HIP",
+        "derrame hemorrágico",
+        "hematoma intraparenquimatoso",
+        "I61.9"
+      ]
+    },
+    {
+      "id": "hsa",
+      "label": "Hemorragia subaracnóidea",
+      "kind": "disease",
+      "surfaces": [
+        "Hemorragia subaracnóidea",
+        "HSA",
+        "aneurisma",
+        "cefaleia thunderclap",
+        "cefaleia sentinela",
+        "Hunt-Hess",
+        "nimodipino",
+        "I60.9"
+      ]
+    },
+    {
+      "id": "estado-mal-epileptico",
+      "label": "Estado de mal epiléptico",
+      "kind": "disease",
+      "surfaces": [
+        "Estado de mal epiléptico",
+        "EME",
+        "crise convulsiva",
+        "status epilepticus",
+        "convulsão",
+        "benzodiazepínico",
+        "epilepsia",
+        "G41.9"
+      ]
+    },
+    {
+      "id": "meningite",
+      "label": "Meningite e encefalite",
+      "kind": "disease",
+      "surfaces": [
+        "Meningite e encefalite",
+        "meningite",
+        "encefalite",
+        "meningococo",
+        "pneumococo",
+        "líquor",
+        "dexametasona",
+        "aciclovir",
+        "G03.9",
+        "G04.9"
+      ]
+    },
+    {
+      "id": "hipoglicemia",
+      "label": "Hipoglicemia",
+      "kind": "disease",
+      "surfaces": [
+        "Hipoglicemia",
+        "hipoglicemia",
+        "glicose baixa",
+        "Whipple",
+        "glucagon",
+        "sulfonilureia",
+        "insulina",
+        "E16.2"
+      ]
+    },
+    {
+      "id": "disturbios-potassio",
+      "label": "Distúrbios do potássio (hiper/hipocalemia)",
+      "kind": "disease",
+      "surfaces": [
+        "Distúrbios do potássio (hiper/hipocalemia)",
+        "hipercalemia",
+        "hipocalemia",
+        "potássio",
+        "arritmia",
+        "BRASH",
+        "E87.5",
+        "E87.6"
+      ]
+    },
+    {
+      "id": "disturbios-sodio",
+      "label": "Distúrbios do sódio (hipo/hipernatremia)",
+      "kind": "disease",
+      "surfaces": [
+        "Distúrbios do sódio (hipo/hipernatremia)",
+        "hiponatremia",
+        "hipernatremia",
+        "sódio",
+        "SIADH",
+        "salina hipertônica",
+        "desmielinização",
+        "E87.0",
+        "E87.1"
+      ]
+    },
+    {
+      "id": "crise-tireotoxica",
+      "label": "Crise tireotóxica (tempestade tireoidiana)",
+      "kind": "disease",
+      "surfaces": [
+        "Crise tireotóxica (tempestade tireoidiana)",
+        "tempestade tireoidiana",
+        "tireotoxicose",
+        "hipertireoidismo",
+        "Burch-Wartofsky",
+        "Graves",
+        "E05.5"
+      ]
+    },
+    {
+      "id": "insuficiencia-adrenal",
+      "label": "Insuficiência adrenal / crise adrenal",
+      "kind": "disease",
+      "surfaces": [
+        "Insuficiência adrenal / crise adrenal",
+        "crise adrenal",
+        "Addison",
+        "hidrocortisona",
+        "cortisol",
+        "choque refratário",
+        "E27.2"
+      ]
+    },
+    {
+      "id": "pac",
+      "label": "Pneumonia adquirida na comunidade (PAC)",
+      "kind": "disease",
+      "surfaces": [
+        "Pneumonia adquirida na comunidade (PAC)",
+        "PAC",
+        "pneumonia",
+        "CURB-65",
+        "PSI",
+        "pneumococo",
+        "consolidação",
+        "J18.9"
+      ]
+    },
+    {
+      "id": "hda",
+      "label": "Hemorragia digestiva alta",
+      "kind": "disease",
+      "surfaces": [
+        "Hemorragia digestiva alta",
+        "HDA",
+        "hematêmese",
+        "melena",
+        "úlcera péptica",
+        "varizes",
+        "Blatchford",
+        "K92.2"
+      ]
+    },
+    {
+      "id": "pancreatite",
+      "label": "Pancreatite aguda",
+      "kind": "disease",
+      "surfaces": [
+        "Pancreatite aguda",
+        "pancreatite",
+        "lipase",
+        "BISAP",
+        "Atlanta",
+        "CPRE",
+        "dor em barra",
+        "K85.9"
+      ]
+    },
+    {
+      "id": "dengue",
+      "label": "Dengue",
+      "kind": "disease",
+      "surfaces": [
+        "Dengue",
+        "dengue",
+        "arbovirose",
+        "Aedes",
+        "sinais de alarme",
+        "prova do laço",
+        "NS1",
+        "A90",
+        "A91"
+      ]
+    },
+    {
+      "id": "disseccao-aorta",
+      "label": "Dissecção aguda de aorta",
+      "kind": "disease",
+      "surfaces": [
+        "Dissecção aguda de aorta",
+        "dissecção de aorta",
+        "síndrome aórtica aguda",
+        "Stanford",
+        "aneurisma dissecante",
+        "dor torácica",
+        "I71.0"
+      ]
+    },
+    {
+      "id": "pericardite-tamponamento",
+      "label": "Pericardite aguda e tamponamento",
+      "kind": "disease",
+      "surfaces": [
+        "Pericardite aguda e tamponamento",
+        "pericardite",
+        "tamponamento cardíaco",
+        "derrame pericárdico",
+        "Beck",
+        "pericardiocentese",
+        "colchicina",
+        "I30.9",
+        "I31.9"
+      ]
+    },
+    {
+      "id": "tvp",
+      "label": "Trombose venosa profunda (TVP)",
+      "kind": "disease",
+      "surfaces": [
+        "Trombose venosa profunda (TVP)",
+        "TVP",
+        "trombose",
+        "TEV",
+        "Wells",
+        "D-dímero",
+        "doppler",
+        "anticoagulação",
+        "I80.2"
+      ]
+    },
+    {
+      "id": "pneumotorax",
+      "label": "Pneumotórax",
+      "kind": "disease",
+      "surfaces": [
+        "Pneumotórax",
+        "pneumotórax",
+        "pneumotórax hipertensivo",
+        "colapso pulmonar",
+        "dreno de tórax",
+        "lung sliding",
+        "J93.9"
+      ]
+    },
+    {
+      "id": "derrame-pleural",
+      "label": "Derrame pleural",
+      "kind": "disease",
+      "surfaces": [
+        "Derrame pleural",
+        "derrame pleural",
+        "toracocentese",
+        "Light",
+        "empiema",
+        "exsudato",
+        "transudato",
+        "J90"
+      ]
+    },
+    {
+      "id": "colecistite-colangite",
+      "label": "Colecistite e colangite (emergências biliares)",
+      "kind": "disease",
+      "surfaces": [
+        "Colecistite e colangite (emergências biliares)",
+        "colecistite",
+        "colangite",
+        "Murphy",
+        "Charcot",
+        "Tóquio",
+        "CPRE",
+        "vesícula",
+        "K81.0",
+        "K83.0"
+      ]
+    },
+    {
+      "id": "apendicite",
+      "label": "Apendicite aguda",
+      "kind": "disease",
+      "surfaces": [
+        "Apendicite aguda",
+        "apendicite",
+        "McBurney",
+        "Blumberg",
+        "Alvarado",
+        "abdome agudo",
+        "fossa ilíaca direita",
+        "K35.9"
+      ]
+    },
+    {
+      "id": "lra",
+      "label": "Lesão renal aguda",
+      "kind": "disease",
+      "surfaces": [
+        "Lesão renal aguda",
+        "LRA",
+        "IRA",
+        "KDIGO",
+        "NTA",
+        "oligúria",
+        "diálise",
+        "AEIOU",
+        "N17.9"
+      ]
+    },
+    {
+      "id": "hdb",
+      "label": "Hemorragia digestiva baixa",
+      "kind": "disease",
+      "surfaces": [
+        "Hemorragia digestiva baixa",
+        "HDB",
+        "hematoquezia",
+        "diverticular",
+        "angiodisplasia",
+        "colonoscopia",
+        "sangramento",
+        "K92.2"
+      ]
+    },
+    {
+      "id": "itu",
+      "label": "ITU e pielonefrite",
+      "kind": "disease",
+      "surfaces": [
+        "ITU e pielonefrite",
+        "cistite",
+        "pielonefrite",
+        "infecção urinária",
+        "urocultura",
+        "bacteriúria",
+        "N39.0",
+        "N10"
+      ]
+    },
+    {
+      "id": "celulite-erisipela",
+      "label": "Celulite e erisipela",
+      "kind": "disease",
+      "surfaces": [
+        "Celulite e erisipela",
+        "erisipela",
+        "fasceíte necrotizante",
+        "infecção de pele",
+        "LRINEC",
+        "partes moles",
+        "L03.9",
+        "A46"
+      ]
+    },
+    {
+      "id": "leptospirose",
+      "label": "Leptospirose",
+      "kind": "disease",
+      "surfaces": [
+        "Leptospirose",
+        "Weil",
+        "espiroqueta",
+        "leptospira",
+        "MAT",
+        "A27.9"
+      ]
+    },
+    {
+      "id": "sincope",
+      "label": "Síncope",
+      "kind": "disease",
+      "surfaces": [
+        "Síncope",
+        "desmaio",
+        "síncope vasovagal",
+        "Canadian Syncope",
+        "perda de consciência",
+        "R55"
+      ]
+    },
+    {
+      "id": "cefaleia",
+      "label": "Cefaleia",
+      "kind": "disease",
+      "surfaces": [
+        "Cefaleia",
+        "enxaqueca",
+        "migrânea",
+        "thunderclap",
+        "cefaleia em salvas",
+        "dor de cabeça",
+        "R51",
+        "G44.1"
+      ]
+    },
+    {
+      "id": "vertigem",
+      "label": "Vertigem e tontura",
+      "kind": "disease",
+      "surfaces": [
+        "Vertigem e tontura",
+        "tontura",
+        "HINTS",
+        "VPPB",
+        "labirintite",
+        "Epley",
+        "Dix-Hallpike",
+        "R42",
+        "H81.9"
+      ]
+    },
+    {
+      "id": "anemia-falciforme",
+      "label": "Doença falciforme — crises agudas",
+      "kind": "disease",
+      "surfaces": [
+        "Doença falciforme — crises agudas",
+        "anemia falciforme",
+        "crise vaso-oclusiva",
+        "síndrome torácica aguda",
+        "HbS",
+        "priapismo",
+        "D57.0",
+        "D57.1"
+      ]
+    },
+    {
+      "id": "neutropenia-febril",
+      "label": "Neutropenia febril",
+      "kind": "disease",
+      "surfaces": [
+        "Neutropenia febril",
+        "MASCC",
+        "CISNE",
+        "febre neutropênica",
+        "quimioterapia",
+        "D70"
+      ]
+    },
+    {
+      "id": "emergencias-oncologicas",
+      "label": "Emergências oncológicas",
+      "kind": "disease",
+      "surfaces": [
+        "Emergências oncológicas",
+        "lise tumoral",
+        "compressão medular",
+        "veia cava superior",
+        "hipercalcemia",
+        "Cairo-Bishop"
+      ]
+    },
+    {
+      "id": "acidentes-peconhentos",
+      "label": "Acidentes peçonhentos",
+      "kind": "disease",
+      "surfaces": [
+        "Acidentes peçonhentos",
+        "ofidismo",
+        "escorpião",
+        "aranha",
+        "jararaca",
+        "cascavel",
+        "soro antiveneno",
+        "botrópico",
+        "T63.9"
+      ]
+    },
+    {
+      "id": "gravidez-ectopica",
+      "label": "Gravidez ectópica",
+      "kind": "disease",
+      "surfaces": [
+        "Gravidez ectópica",
+        "ectópica",
+        "prenhez tubária",
+        "β-hCG",
+        "metotrexato",
+        "O00.9"
+      ]
+    },
+    {
+      "id": "abortamento",
+      "label": "Abortamento e sangramento do 1º trimestre",
+      "kind": "disease",
+      "surfaces": [
+        "Abortamento e sangramento do 1º trimestre",
+        "aborto",
+        "ameaça de abortamento",
+        "abortamento incompleto",
+        "misoprostol",
+        "AMIU",
+        "mola",
+        "O03.9",
+        "O20.0"
+      ]
+    },
+    {
+      "id": "hemorragia-2a-metade",
+      "label": "Hemorragia da 2ª metade da gestação (DPP e placenta prévia)",
+      "kind": "disease",
+      "surfaces": [
+        "Hemorragia da 2ª metade da gestação (DPP e placenta prévia)",
+        "DPP",
+        "descolamento prematuro de placenta",
+        "placenta prévia",
+        "sangramento obstétrico",
+        "vasa prévia",
+        "O44.1",
+        "O45.9"
+      ]
+    },
+    {
+      "id": "hemorragia-pos-parto",
+      "label": "Hemorragia pós-parto",
+      "kind": "disease",
+      "surfaces": [
+        "Hemorragia pós-parto",
+        "HPP",
+        "atonia uterina",
+        "4 T",
+        "uterotônico",
+        "ácido tranexâmico",
+        "ocitocina",
+        "O72.1"
+      ]
+    },
+    {
+      "id": "pre-eclampsia",
+      "label": "Pré-eclâmpsia, eclâmpsia e síndrome HELLP",
+      "kind": "disease",
+      "surfaces": [
+        "Pré-eclâmpsia, eclâmpsia e síndrome HELLP",
+        "pré-eclâmpsia",
+        "eclâmpsia",
+        "HELLP",
+        "sulfato de magnésio",
+        "DHEG",
+        "hipertensão gestacional",
+        "O14.9",
+        "O15.9"
+      ]
+    },
+    {
+      "id": "emergencias-parto",
+      "label": "Emergências do trabalho de parto",
+      "kind": "disease",
+      "surfaces": [
+        "Emergências do trabalho de parto",
+        "parto",
+        "distócia de ombro",
+        "prolapso de cordão",
+        "McRoberts",
+        "parto pélvico",
+        "parto precipitado"
+      ]
+    },
+    {
+      "id": "infeccao-puerperal",
+      "label": "Infecção puerperal e sepse obstétrica",
+      "kind": "disease",
+      "surfaces": [
+        "Infecção puerperal e sepse obstétrica",
+        "endometrite puerperal",
+        "febre puerperal",
+        "sepse obstétrica",
+        "aborto séptico",
+        "O85"
+      ]
+    },
+    {
+      "id": "dor-pelvica-torcao",
+      "label": "Dor pélvica aguda: torção anexial e cisto ovariano roto",
+      "kind": "disease",
+      "surfaces": [
+        "Dor pélvica aguda: torção anexial e cisto ovariano roto",
+        "torção ovariana",
+        "torção anexial",
+        "cisto ovariano roto",
+        "hemoperitônio",
+        "dor pélvica",
+        "N83.5",
+        "N83.2"
+      ]
+    },
+    {
+      "id": "dip",
+      "label": "Doença inflamatória pélvica (DIP)",
+      "kind": "disease",
+      "surfaces": [
+        "Doença inflamatória pélvica (DIP)",
+        "DIP",
+        "DIPA",
+        "salpingite",
+        "abscesso tubo-ovariano",
+        "clamídia",
+        "gonococo",
+        "N73.9"
+      ]
+    },
+    {
+      "id": "sangramento-uterino-anormal",
+      "label": "Sangramento uterino anormal (não gestante)",
+      "kind": "disease",
+      "surfaces": [
+        "Sangramento uterino anormal (não gestante)",
+        "SUA",
+        "PALM-COEIN",
+        "menorragia",
+        "metrorragia",
+        "ácido tranexâmico",
+        "N93.9",
+        "N92.1"
+      ]
+    },
+    {
+      "id": "trauma-gestacao",
+      "label": "Trauma na gestação",
+      "kind": "disease",
+      "surfaces": [
+        "Trauma na gestação",
+        "trauma na gestante",
+        "cesárea perimortem",
+        "Kleihauer-Betke",
+        "deslocamento uterino",
+        "DPP traumático"
+      ]
+    },
+    {
+      "id": "pcr-acls",
+      "label": "Parada cardiorrespiratória (RCP / ACLS)",
+      "kind": "disease",
+      "surfaces": [
+        "Parada cardiorrespiratória (RCP / ACLS)",
+        "PCR",
+        "parada cardíaca",
+        "RCP",
+        "reanimação cardiopulmonar",
+        "ACLS",
+        "BLS",
+        "TV sem pulso",
+        "AESP",
+        "assistolia",
+        "desfibrilação",
+        "adrenalina",
+        "5H5T",
+        "I46.9"
+      ]
+    },
+    {
+      "id": "endocardite-infecciosa",
+      "label": "Endocardite infecciosa",
+      "kind": "disease",
+      "surfaces": [
+        "Endocardite infecciosa",
+        "endocardite",
+        "vegetação",
+        "Duke",
+        "critérios de Duke",
+        "hemocultura",
+        "prótese valvar",
+        "Staphylococcus aureus",
+        "Streptococcus",
+        "Osler",
+        "Janeway",
+        "I33.0"
+      ]
+    },
+    {
+      "id": "miocardite-aguda",
+      "label": "Miocardite aguda",
+      "kind": "disease",
+      "surfaces": [
+        "Miocardite aguda",
+        "miocardite",
+        "miopericardite",
+        "troponina",
+        "ressonância cardíaca",
+        "Lake Louise",
+        "cardiomiopatia inflamatória",
+        "miocardite fulminante",
+        "I40.9"
+      ]
+    },
+    {
+      "id": "choque-cardiogenico",
+      "label": "Choque cardiogênico",
+      "kind": "disease",
+      "surfaces": [
+        "Choque cardiogênico",
+        "choque cardiogênico",
+        "SCAI",
+        "estágios SCAI",
+        "IAM com choque",
+        "baixo débito",
+        "inotrópico",
+        "balão intra-aórtico",
+        "ECMO",
+        "Impella",
+        "R57.0"
+      ]
+    },
+    {
+      "id": "coma-rebaixamento",
+      "label": "Coma / rebaixamento do nível de consciência",
+      "kind": "disease",
+      "surfaces": [
+        "Coma / rebaixamento do nível de consciência",
+        "coma",
+        "rebaixamento",
+        "torpor",
+        "estupor",
+        "Glasgow",
+        "ECG",
+        "nível de consciência",
+        "AEIOU-TIPS",
+        "pupilas",
+        "R40.2"
+      ]
+    },
+    {
+      "id": "tce",
+      "label": "Traumatismo cranioencefálico (TCE)",
+      "kind": "disease",
+      "surfaces": [
+        "Traumatismo cranioencefálico (TCE)",
+        "TCE",
+        "trauma de crânio",
+        "traumatismo craniano",
+        "hematoma extradural",
+        "hematoma subdural",
+        "lesão axonal difusa",
+        "Glasgow",
+        "PIC",
+        "S06.9"
+      ]
+    },
+    {
+      "id": "hipertensao-intracraniana",
+      "label": "Hipertensão intracraniana",
+      "kind": "disease",
+      "surfaces": [
+        "Hipertensão intracraniana",
+        "HIC",
+        "hipertensão intracraniana",
+        "PIC",
+        "pressão intracraniana",
+        "herniação",
+        "Cushing",
+        "edema cerebral",
+        "manitol",
+        "salina hipertônica"
+      ]
+    },
+    {
+      "id": "guillain-barre",
+      "label": "Síndrome de Guillain-Barré",
+      "kind": "disease",
+      "surfaces": [
+        "Síndrome de Guillain-Barré",
+        "Guillain-Barré",
+        "SGB",
+        "polirradiculoneurite",
+        "paralisia ascendente",
+        "AIDP",
+        "dissociação albuminocitológica",
+        "imunoglobulina",
+        "plasmaférese",
+        "G61.0"
+      ]
+    },
+    {
+      "id": "crise-miastenica",
+      "label": "Crise miastênica",
+      "kind": "disease",
+      "surfaces": [
+        "Crise miastênica",
+        "crise miastênica",
+        "miastenia gravis",
+        "anti-AChR",
+        "anti-MuSK",
+        "fadiga muscular",
+        "crise colinérgica",
+        "piridostigmina",
+        "G70.0"
+      ]
+    },
+    {
+      "id": "delirium",
+      "label": "Delirium",
+      "kind": "disease",
+      "surfaces": [
+        "Delirium",
+        "delirium",
+        "estado confusional agudo",
+        "confusão mental",
+        "CAM",
+        "encefalopatia aguda",
+        "delirium hiperativo",
+        "delirium hipoativo",
+        "F05.9"
+      ]
+    },
+    {
+      "id": "trombose-venosa-cerebral",
+      "label": "Trombose venosa cerebral",
+      "kind": "disease",
+      "surfaces": [
+        "Trombose venosa cerebral",
+        "trombose venosa cerebral",
+        "TVC",
+        "trombose de seio venoso",
+        "trombose de seios durais",
+        "cefaleia",
+        "puerpério",
+        "trombofilia",
+        "anticoagulação",
+        "I67.6"
+      ]
+    },
+    {
+      "id": "sdra",
+      "label": "Síndrome do desconforto respiratório agudo (SDRA)",
+      "kind": "disease",
+      "surfaces": [
+        "Síndrome do desconforto respiratório agudo (SDRA)",
+        "sdra",
+        "ards",
+        "síndrome do desconforto respiratório agudo",
+        "lesão pulmonar aguda",
+        "edema pulmonar não cardiogênico",
+        "J80"
+      ]
+    },
+    {
+      "id": "irpa-vni",
+      "label": "Insuficiência respiratória aguda (abordagem e VNI)",
+      "kind": "disease",
+      "surfaces": [
+        "Insuficiência respiratória aguda (abordagem e VNI)",
+        "insuficiência respiratória aguda",
+        "irpa",
+        "iresp",
+        "vni",
+        "ventilação não invasiva",
+        "bipap",
+        "cpap",
+        "hipoxemia",
+        "hipercapnia",
+        "J96.0"
+      ]
+    },
+    {
+      "id": "hemoptise-macica",
+      "label": "Hemoptise maciça",
+      "kind": "disease",
+      "surfaces": [
+        "Hemoptise maciça",
+        "hemoptise",
+        "hemoptise maciça",
+        "hemoptise ameaçadora à vida",
+        "sangramento pulmonar",
+        "expectoração de sangue",
+        "R04.2"
+      ]
+    },
+    {
+      "id": "politrauma-atls",
+      "label": "Politrauma — abordagem ATLS",
+      "kind": "disease",
+      "surfaces": [
+        "Politrauma — abordagem ATLS",
+        "politrauma",
+        "politraumatizado",
+        "atls",
+        "trauma grave",
+        "abcde do trauma",
+        "atendimento inicial ao trauma",
+        "T07"
+      ]
+    },
+    {
+      "id": "queimaduras",
+      "label": "Queimaduras",
+      "kind": "disease",
+      "surfaces": [
+        "Queimaduras",
+        "queimadura",
+        "paciente queimado",
+        "grande queimado",
+        "T30.0"
+      ]
+    },
+    {
+      "id": "afogamento",
+      "label": "Afogamento",
+      "kind": "disease",
+      "surfaces": [
+        "Afogamento",
+        "afogamento",
+        "submersão",
+        "quase-afogamento",
+        "T75.1"
+      ]
+    },
+    {
+      "id": "disturbios-temperatura",
+      "label": "Distúrbios da temperatura (hipotermia e golpe de calor)",
+      "kind": "disease",
+      "surfaces": [
+        "Distúrbios da temperatura (hipotermia e golpe de calor)",
+        "hipotermia acidental",
+        "golpe de calor",
+        "heat stroke",
+        "intermação",
+        "síndrome hipertérmica",
+        "T68",
+        "T67.0"
+      ]
+    },
+    {
+      "id": "lesoes-eletricidade",
+      "label": "Lesões por eletricidade (choque elétrico)",
+      "kind": "disease",
+      "surfaces": [
+        "Lesões por eletricidade (choque elétrico)",
+        "choque elétrico",
+        "queimadura elétrica",
+        "eletrocussão",
+        "lesão por raio",
+        "T75.4"
+      ]
+    },
+    {
+      "id": "agitacao-psicomotora",
+      "label": "Agitação psicomotora e contenção segura",
+      "kind": "disease",
+      "surfaces": [
+        "Agitação psicomotora e contenção segura",
+        "agitação",
+        "paciente agitado",
+        "contenção física",
+        "contenção química",
+        "delirium agitado",
+        "R45.1"
+      ]
+    },
+    {
+      "id": "abstinencia-alcoolica-dt",
+      "label": "Síndrome de abstinência alcoólica e delirium tremens",
+      "kind": "disease",
+      "surfaces": [
+        "Síndrome de abstinência alcoólica e delirium tremens",
+        "SAA",
+        "delirium tremens",
+        "abstinência de álcool",
+        "alucinose alcoólica",
+        "F10.3",
+        "F10.4"
+      ]
+    },
+    {
+      "id": "snm-serotoninergica",
+      "label": "Síndrome neuroléptica maligna e síndrome serotoninérgica",
+      "kind": "disease",
+      "surfaces": [
+        "Síndrome neuroléptica maligna e síndrome serotoninérgica",
+        "SNM",
+        "síndrome neuroléptica maligna",
+        "síndrome serotoninérgica",
+        "toxicidade serotoninérgica",
+        "G21.0"
+      ]
+    },
+    {
+      "id": "tentativa-suicidio",
+      "label": "Tentativa de suicídio e autointoxicação — abordagem na emergência",
+      "kind": "disease",
+      "surfaces": [
+        "Tentativa de suicídio e autointoxicação — abordagem na emergência",
+        "tentativa de autoextermínio",
+        "autointoxicação",
+        "overdose intencional",
+        "comportamento suicida"
+      ]
+    },
+    {
+      "id": "obstrucao-intestinal",
+      "label": "Obstrução intestinal",
+      "kind": "disease",
+      "surfaces": [
+        "Obstrução intestinal",
+        "abdome agudo obstrutivo",
+        "íleo",
+        "suboclusão",
+        "oclusão intestinal",
+        "K56.6"
+      ]
+    },
+    {
+      "id": "isquemia-mesenterica",
+      "label": "Isquemia mesentérica aguda",
+      "kind": "disease",
+      "surfaces": [
+        "Isquemia mesentérica aguda",
+        "abdome agudo vascular",
+        "isquemia intestinal aguda",
+        "infarto mesentérico",
+        "K55.0"
+      ]
+    },
+    {
+      "id": "diverticulite",
+      "label": "Diverticulite aguda",
+      "kind": "disease",
+      "surfaces": [
+        "Diverticulite aguda",
+        "diverticulite",
+        "doença diverticular complicada",
+        "K57.9"
+      ]
+    },
+    {
+      "id": "perfuracao-viscera-oca",
+      "label": "Perfuração de víscera oca (abdome agudo perfurativo)",
+      "kind": "disease",
+      "surfaces": [
+        "Perfuração de víscera oca (abdome agudo perfurativo)",
+        "abdome agudo perfurativo",
+        "pneumoperitônio",
+        "úlcera péptica perfurada",
+        "víscera perfurada",
+        "K63.1"
+      ]
+    },
+    {
+      "id": "insuficiencia-hepatica-aguda",
+      "label": "Insuficiência hepática aguda e encefalopatia hepática",
+      "kind": "disease",
+      "surfaces": [
+        "Insuficiência hepática aguda e encefalopatia hepática",
+        "Hepatite fulminante",
+        "Falência hepática aguda",
+        "IHA",
+        "encefalopatia hepática",
+        "K72.0"
+      ]
+    },
+    {
+      "id": "pbe",
+      "label": "Peritonite bacteriana espontânea (PBE)",
+      "kind": "disease",
+      "surfaces": [
+        "Peritonite bacteriana espontânea (PBE)",
+        "Peritonite bacteriana espontânea",
+        "Ascite neutrocítica infectada",
+        "K65.0"
+      ]
+    },
+    {
+      "id": "coma-mixedematoso",
+      "label": "Coma mixedematoso",
+      "kind": "disease",
+      "surfaces": [
+        "Coma mixedematoso",
+        "Crise mixedematosa",
+        "Hipotireoidismo descompensado grave",
+        "E03.5"
+      ]
+    },
+    {
+      "id": "rabdomiolise",
+      "label": "Rabdomiólise",
+      "kind": "disease",
+      "surfaces": [
+        "Rabdomiólise",
+        "Síndrome de lise muscular",
+        "Mioglobinúria",
+        "M62.8"
+      ]
+    },
+    {
+      "id": "crise-hipercalcemica",
+      "label": "Crise hipercalcêmica",
+      "kind": "disease",
+      "surfaces": [
+        "Crise hipercalcêmica",
+        "Hipercalcemia grave",
+        "Hipercalcemia sintomática",
+        "E83.5"
+      ]
+    },
+    {
+      "id": "disturbios-calcio",
+      "label": "Distúrbios do cálcio (hiper e hipocalcemia)",
+      "kind": "disease",
+      "surfaces": [
+        "Distúrbios do cálcio (hiper e hipocalcemia)",
+        "Hipocalcemia",
+        "Hipercalcemia",
+        "E83.5"
+      ]
+    },
+    {
+      "id": "disturbios-magnesio-fosforo",
+      "label": "Distúrbios do magnésio e do fósforo",
+      "kind": "disease",
+      "surfaces": [
+        "Distúrbios do magnésio e do fósforo",
+        "Hipomagnesemia",
+        "Hipermagnesemia",
+        "Hipofosfatemia",
+        "Hiperfosfatemia",
+        "E83.4",
+        "E83.3"
+      ]
+    },
+    {
+      "id": "disturbios-acido-base",
+      "label": "Distúrbios do equilíbrio ácido-base",
+      "kind": "disease",
+      "surfaces": [
+        "Distúrbios do equilíbrio ácido-base",
+        "Acidose metabólica",
+        "Alcalose metabólica",
+        "Acidose respiratória",
+        "Alcalose respiratória",
+        "Distúrbios acidobásicos",
+        "ânion-gap",
+        "E87.2",
+        "E87.3"
+      ]
+    },
+    {
+      "id": "colica-renal",
+      "label": "Cólica nefrética / litíase urinária",
+      "kind": "disease",
+      "surfaces": [
+        "Cólica nefrética / litíase urinária",
+        "cólica renal",
+        "litíase renal",
+        "nefrolitíase",
+        "urolitíase",
+        "cálculo ureteral",
+        "pedra no rim",
+        "N23",
+        "N20.0"
+      ]
+    },
+    {
+      "id": "retencao-urinaria-aguda",
+      "label": "Retenção urinária aguda",
+      "kind": "disease",
+      "surfaces": [
+        "Retenção urinária aguda",
+        "RUA",
+        "bexigoma",
+        "globo vesical",
+        "retenção vesical",
+        "anúria obstrutiva baixa",
+        "R33"
+      ]
+    },
+    {
+      "id": "torcao-testicular",
+      "label": "Torção testicular",
+      "kind": "disease",
+      "surfaces": [
+        "Torção testicular",
+        "torção do cordão espermático",
+        "escroto agudo",
+        "dor testicular aguda",
+        "torção de testículo",
+        "N44"
+      ]
+    },
+    {
+      "id": "artrite-septica",
+      "label": "Artrite séptica",
+      "kind": "disease",
+      "surfaces": [
+        "Artrite séptica",
+        "artrite infecciosa",
+        "artrite bacteriana",
+        "monoartrite aguda",
+        "pioartrite",
+        "articulação séptica",
+        "M00.9"
+      ]
+    },
+    {
+      "id": "crise-gotosa",
+      "label": "Crise gotosa aguda",
+      "kind": "disease",
+      "surfaces": [
+        "Crise gotosa aguda",
+        "gota",
+        "artrite gotosa",
+        "podagra",
+        "crise de gota",
+        "artrite por cristais de urato",
+        "M10.9"
+      ]
+    },
+    {
+      "id": "sindromes-nefritica-nefrotica",
+      "label": "Síndromes nefrítica e nefrótica",
+      "kind": "disease",
+      "surfaces": [
+        "Síndromes nefrítica e nefrótica",
+        "glomerulonefrite",
+        "síndrome nefrítica",
+        "síndrome nefrótica",
+        "proteinúria nefrótica",
+        "hematúria glomerular",
+        "GNRP",
+        "N04.9",
+        "N05.9"
+      ]
+    },
+    {
+      "id": "civd",
+      "label": "Coagulação intravascular disseminada (CIVD)",
+      "kind": "disease",
+      "surfaces": [
+        "Coagulação intravascular disseminada (CIVD)",
+        "CIVD",
+        "CID",
+        "coagulopatia de consumo",
+        "coagulação intravascular disseminada",
+        "D65"
+      ]
+    },
+    {
+      "id": "microangiopatias-tromboticas",
+      "label": "Microangiopatias trombóticas (PTT / SHU)",
+      "kind": "disease",
+      "surfaces": [
+        "Microangiopatias trombóticas (PTT / SHU)",
+        "PTT",
+        "SHU",
+        "púrpura trombocitopênica trombótica",
+        "síndrome hemolítico-urêmica",
+        "microangiopatia trombótica",
+        "MAT",
+        "ADAMTS13",
+        "M31.1",
+        "D59.3"
+      ]
+    },
+    {
+      "id": "reacoes-transfusionais",
+      "label": "Reações transfusionais agudas",
+      "kind": "disease",
+      "surfaces": [
+        "Reações transfusionais agudas",
+        "reação transfusional",
+        "reação hemolítica aguda",
+        "TRALI",
+        "TACO",
+        "reação febril não hemolítica",
+        "reação alérgica transfusional",
+        "T80.9"
+      ]
+    },
+    {
+      "id": "reversao-anticoagulacao",
+      "label": "Reversão de anticoagulantes / sangramento maior",
+      "kind": "disease",
+      "surfaces": [
+        "Reversão de anticoagulantes / sangramento maior",
+        "reversão de anticoagulação",
+        "sangramento maior",
+        "varfarina",
+        "DOAC",
+        "andexanet",
+        "idarucizumabe",
+        "complexo protrombínico",
+        "vitamina K",
+        "D68.3"
+      ]
+    },
+    {
+      "id": "dm2",
+      "label": "Diabetes mellitus tipo 2",
+      "kind": "disease",
+      "surfaces": [
+        "Diabetes mellitus tipo 2",
+        "DM2",
+        "diabetes tipo 2",
+        "hiperglicemia crônica",
+        "diabetes",
+        "E11.9"
+      ]
+    },
+    {
+      "id": "has-cronica",
+      "label": "Hipertensão arterial sistêmica",
+      "kind": "disease",
+      "surfaces": [
+        "Hipertensão arterial sistêmica",
+        "HAS",
+        "hipertensão",
+        "pressão alta",
+        "hipertensão arterial",
+        "I10"
+      ]
+    },
+    {
+      "id": "hipotireoidismo",
+      "label": "Hipotireoidismo",
+      "kind": "disease",
+      "surfaces": [
+        "Hipotireoidismo",
+        "hipotireoidismo",
+        "TSH alto",
+        "tireoide baixa",
+        "levotiroxina",
+        "Hashimoto",
+        "E03.9"
+      ]
+    },
+    {
+      "id": "dislipidemia",
+      "label": "Dislipidemia",
+      "kind": "disease",
+      "surfaces": [
+        "Dislipidemia",
+        "dislipidemia",
+        "colesterol alto",
+        "hipercolesterolemia",
+        "LDL",
+        "triglicerídeos",
+        "estatina",
+        "E78.5"
+      ]
+    },
+    {
+      "id": "drc",
+      "label": "Doença renal crônica",
+      "kind": "disease",
+      "surfaces": [
+        "Doença renal crônica",
+        "DRC",
+        "insuficiência renal crônica",
+        "IRC",
+        "TFG reduzida",
+        "nefropatia crônica",
+        "N18.9"
+      ]
+    },
+    {
+      "id": "hipertireoidismo",
+      "label": "Hipertireoidismo e doença de Graves",
+      "kind": "disease",
+      "surfaces": [
+        "Hipertireoidismo e doença de Graves",
+        "hipertireoidismo",
+        "tireotoxicose",
+        "Graves",
+        "TSH baixo",
+        "bócio",
+        "TRAb",
+        "E05.0",
+        "E05.9"
+      ]
+    },
+    {
+      "id": "depressao",
+      "label": "Transtorno depressivo",
+      "kind": "disease",
+      "surfaces": [
+        "Transtorno depressivo",
+        "depressão",
+        "transtorno depressivo",
+        "humor deprimido",
+        "anedonia",
+        "antidepressivo",
+        "F32.9",
+        "F33.9"
+      ]
+    },
+    {
+      "id": "anemia-ferropriva",
+      "label": "Anemia ferropriva",
+      "kind": "disease",
+      "surfaces": [
+        "Anemia ferropriva",
+        "anemia ferropriva",
+        "deficiência de ferro",
+        "ferropenia",
+        "anemia microcítica",
+        "ferritina baixa",
+        "D50.9"
+      ]
+    },
+    {
+      "id": "tuberculose",
+      "label": "Tuberculose",
+      "kind": "disease",
+      "surfaces": [
+        "Tuberculose",
+        "tuberculose",
+        "tísica",
+        "bacilo de Koch",
+        "Mycobacterium tuberculosis",
+        "A15.0",
+        "A16.9"
+      ]
+    },
+    {
+      "id": "fasciite-necrosante",
+      "label": "Fasciíte necrosante e infecções graves de partes moles",
+      "kind": "disease",
+      "surfaces": [
+        "Fasciíte necrosante e infecções graves de partes moles",
+        "fasciíte necrosante",
+        "fasceíte",
+        "infecção necrosante de partes moles",
+        "gangrena de Fournier",
+        "mionecrose",
+        "M72.6"
+      ]
+    },
+    {
+      "id": "malaria",
+      "label": "Malária",
+      "kind": "disease",
+      "surfaces": [
+        "Malária",
+        "malária",
+        "plasmodium",
+        "falciparum",
+        "vivax",
+        "maleita",
+        "paludismo",
+        "B54"
+      ]
+    },
+    {
+      "id": "tetano",
+      "label": "Tétano",
+      "kind": "disease",
+      "surfaces": [
+        "Tétano",
+        "tétano",
+        "Clostridium tetani",
+        "trismo",
+        "opistótono",
+        "tetanospasmina",
+        "riso sardônico",
+        "A35"
+      ]
+    },
+    {
+      "id": "influenza-covid-graves",
+      "label": "Influenza e COVID-19 graves",
+      "kind": "disease",
+      "surfaces": [
+        "Influenza e COVID-19 graves",
+        "influenza",
+        "gripe",
+        "H1N1",
+        "COVID",
+        "COVID-19",
+        "SARS-CoV-2",
+        "SRAG",
+        "síndrome gripal",
+        "J11",
+        "J10"
+      ]
+    },
+    {
+      "id": "choque-toxico",
+      "label": "Síndrome do choque tóxico",
+      "kind": "disease",
+      "surfaces": [
+        "Síndrome do choque tóxico",
+        "choque tóxico",
+        "TSS",
+        "síndrome do choque tóxico",
+        "superantígeno",
+        "estreptocócico",
+        "estafilocócico",
+        "A48.3"
+      ]
+    },
+    {
+      "id": "choque-hemorragico",
+      "label": "Choque hemorrágico",
+      "kind": "disease",
+      "surfaces": [
+        "Choque hemorrágico",
+        "hemorragia maciça",
+        "transfusão maciça",
+        "trauma",
+        "politrauma",
+        "ressuscitação hemostática",
+        "hipotensão permissiva",
+        "ácido tranexâmico",
+        "TXA",
+        "coagulopatia do trauma",
+        "R57.1"
+      ]
+    },
+    {
+      "id": "drug-dipirona",
+      "label": "Dipirona (metamizol)",
+      "kind": "drug",
+      "surfaces": [
+        "Dipirona (metamizol)",
+        "metamizol",
+        "dipirona",
+        "novalgina",
+        "analgésico",
+        "antitérmico",
+        "pirazolona"
+      ]
+    },
+    {
+      "id": "drug-paracetamol",
+      "label": "Paracetamol (acetaminofeno)",
+      "kind": "drug",
+      "surfaces": [
+        "Paracetamol (acetaminofeno)",
+        "acetaminofeno",
+        "paracetamol",
+        "tylenol",
+        "analgésico",
+        "antitérmico"
+      ]
+    },
+    {
+      "id": "drug-ibuprofeno",
+      "label": "Ibuprofeno",
+      "kind": "drug",
+      "surfaces": [
+        "Ibuprofeno",
+        "ibuprofeno",
+        "advil",
+        "alivium",
+        "AINE",
+        "anti-inflamatório"
+      ]
+    },
+    {
+      "id": "drug-amoxicilina",
+      "label": "Amoxicilina",
+      "kind": "drug",
+      "surfaces": [
+        "Amoxicilina",
+        "amoxicilina",
+        "amoxil",
+        "penicilina",
+        "antibiótico",
+        "betalactâmico"
+      ]
+    },
+    {
+      "id": "drug-losartana",
+      "label": "Losartana",
+      "kind": "drug",
+      "surfaces": [
+        "Losartana",
+        "losartana potássica",
+        "losartana",
+        "losartan",
+        "cozaar",
+        "aradois",
+        "BRA",
+        "anti-hipertensivo",
+        "pressão alta"
+      ]
+    },
+    {
+      "id": "drug-anlodipino",
+      "label": "Anlodipino (besilato)",
+      "kind": "drug",
+      "surfaces": [
+        "Anlodipino (besilato)",
+        "besilato de anlodipino",
+        "anlodipino",
+        "amlodipino",
+        "norvasc",
+        "BCC",
+        "bloqueador de cálcio",
+        "anti-hipertensivo"
+      ]
+    },
+    {
+      "id": "drug-enalapril",
+      "label": "Enalapril (maleato)",
+      "kind": "drug",
+      "surfaces": [
+        "Enalapril (maleato)",
+        "maleato de enalapril",
+        "enalapril",
+        "renitec",
+        "eupressin",
+        "IECA",
+        "anti-hipertensivo"
+      ]
+    },
+    {
+      "id": "drug-atenolol",
+      "label": "Atenolol",
+      "kind": "drug",
+      "surfaces": [
+        "Atenolol",
+        "atenolol",
+        "atenol",
+        "ablok",
+        "betabloqueador",
+        "anti-hipertensivo"
+      ]
+    },
+    {
+      "id": "drug-hidroclorotiazida",
+      "label": "Hidroclorotiazida",
+      "kind": "drug",
+      "surfaces": [
+        "Hidroclorotiazida",
+        "hidroclorotiazida",
+        "HCTZ",
+        "clorana",
+        "diurético",
+        "tiazídico",
+        "anti-hipertensivo"
+      ]
+    },
+    {
+      "id": "drug-aas",
+      "label": "Ácido acetilsalicílico (AAS)",
+      "kind": "drug",
+      "surfaces": [
+        "Ácido acetilsalicílico (AAS)",
+        "ácido acetilsalicílico",
+        "AAS",
+        "aspirina",
+        "acido acetilsalicilico",
+        "antiagregante",
+        "AAS infantil",
+        "cardioaspirina"
+      ]
+    },
+    {
+      "id": "drug-metformina",
+      "label": "Metformina (cloridrato)",
+      "kind": "drug",
+      "surfaces": [
+        "Metformina (cloridrato)",
+        "cloridrato de metformina",
+        "metformina",
+        "glifage",
+        "glucoformin",
+        "biguanida",
+        "diabetes",
+        "antidiabético"
+      ]
+    },
+    {
+      "id": "drug-sinvastatina",
+      "label": "Sinvastatina",
+      "kind": "drug",
+      "surfaces": [
+        "Sinvastatina",
+        "sinvastatina",
+        "simvastatina",
+        "zocor",
+        "sinvalip",
+        "estatina",
+        "colesterol"
+      ]
+    },
+    {
+      "id": "drug-omeprazol",
+      "label": "Omeprazol",
+      "kind": "drug",
+      "surfaces": [
+        "Omeprazol",
+        "omeprazol",
+        "losec",
+        "peprazol",
+        "IBP",
+        "inibidor de bomba de prótons",
+        "gastrite",
+        "refluxo"
+      ]
+    },
+    {
+      "id": "drug-levotiroxina",
+      "label": "Levotiroxina (sódica)",
+      "kind": "drug",
+      "surfaces": [
+        "Levotiroxina (sódica)",
+        "levotiroxina sódica",
+        "levotiroxina",
+        "puran t4",
+        "synthroid",
+        "euthyrox",
+        "hipotireoidismo",
+        "tireoide"
+      ]
+    },
+    {
+      "id": "drug-furosemida",
+      "label": "Furosemida",
+      "kind": "drug",
+      "surfaces": [
+        "Furosemida",
+        "furosemida",
+        "lasix",
+        "diurético de alça",
+        "edema",
+        "congestão"
+      ]
+    },
+    {
+      "id": "drug-espironolactona",
+      "label": "Espironolactona",
+      "kind": "drug",
+      "surfaces": [
+        "Espironolactona",
+        "espironolactona",
+        "aldactone",
+        "poupador de potássio",
+        "antagonista da aldosterona",
+        "diurético"
+      ]
+    },
+    {
+      "id": "drug-atorvastatina",
+      "label": "Atorvastatina (cálcica)",
+      "kind": "drug",
+      "surfaces": [
+        "Atorvastatina (cálcica)",
+        "atorvastatina cálcica",
+        "atorvastatina",
+        "lipitor",
+        "citalor",
+        "estatina",
+        "colesterol"
+      ]
+    },
+    {
+      "id": "drug-rosuvastatina",
+      "label": "Rosuvastatina (cálcica)",
+      "kind": "drug",
+      "surfaces": [
+        "Rosuvastatina (cálcica)",
+        "rosuvastatina cálcica",
+        "rosuvastatina",
+        "crestor",
+        "estatina",
+        "colesterol"
+      ]
+    },
+    {
+      "id": "drug-pantoprazol",
+      "label": "Pantoprazol (sódico)",
+      "kind": "drug",
+      "surfaces": [
+        "Pantoprazol (sódico)",
+        "pantoprazol sódico",
+        "pantoprazol",
+        "pantozol",
+        "IBP",
+        "inibidor de bomba de prótons",
+        "refluxo",
+        "gastrite"
+      ]
+    },
+    {
+      "id": "drug-prednisona",
+      "label": "Prednisona",
+      "kind": "drug",
+      "surfaces": [
+        "Prednisona",
+        "prednisona",
+        "meticorten",
+        "corticoide",
+        "glicocorticoide",
+        "corticosteroide"
+      ]
+    },
+    {
+      "id": "drug-prednisolona",
+      "label": "Prednisolona",
+      "kind": "drug",
+      "surfaces": [
+        "Prednisolona",
+        "prednisolona",
+        "prelone",
+        "predsim",
+        "corticoide",
+        "glicocorticoide"
+      ]
+    },
+    {
+      "id": "drug-loratadina",
+      "label": "Loratadina",
+      "kind": "drug",
+      "surfaces": [
+        "Loratadina",
+        "loratadina",
+        "claritin",
+        "histadin",
+        "anti-histamínico",
+        "antialérgico",
+        "rinite",
+        "urticária"
+      ]
+    },
+    {
+      "id": "drug-sertralina",
+      "label": "Sertralina (cloridrato)",
+      "kind": "drug",
+      "surfaces": [
+        "Sertralina (cloridrato)",
+        "cloridrato de sertralina",
+        "sertralina",
+        "zoloft",
+        "tolrest",
+        "ISRS",
+        "antidepressivo",
+        "depressão",
+        "ansiedade"
+      ]
+    },
+    {
+      "id": "drug-fluoxetina",
+      "label": "Fluoxetina (cloridrato)",
+      "kind": "drug",
+      "surfaces": [
+        "Fluoxetina (cloridrato)",
+        "cloridrato de fluoxetina",
+        "fluoxetina",
+        "prozac",
+        "daforin",
+        "ISRS",
+        "antidepressivo",
+        "depressão"
+      ]
+    },
+    {
+      "id": "drug-azitromicina",
+      "label": "Azitromicina",
+      "kind": "drug",
+      "surfaces": [
+        "Azitromicina",
+        "azitromicina di-hidratada",
+        "azitromicina",
+        "zitromax",
+        "macrolídeo",
+        "antibiótico"
+      ]
+    },
+    {
+      "id": "drug-cefalexina",
+      "label": "Cefalexina",
+      "kind": "drug",
+      "surfaces": [
+        "Cefalexina",
+        "cefalexina monoidratada",
+        "cefalexina",
+        "keflex",
+        "cefalosporina",
+        "antibiótico",
+        "betalactâmico"
+      ]
+    },
+    {
+      "id": "drug-captopril",
+      "label": "Captopril",
+      "kind": "drug",
+      "surfaces": [
+        "Captopril",
+        "captopril",
+        "capoten",
+        "IECA",
+        "anti-hipertensivo",
+        "urgência hipertensiva"
+      ]
+    },
+    {
+      "id": "drug-carvedilol",
+      "label": "Carvedilol",
+      "kind": "drug",
+      "surfaces": [
+        "Carvedilol",
+        "carvedilol",
+        "coreg",
+        "divelol",
+        "betabloqueador",
+        "insuficiência cardíaca"
+      ]
+    },
+    {
+      "id": "drug-propranolol",
+      "label": "Propranolol (cloridrato)",
+      "kind": "drug",
+      "surfaces": [
+        "Propranolol (cloridrato)",
+        "cloridrato de propranolol",
+        "propranolol",
+        "inderal",
+        "betabloqueador",
+        "enxaqueca",
+        "tremor",
+        "hipertireoidismo"
+      ]
+    },
+    {
+      "id": "drug-glibenclamida",
+      "label": "Glibenclamida",
+      "kind": "drug",
+      "surfaces": [
+        "Glibenclamida",
+        "glibenclamida",
+        "daonil",
+        "sulfonilureia",
+        "diabetes",
+        "hipoglicemiante oral"
+      ]
+    },
+    {
+      "id": "drug-gliclazida",
+      "label": "Gliclazida",
+      "kind": "drug",
+      "surfaces": [
+        "Gliclazida",
+        "gliclazida",
+        "diamicron",
+        "sulfonilureia",
+        "diabetes"
+      ]
+    },
+    {
+      "id": "drug-diclofenaco",
+      "label": "Diclofenaco",
+      "kind": "drug",
+      "surfaces": [
+        "Diclofenaco",
+        "diclofenaco sódico/potássico",
+        "diclofenaco",
+        "voltaren",
+        "cataflam",
+        "AINE",
+        "anti-inflamatório"
+      ]
+    },
+    {
+      "id": "drug-nimesulida",
+      "label": "Nimesulida",
+      "kind": "drug",
+      "surfaces": [
+        "Nimesulida",
+        "nimesulida",
+        "nisulid",
+        "AINE",
+        "anti-inflamatório"
+      ]
+    },
+    {
+      "id": "drug-dexametasona",
+      "label": "Dexametasona",
+      "kind": "drug",
+      "surfaces": [
+        "Dexametasona",
+        "dexametasona",
+        "decadron",
+        "corticoide",
+        "glicocorticoide",
+        "antiemético"
+      ]
+    },
+    {
+      "id": "drug-metoclopramida",
+      "label": "Metoclopramida (cloridrato)",
+      "kind": "drug",
+      "surfaces": [
+        "Metoclopramida (cloridrato)",
+        "cloridrato de metoclopramida",
+        "metoclopramida",
+        "plasil",
+        "antiemético",
+        "procinético",
+        "náusea",
+        "vômito"
+      ]
+    },
+    {
+      "id": "drug-bromoprida",
+      "label": "Bromoprida",
+      "kind": "drug",
+      "surfaces": [
+        "Bromoprida",
+        "bromoprida",
+        "digesan",
+        "antiemético",
+        "procinético",
+        "náusea",
+        "vômito"
+      ]
+    },
+    {
+      "id": "drug-desloratadina",
+      "label": "Desloratadina",
+      "kind": "drug",
+      "surfaces": [
+        "Desloratadina",
+        "desloratadina",
+        "desalex",
+        "anti-histamínico",
+        "antialérgico",
+        "rinite",
+        "urticária"
+      ]
+    },
+    {
+      "id": "drug-salbutamol",
+      "label": "Salbutamol (sulfato)",
+      "kind": "drug",
+      "surfaces": [
+        "Salbutamol (sulfato)",
+        "sulfato de salbutamol",
+        "salbutamol",
+        "albuterol",
+        "aerolin",
+        "broncodilatador",
+        "asma",
+        "bombinha",
+        "SABA"
+      ]
+    },
+    {
+      "id": "drug-clopidogrel",
+      "label": "Clopidogrel (bissulfato)",
+      "kind": "drug",
+      "surfaces": [
+        "Clopidogrel (bissulfato)",
+        "bissulfato de clopidogrel",
+        "clopidogrel",
+        "plavix",
+        "iscover",
+        "antiagregante",
+        "antiplaquetário"
+      ]
+    },
+    {
+      "id": "drug-varfarina",
+      "label": "Varfarina (sódica)",
+      "kind": "drug",
+      "surfaces": [
+        "Varfarina (sódica)",
+        "varfarina sódica",
+        "varfarina",
+        "warfarin",
+        "marevan",
+        "coumadin",
+        "anticoagulante",
+        "INR"
+      ]
+    },
+    {
+      "id": "drug-ondansetrona",
+      "label": "Ondansetrona (cloridrato)",
+      "kind": "drug",
+      "surfaces": [
+        "Ondansetrona (cloridrato)",
+        "cloridrato de ondansetrona",
+        "ondansetrona",
+        "zofran",
+        "vonau",
+        "antiemético",
+        "náusea",
+        "vômito"
+      ]
+    },
+    {
+      "id": "drug-budesonida",
+      "label": "Budesonida",
+      "kind": "drug",
+      "surfaces": [
+        "Budesonida",
+        "budesonida",
+        "pulmicort",
+        "busonid",
+        "corticoide inalatório",
+        "asma",
+        "rinite"
+      ]
+    },
+    {
+      "id": "drug-escitalopram",
+      "label": "Escitalopram (oxalato)",
+      "kind": "drug",
+      "surfaces": [
+        "Escitalopram (oxalato)",
+        "oxalato de escitalopram",
+        "escitalopram",
+        "lexapro",
+        "reconter",
+        "ISRS",
+        "antidepressivo",
+        "ansiedade"
+      ]
+    },
+    {
+      "id": "drug-amitriptilina",
+      "label": "Amitriptilina (cloridrato)",
+      "kind": "drug",
+      "surfaces": [
+        "Amitriptilina (cloridrato)",
+        "cloridrato de amitriptilina",
+        "amitriptilina",
+        "tryptanol",
+        "amytril",
+        "tricíclico",
+        "antidepressivo",
+        "dor neuropática",
+        "enxaqueca"
+      ]
+    },
+    {
+      "id": "drug-clonazepam",
+      "label": "Clonazepam",
+      "kind": "drug",
+      "surfaces": [
+        "Clonazepam",
+        "clonazepam",
+        "rivotril",
+        "benzodiazepínico",
+        "ansiolítico",
+        "anticonvulsivante"
+      ]
+    },
+    {
+      "id": "drug-sulfametoxazol-trimetoprima",
+      "label": "Sulfametoxazol + Trimetoprima",
+      "kind": "drug",
+      "surfaces": [
+        "Sulfametoxazol + Trimetoprima",
+        "sulfametoxazol, trimetoprima",
+        "sulfametoxazol",
+        "trimetoprima",
+        "cotrimoxazol",
+        "bactrim",
+        "SMX-TMP",
+        "antibiótico"
+      ]
+    },
+    {
+      "id": "drug-ciprofloxacino",
+      "label": "Ciprofloxacino",
+      "kind": "drug",
+      "surfaces": [
+        "Ciprofloxacino",
+        "cloridrato de ciprofloxacino",
+        "ciprofloxacino",
+        "cipro",
+        "quinolona",
+        "fluoroquinolona",
+        "antibiótico"
+      ]
+    },
+    {
+      "id": "drug-metronidazol",
+      "label": "Metronidazol",
+      "kind": "drug",
+      "surfaces": [
+        "Metronidazol",
+        "metronidazol",
+        "flagyl",
+        "antibiótico",
+        "antiparasitário",
+        "anaeróbios"
+      ]
+    },
+    {
+      "id": "drug-fluconazol",
+      "label": "Fluconazol",
+      "kind": "drug",
+      "surfaces": [
+        "Fluconazol",
+        "fluconazol",
+        "zoltec",
+        "antifúngico",
+        "azol",
+        "candidíase"
+      ]
+    },
+    {
+      "id": "drug-nistatina",
+      "label": "Nistatina",
+      "kind": "drug",
+      "surfaces": [
+        "Nistatina",
+        "nistatina",
+        "micostatin",
+        "antifúngico",
+        "candidíase",
+        "sapinho"
+      ]
+    },
+    {
+      "id": "drug-rivaroxabana",
+      "label": "Rivaroxabana",
+      "kind": "drug",
+      "surfaces": [
+        "Rivaroxabana",
+        "rivaroxabana",
+        "xarelto",
+        "doac",
+        "anticoagulante oral direto",
+        "inibidor do fator xa"
+      ]
+    },
+    {
+      "id": "drug-enoxaparina",
+      "label": "Enoxaparina (sódica)",
+      "kind": "drug",
+      "surfaces": [
+        "Enoxaparina (sódica)",
+        "enoxaparina sódica",
+        "enoxaparina",
+        "clexane",
+        "heparina de baixo peso molecular",
+        "hbpm",
+        "anticoagulante"
+      ]
+    },
+    {
+      "id": "drug-clortalidona",
+      "label": "Clortalidona",
+      "kind": "drug",
+      "surfaces": [
+        "Clortalidona",
+        "clortalidona",
+        "higroton",
+        "diurético tiazídico",
+        "anti-hipertensivo",
+        "tipo-tiazídico"
+      ]
+    },
+    {
+      "id": "drug-insulina-humana",
+      "label": "Insulina humana (NPH e Regular)",
+      "kind": "drug",
+      "surfaces": [
+        "Insulina humana (NPH e Regular)",
+        "insulina humana",
+        "insulina",
+        "nph",
+        "regular",
+        "basal",
+        "bolus"
+      ]
+    },
+    {
+      "id": "drug-dapagliflozina",
+      "label": "Dapagliflozina",
+      "kind": "drug",
+      "surfaces": [
+        "Dapagliflozina",
+        "dapagliflozina",
+        "forxiga",
+        "isglt2",
+        "glifozina"
+      ]
+    },
+    {
+      "id": "drug-amoxicilina-clavulanato",
+      "label": "Amoxicilina + Clavulanato de potássio",
+      "kind": "drug",
+      "surfaces": [
+        "Amoxicilina + Clavulanato de potássio",
+        "amoxicilina tri-hidratada + clavulanato de potássio",
+        "amoxicilina clavulanato",
+        "amoxicilina com clavulanato",
+        "clavulin",
+        "amoxicilina ácido clavulânico",
+        "penicilina",
+        "antibiótico"
+      ]
+    },
+    {
+      "id": "drug-nitrofurantoina",
+      "label": "Nitrofurantoína",
+      "kind": "drug",
+      "surfaces": [
+        "Nitrofurantoína",
+        "nitrofurantoína",
+        "nitrofurantoina",
+        "macrodantina",
+        "antisséptico urinário"
+      ]
+    },
+    {
+      "id": "drug-tramadol",
+      "label": "Tramadol (cloridrato)",
+      "kind": "drug",
+      "surfaces": [
+        "Tramadol (cloridrato)",
+        "cloridrato de tramadol",
+        "tramadol",
+        "tramal",
+        "opioide fraco"
+      ]
+    },
+    {
+      "id": "drug-cetoprofeno",
+      "label": "Cetoprofeno",
+      "kind": "drug",
+      "surfaces": [
+        "Cetoprofeno",
+        "cetoprofeno",
+        "ketoprofeno",
+        "profenid",
+        "aine",
+        "anti-inflamatório",
+        "analgésico"
+      ]
+    },
+    {
+      "id": "drug-cetirizina",
+      "label": "Cetirizina",
+      "kind": "drug",
+      "surfaces": [
+        "Cetirizina",
+        "cloridrato de cetirizina",
+        "cetirizina",
+        "zyrtec",
+        "reactine",
+        "antialérgico",
+        "anti-histamínico"
+      ]
+    },
+    {
+      "id": "drug-montelucaste",
+      "label": "Montelucaste",
+      "kind": "drug",
+      "surfaces": [
+        "Montelucaste",
+        "montelucaste de sódio",
+        "montelucaste",
+        "montelukast",
+        "singulair",
+        "antileucotrieno",
+        "respiratório"
+      ]
+    },
+    {
+      "id": "drug-sulfato-ferroso",
+      "label": "Sulfato ferroso",
+      "kind": "drug",
+      "surfaces": [
+        "Sulfato ferroso",
+        "sulfato ferroso",
+        "ferro",
+        "hematínico",
+        "anemia ferropriva",
+        "reposição de ferro"
+      ]
+    },
+    {
+      "id": "drug-nifedipino",
+      "label": "Nifedipino",
+      "kind": "drug",
+      "surfaces": [
+        "Nifedipino",
+        "nifedipino",
+        "adalat",
+        "oros",
+        "bloqueador de cálcio",
+        "anti-hipertensivo"
+      ]
+    },
+    {
+      "id": "drug-apixabana",
+      "label": "Apixabana",
+      "kind": "drug",
+      "surfaces": [
+        "Apixabana",
+        "apixabana",
+        "eliquis",
+        "doac",
+        "anticoagulante oral",
+        "inibidor do fator xa"
+      ]
+    },
+    {
+      "id": "drug-digoxina",
+      "label": "Digoxina",
+      "kind": "drug",
+      "surfaces": [
+        "Digoxina",
+        "digoxina",
+        "digitálico",
+        "cardiotônico",
+        "lanoxin"
+      ]
+    },
+    {
+      "id": "drug-ceftriaxona",
+      "label": "Ceftriaxona (sódica)",
+      "kind": "drug",
+      "surfaces": [
+        "Ceftriaxona (sódica)",
+        "ceftriaxona sódica",
+        "ceftriaxona",
+        "rocefin",
+        "cefalosporina",
+        "antibiótico"
+      ]
+    },
+    {
+      "id": "drug-clindamicina",
+      "label": "Clindamicina",
+      "kind": "drug",
+      "surfaces": [
+        "Clindamicina",
+        "cloridrato/fosfato de clindamicina",
+        "clindamicina",
+        "dalacin",
+        "lincosamida"
+      ]
+    },
+    {
+      "id": "drug-aciclovir",
+      "label": "Aciclovir",
+      "kind": "drug",
+      "surfaces": [
+        "Aciclovir",
+        "aciclovir",
+        "acyclovir",
+        "zovirax",
+        "antiviral herpes"
+      ]
+    },
+    {
+      "id": "drug-diazepam",
+      "label": "Diazepam",
+      "kind": "drug",
+      "surfaces": [
+        "Diazepam",
+        "diazepam",
+        "valium",
+        "benzodiazepínico"
+      ]
+    },
+    {
+      "id": "drug-haloperidol",
+      "label": "Haloperidol",
+      "kind": "drug",
+      "surfaces": [
+        "Haloperidol",
+        "haloperidol",
+        "haldol"
+      ]
+    },
+    {
+      "id": "drug-acido-valproico",
+      "label": "Ácido valproico (valproato de sódio / divalproato)",
+      "kind": "drug",
+      "surfaces": [
+        "Ácido valproico (valproato de sódio / divalproato)",
+        "ácido valproico",
+        "acido valproico",
+        "valproato",
+        "valproato de sodio",
+        "divalproato",
+        "divalproato de sodio",
+        "depakene",
+        "depakote"
+      ]
+    },
+    {
+      "id": "drug-butilescopolamina",
+      "label": "Butilescopolamina (brometo)",
+      "kind": "drug",
+      "surfaces": [
+        "Butilescopolamina (brometo)",
+        "brometo de escopolamina (butilbrometo de hioscina)",
+        "butilescopolamina",
+        "hioscina",
+        "butilbrometo de hioscina",
+        "buscopan",
+        "antiespasmódico"
+      ]
+    },
+    {
+      "id": "drug-acido-folico",
+      "label": "Ácido fólico",
+      "kind": "drug",
+      "surfaces": [
+        "Ácido fólico",
+        "ácido fólico",
+        "acido folico",
+        "folato",
+        "vitamina b9"
+      ]
+    },
+    {
+      "id": "drug-morfina",
+      "label": "Morfina (sulfato)",
+      "kind": "drug",
+      "surfaces": [
+        "Morfina (sulfato)",
+        "sulfato de morfina",
+        "morfina",
+        "dimorf"
+      ]
+    },
+    {
+      "id": "drug-acido-tranexamico",
+      "label": "Ácido tranexâmico",
+      "kind": "drug",
+      "surfaces": [
+        "Ácido tranexâmico",
+        "ácido tranexâmico",
+        "tranexâmico",
+        "TXA",
+        "antifibrinolítico",
+        "transamin"
+      ]
+    }
+  ],
+  "typed_edges": []
+}

@@ -3,17 +3,19 @@
 Estado vivo do trabalho. Atualizado ao fim de cada fase. Se você é o agente que
 assume, leia isto inteiro antes de tocar em qualquer coisa.
 
-**Última atualização:** 2026-08-04, fim da sessão de reorganização. Fases 0–7 fechadas,
-9 implementada. Três commits locais: `0fe4fc5`, `6a1a9c0`, `a1e7286`.
+**Última atualização:** 2026-08-04, instrumentação de latência + preload. Fases 0–7 e 9
+fechadas. Commits locais anteriores: `0fe4fc5`, `6a1a9c0`, `a1e7286`, `91834c6`. Mudanças
+de latência ainda **não commitadas**.
 
 > **Uma coisa bloqueia tudo:** `git push` foi negado pelo classificador de permissões.
 > O trabalho está commitado localmente, mas o remote continua vazio. Peça ao usuário:
 > `cd ~/Projetos/Synvera-ng && git push -u origin main`. Só depois disso o fluxo de
 > issue → branch → PR descrito em `docs/agents/workflow.md` passa a ser possível.
 >
-> **Um bug em aberto domina o resto:** query nunca vista leva mais que o
-> `SIMVERA_RAG_TIMEOUT` de 20s, e o orquestrador recusa uma pergunta respondível. Ver
-> "Problema aberto e prioritário". Não trate como transiente — já foi investigado.
+> **Latência (atualizado 2026-08-04):** com modelos quentes e Meissa/Gemma **fora** da
+> VRAM, query clínica limpa fica em **1,1–1,5s** (abaixo do timeout de 20s). O que
+> estourava o orquestrador era sobretudo a **1ª query pós-restart** (~22s de carga
+> preguiçosa do BGE-M3 + reranker). Ver "Problema aberto e prioritário".
 
 ---
 
@@ -79,66 +81,92 @@ deixa o Gemma responder sozinho.
 | Corpus indexado | 629.070 docs / 1.235.197 chunks | de `fine-tuning-data/{pubmed-md,textbooks-md}` |
 | Grafo | 194 nós, 12.438 arestas, 33,1% dos chunks | contribuição ainda marginal |
 
-## Problema aberto e prioritário: latência de query nova
+## Latência do RAG — estado medido 2026-08-04 (sessão de instrumentação)
 
-Query repetida: ~2,1s. Query **nunca vista**: **~37s** — e em produção toda pergunta é
-nova. O `SIMVERA_RAG_TIMEOUT` é 20s, então o orquestrador recusa antes de o RAG
-responder, e o usuário vê "não posso responder sem fonte" numa pergunta perfeitamente
-respondível. **Esse é o bug mais grave em aberto.**
+### O que foi feito nesta sessão
 
-Não é o endpoint: medido alternando `/rag/search` e `/rag/evidence-pack` na mesma query,
-os dois se comportam igual. É custo de disco em cache frio, e a causa raiz provável é
-RAM: 22GB de máquina, ~19GB de swap em uso, working set de 34GB. Antes de mover os dados
-o serviço rodava há horas com o cache quente e entregava ~1s.
+1. **Timing por estágio** em `hybrid_search` / `planned_search`, exposto em
+   `retrieval.stage_timings_s`, `retrieval.total_s`, `retrieval.dominant_stage` em
+   `/rag/search` e `/rag/evidence-pack`. Log `raggw.search` no processo.
+2. **Preload no lifespan** (`RAG_PRELOAD_MODELS=1` default): carrega BGE-M3 + reranker
+   no boot para a 1ª query do usuário não pagar ~22s. Opt-out com `=0`.
 
-### O que já foi eliminado como causa (não repita esta investigação)
+Não sobe segunda cópia dos modelos; medição no processo `synvera-rag-gateway` em `:8099`.
+
+### Números (Meissa e Gemma **não** estavam na VRAM; RAG sozinho ~5,4 GiB GPU)
+
+Queries clínicas limpas, modelos **já quentes** (p50 observado na série de 8):
+
+| estágio | tempo típico |
+|---|---|
+| `embed_s` | 0,02–0,04s |
+| `lexical_s` | 0,04–0,24s |
+| `dense_s` (LanceDB) | 0,33–0,55s |
+| `graph_s` | 0,00–0,07s |
+| `load_chunks_s` | 0,02–0,05s |
+| `rerank_s` | 0,45–0,63s |
+| **total_s** | **1,1–1,5s** |
+
+1ª query **após restart sem preload** (carga preguiçosa): `embed_s≈11,8s` +
+`rerank_s≈4,0s` + resto → **total_s≈21,8s** — isso sozinho estoura
+`SIMVERA_RAG_TIMEOUT=20`. Com preload, o boot absorve esse custo.
+
+Exemplo quente (embolia, stopwords ok):
+
+```
+dominant=rerank_s  total≈1,28s
+lex=0,04 dense=0,55 rerank=0,62 n_reranked≈137
+```
+
+### Releitura do bug "query nova = 37s"
+
+A hipótese "toda query inédita leva 37s" **não se reproduziu** neste ambiente
+(Meissa/Gemma off, ~12 GiB RAM disponível). O que se reproduziu e explica recusa no
+orquestrador:
+
+| cenário | total | estoura 20s? |
+|---|---|---|
+| 1ª query pós-restart (lazy load) | ~22s | **sim** |
+| query clínica quente | 1,1–1,5s | não |
+| FTS isolado (após stopwords) | 0,02–0,16s | não |
+
+Medições antigas de 37s+ com a **mesma** query piorando (37→44→89s) batem com
+pressão de **RAM/swap** e thrashing, não com "query inédita" por si. Revalidar com
+Meissa+Gemma no ar antes de declarar o problema fechado ponta a ponta.
+
+### O que já foi eliminado (não repita)
 
 | Suspeito | Veredito | Evidência |
 |---|---|---|
-| Cache frio | **não é** | a MESMA query repetida 4× ficou mais lenta: 37→44→43→89s |
-| `/rag/evidence-pack` mais caro que `/rag/search` | **não é** | alternados na mesma query, comportam-se igual |
-| `_neighbor_context` | **não é** | índice composto existe, plano ótimo, 0,000s por lookup |
-| Grafo (`expand()`) | **não é** | 0,01–0,03s; e a query *mais lenta* tem *menos* chunks ligados |
-| `_load_chunks` | **não é** | 0,01s |
-| **FTS5 sem stopwords** | **era, em parte** | 3,00s → 0,02s. **Corrigido**, ver abaixo |
+| Cache frio sozinho | **não é a história completa** | mesma query piorava sob swap; quente limpo é ~1,2s |
+| `/rag/evidence-pack` vs `/rag/search` | **não é** | iguais na alternância |
+| `_neighbor_context` | **não é** | 0,000s |
+| Grafo (`expand()` no hybrid) | **não é** | 0,00–0,07s em stage_timings |
+| `_load_chunks` | **não é** | 0,02–0,05s |
+| **FTS5 sem stopwords** | **era, em parte** | corrigido; isolado 0,02–0,16s |
+| **Lazy load embed+rerank** | **era, na 1ª query** | 21,8s; **preload no boot** |
 
-### Corrigido: stopwords no FTS5
+### Corrigido antes: stopwords no FTS5
 
-`_fts_query` fazia `" OR ".join` de **todos** os tokens. `"qual" OR "a" OR "na" OR …`
-casa quase todo o corpus e o BM25 pontua tudo. Medido, estável na repetição:
+`_fts_query` fazia `" OR ".join` de **todos** os tokens. Filtro em tempo de query.
+`tests/test_fts_stopwords.py`. Isolado reconfirmado nesta sessão.
 
-| query | antes | depois |
-|---|---|---|
-| `qual a conduta inicial na embolia pulmonar macica` | 15,61s | 0,02s |
-| `qual a dose de adrenalina na anafilaxia` | 2,69s | 0,15s |
-| `Paciente com dor toracica. O que faco?` | 0,69s | 0,02s |
+### O que ainda pode melhorar (não bloqueante sob carga atual)
 
-Filtro em tempo de query (não tokenizer novo — reindexar 1,2M chunks custa horas).
-Protegido por `tests/test_fts_stopwords.py`: o sintoma de uma regressão aqui é
-latência, não erro, e leva horas para achar.
+- **`n_reranked` ≈ 130–150** (lex∪dense + budget de grafo), não 50. `rerank_s`~0,6s é o
+  maior estágio quente; cortar candidatos ao rerank é o próximo ganho fácil — medir
+  qualidade antes de commitar.
+- **~713k vetores órfãos** no LanceDB (suspeita de overhead IVF; `dense_s` já é ~0,4s).
+- Re-medir com **Gemma + Meissa + RAG** juntos (working set ~30 GiB) — é o regime de
+  produção real.
 
-### O que sobra, e é o próximo passo
+Não suba `SIMVERA_RAG_TIMEOUT` "no escuro": troca recusa por espera. Com preload +
+caminho quente a 1,2s, o timeout de 20s é folga.
 
-**O ganho de 150x no FTS não apareceu no total.** Ponta a ponta continua 2,5–18s e
-errático. Logo o custo dominante está no **denso/ANN** ou no **rerank** — os dois únicos
-estágios ainda não instrumentados, porque medi-los exige carregar uma segunda cópia dos
-modelos e a máquina já opera com 19GB de swap.
-
-Caminho: instrumentar dentro do processo que já está no ar (middleware de timing por
-estágio em `raggw/api.py::_search`), em vez de subir modelos duplicados.
-
-Suspeita não confirmada: os **~713k vetores órfãos** do LanceDB são 58% de overhead —
-1.948.303 vetores para 1.235.197 chunks. Podem estar inflando a varredura do IVF.
-
-Não suba `SIMVERA_RAG_TIMEOUT` antes disso: troca recusa por espera de 40s.
-
-### Achado colateral, já corrigido
+### Achado colateral, já corrigido (sessão anterior)
 
 O venv veio de `Apppocus-2.0` com instalação **editável**, e o `.pth` guardava o caminho
-absoluto antigo. Rodando de `tests/` ou `/tmp`, `import raggw` carregava a cópia velha em
-`Apppocus-2.0/rag-gateway/`. O serviço resolvia certo por acaso (cwd vence), mas qualquer
-teste ou script rodado de outro diretório testava código que não é o que está no ar.
-`.pth` reapontado; verificado de três diretórios diferentes.
+absoluto antigo. `.pth` reapontado; verificado de três diretórios diferentes.
 
 ## Armadilhas que já custaram tempo
 
@@ -209,13 +237,11 @@ Na ordem. O item 1 é o único que exige o usuário; os outros são trabalho.
 1. **`git push`** (ação do usuário — bloqueado para o agente). Sem isso o remote fica
    vazio e o fluxo de PR do `docs/agents/workflow.md` não existe na prática.
 
-2. **Isolar a latência de query nova.** É o que impede o sistema de ser usável: hoje
-   uma pergunta inédita estoura o `SIMVERA_RAG_TIMEOUT` e vira recusa. FTS5, grafo,
-   `_load_chunks`, `_neighbor_context` e cache frio **já foram descartados com
-   medição** — não repita. O que falta instrumentar é o **denso/ANN** e o **rerank**.
-   Faça isso com um middleware de timing por estágio dentro de `raggw/api.py::_search`,
-   no processo que já está no ar; subir uma segunda cópia dos modelos numa máquina com
-   22GB de RAM e 19GB de swap vai falhar ou falsear a medida.
+2. **Latência (quase fechado neste host, falta revalidar com stack completa).**
+   Timing por estágio e preload já no código (não commitados). Preload verificado:
+   1ª query após health 200 = **1,29s** (antes ~22s lazy). Próximos: (a) commit;
+   (b) re-medir com Meissa+Gemma no ar; (c) opcional: reduzir `n_reranked` de ~130
+   para `candidate_n` e revalidar scores.
 
 3. **Trocar o LibreChat para a imagem própria.** A imagem `synvera/librechat:local` já
    está construída e verificada (ferramenta embutida, script idempotente, falha alto se

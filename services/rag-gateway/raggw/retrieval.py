@@ -9,6 +9,7 @@ from __future__ import annotations
 import math
 import re
 import sqlite3
+import time
 from dataclasses import dataclass
 
 from .embedding import Embedder, decode_vector
@@ -18,6 +19,17 @@ from .graph.store import GraphStore
 from .query_planning import plan_query
 from .reranking import Reranker
 from .vectorstore import VectorStore
+
+
+def _tick() -> float:
+    return time.perf_counter()
+
+
+def _mark(timings: dict | None, name: str, t0: float) -> None:
+    """Acumula segundos de parede por estágio (somável em ladder multi-pass)."""
+    if timings is None:
+        return
+    timings[name] = round(timings.get(name, 0.0) + (_tick() - t0), 4)
 
 
 @dataclass
@@ -163,17 +175,31 @@ def hybrid_search(conn: sqlite3.Connection, query: str, *, embedder: Embedder,
                   graph: GraphStore | None = None,
                   lexical_query: str | None = None,
                   family_cap: int = 0,
-                  extra_dense_rankings: dict[str, list[int]] | None = None) -> list[Hit]:
+                  extra_dense_rankings: dict[str, list[int]] | None = None,
+                  timings: dict | None = None) -> list[Hit]:
+    # `timings` é opcional e mutável: preenche segundos de parede por estágio sem
+    # mudar o contrato de retorno (list[Hit]). Instrumentação de latência 2026-08-04:
+    # FTS/grafo/load_chunks já foram descartados; o que falta isolar é embed+dense+rerank.
+    t0 = _tick()
     qvec = embedder.embed([query])[0]
+    _mark(timings, "embed_s", t0)
     # Estágio lexical usa a query expandida (sinônimos/siglas do plano) quando fornecida;
     # o denso segue com a query original para não diluir o vetor. #321.
+    t0 = _tick()
     lex = lexical_search(conn, lexical_query or query, candidate_n,
                          specialty=specialty, specialties=specialties)
+    _mark(timings, "lexical_s", t0)
     # Estágio denso: ANN (LanceDB) quando `store` é dado; senão brute-force exato no SQLite.
+    t0 = _tick()
     if store is not None:
         dense = store.search(qvec, candidate_n, specialties=_resolve_specs(specialty, specialties))
+        if timings is not None:
+            timings["dense_backend"] = type(store).__name__
     else:
         dense = dense_search(conn, qvec, candidate_n, specialty=specialty, specialties=specialties)
+        if timings is not None:
+            timings["dense_backend"] = "sqlite_bruteforce"
+    _mark(timings, "dense_s", t0)
     # 3º sinal: grafo de entidades (respeita o mesmo filtro de especialidade). None → fusion
     # idêntico ao anterior (regressão zero para chamadas diretas sem grafo).
     rankings = [lex, dense]
@@ -182,11 +208,23 @@ def hybrid_search(conn: sqlite3.Connection, query: str, *, embedder: Embedder,
         for name, ranking in extra_dense_rankings.items():
             if isinstance(ranking, list) and ranking:
                 rankings.append(ranking)
+    graph_ids: list[int] = []
     if graph is not None:
-        rankings.append(graph.expand(query, candidate_n,
-                                     specialties=_resolve_specs(specialty, specialties)))
+        t0 = _tick()
+        graph_ids = graph.expand(query, candidate_n,
+                                 specialties=_resolve_specs(specialty, specialties))
+        rankings.append(graph_ids)
+        _mark(timings, "graph_s", t0)
+    t0 = _tick()
     fused = rrf_fuse(rankings, k=rrf_k)
+    _mark(timings, "rrf_s", t0)
     if not fused:
+        if timings is not None:
+            timings["n_lex"] = len(lex)
+            timings["n_dense"] = len(dense)
+            timings["n_graph"] = len(graph_ids)
+            timings["n_candidates"] = 0
+            timings["n_reranked"] = 0
         return []
     ranked = sorted(fused, key=lambda c: fused[c], reverse=True)
     # #321 "never degrades": the graph is strictly ADDITIVE. Every lexical/dense candidate is
@@ -201,11 +239,21 @@ def hybrid_search(conn: sqlite3.Connection, query: str, *, embedder: Embedder,
     prot = [c for c in ranked if c in protected]
     extra = [c for c in ranked if c not in protected]
     candidates = prot + extra[:candidate_n]
+    t0 = _tick()
     rows = _load_chunks(conn, candidates)
+    _mark(timings, "load_chunks_s", t0)
     ids = [c for c in candidates if c in rows]
     if not ids:
+        if timings is not None:
+            timings["n_lex"] = len(lex)
+            timings["n_dense"] = len(dense)
+            timings["n_graph"] = len(graph_ids)
+            timings["n_candidates"] = len(candidates)
+            timings["n_reranked"] = 0
         return []
+    t0 = _tick()
     scores = reranker.rerank(query, [rows[i]["chunk_text"] for i in ids])
+    _mark(timings, "rerank_s", t0)
     hits: list[Hit] = []
     for cid, score in zip(ids, scores):
         r = rows[cid]
@@ -220,6 +268,13 @@ def hybrid_search(conn: sqlite3.Connection, query: str, *, embedder: Embedder,
     hits.sort(key=lambda h: h.final_score, reverse=True)
     if family_cap > 0:
         hits = diversify(hits, cap_per_family=family_cap)
+    if timings is not None:
+        timings["n_lex"] = len(lex)
+        timings["n_dense"] = len(dense)
+        timings["n_graph"] = len(graph_ids)
+        timings["n_candidates"] = len(candidates)
+        timings["n_reranked"] = len(ids)
+        timings["n_hits"] = min(top_k, len(hits))
     return hits[:top_k]
 
 
@@ -323,14 +378,21 @@ def planned_search(conn: sqlite3.Connection, query: str, *, embedder: Embedder,
 
     Simvera 2.0: extra_dense_rankings propagado para hybrid_search (MedCPT/Contriever).
     """
+    t_total = _tick()
+    t0 = _tick()
     plan = plan_query(query, lexicon)
+    plan_s = round(_tick() - t0, 4)
+    stage_timings: dict = {}
+    n_passes = 0
 
     def run(q: str, lexq: str) -> list[Hit]:
+        nonlocal n_passes
+        n_passes += 1
         return hybrid_search(
             conn, q, embedder=embedder, reranker=reranker, top_k=top_k,
             candidate_n=candidate_n, specialty=specialty, specialties=specialties,
             store=store, graph=graph, lexical_query=lexq, family_cap=family_cap,
-            extra_dense_rankings=extra_dense_rankings)
+            extra_dense_rankings=extra_dense_rankings, timings=stage_timings)
 
     hits = run(query, plan.expanded_query())
 
@@ -352,15 +414,26 @@ def planned_search(conn: sqlite3.Connection, query: str, *, embedder: Embedder,
         hits = merged_hits[:top_k]
 
     # Contribuição mensurável do grafo: quantos hits finais o grafo nomeou (mesmo filtro).
+    # Nota: isto re-executa expand() só para diagnosticar — já era assim antes da
+    # instrumentação; o tempo extra entra em total_s, não em graph_s do hybrid.
     graph_ids: set[int] = set()
     if graph is not None:
         graph_ids = set(graph.expand(query, candidate_n,
                                      specialties=_resolve_specs(specialty, specialties)))
+    total_s = round(_tick() - t_total, 4)
+    # Estágios numéricos de tempo (exclui contagens / backend label).
+    timed = {k: v for k, v in stage_timings.items() if k.endswith("_s") and isinstance(v, (int, float))}
+    dominant = max(timed, key=timed.get) if timed else None
     diagnostics = {
         "graph_required": graph is not None,
         "graph_candidates": len(graph_ids),
         "graph_contribution": sum(1 for h in hits if h.chunk_id in graph_ids),
         "expansions": len(plan.expansions),
         "subqueries": len(plan.subqueries),
+        "n_passes": n_passes,
+        "plan_s": plan_s,
+        "stage_timings_s": stage_timings,
+        "total_s": total_s,
+        "dominant_stage": dominant,
     }
     return hits, diagnostics

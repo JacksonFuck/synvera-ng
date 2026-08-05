@@ -5,12 +5,15 @@ File upload (drag-and-drop) is Phase 4 (admin). Phase 1 ingests server-side loca
 Embeddings default to FakeEmbedder unless RAG_REAL_MODELS=1 — reported in /health."""
 from __future__ import annotations
 
+import logging
 import os
 from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+
+log = logging.getLogger("raggw.search")
 
 from . import __version__, admin, agents, db, jobs, retrieval
 from .config import get_settings
@@ -134,6 +137,21 @@ def create_app(*, db_path=None, embedder: Embedder | None = None,
             if force_rebuild or not populated:
                 graph_store.build_from_chunks()
         conn.close()
+        # Pré-carrega BGE-M3 e o reranker no boot. Sem isto a 1ª query paga ~12s de
+        # embed + ~4s de rerank (medido 2026-08-04: total_s≈21,8s) e estoura o
+        # SIMVERA_RAG_TIMEOUT de 20s do orquestrador — a mesma pergunta quente cai
+        # para ~1,1–1,5s. Opt-out: RAG_PRELOAD_MODELS=0.
+        preload = os.environ.get("RAG_PRELOAD_MODELS", "1").lower() not in (
+            "0", "false", "no")
+        if preload and os.environ.get("RAG_REAL_MODELS", "").lower() in (
+                "1", "true", "yes"):
+            try:
+                embedder.embed(["warmup"])
+                reranker.rerank("warmup", ["short warmup passage for model load"])
+                log.info("preload: embedder=%s reranker=%s ready",
+                         embedder_kind, reranker_kind)
+            except Exception:
+                log.exception("preload failed; first real query will pay model load")
         worker = None
         if start_worker:
             worker = jobs.Worker(db_path, embedder=embedder, settings=settings,
@@ -245,7 +263,7 @@ def create_app(*, db_path=None, embedder: Embedder | None = None,
                     except Exception:
                         pass
 
-            return retrieval.planned_search(
+            hits, diagnostics = retrieval.planned_search(
                 conn, req.query, embedder=embedder, reranker=reranker,
                 lexicon=graph_lexicon, graph=make_graph_store(conn, graph_lexicon),
                 top_k=req.top_k or settings.search_top_k,
@@ -255,6 +273,17 @@ def create_app(*, db_path=None, embedder: Embedder | None = None,
                 min_supporting_chunks=settings.min_supporting_chunks,
                 store=vector_store, family_cap=settings.diversity_family_cap,
                 extra_dense_rankings=extra_dense)
+            # Timing por estágio: sem isto o total de 37s esconde se o custo está no
+            # denso/ANN ou no rerank. Vai no JSON de resposta e no log do processo.
+            log.info(
+                "search total_s=%.3f dominant=%s stages=%s n_hits=%s q=%r",
+                float(diagnostics.get("total_s") or 0.0),
+                diagnostics.get("dominant_stage"),
+                diagnostics.get("stage_timings_s"),
+                len(hits),
+                (req.query or "")[:120],
+            )
+            return hits, diagnostics
         finally:
             conn.close()
 

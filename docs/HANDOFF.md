@@ -93,9 +93,9 @@ deixa o Gemma responder sozinho.
 
 Não sobe segunda cópia dos modelos; medição no processo `synvera-rag-gateway` em `:8099`.
 
-### Números (Meissa e Gemma **não** estavam na VRAM; RAG sozinho ~5,4 GiB GPU)
+### Números
 
-Queries clínicas limpas, modelos **já quentes** (p50 observado na série de 8):
+**A — só Super-RAG** (~5,4 GiB GPU). Queries limpas, modelos quentes:
 
 | estágio | tempo típico |
 |---|---|
@@ -103,20 +103,28 @@ Queries clínicas limpas, modelos **já quentes** (p50 observado na série de 8)
 | `lexical_s` | 0,04–0,24s |
 | `dense_s` (LanceDB) | 0,33–0,55s |
 | `graph_s` | 0,00–0,07s |
-| `load_chunks_s` | 0,02–0,05s |
 | `rerank_s` | 0,45–0,63s |
 | **total_s** | **1,1–1,5s** |
 
-1ª query **após restart sem preload** (carga preguiçosa): `embed_s≈11,8s` +
-`rerank_s≈4,0s` + resto → **total_s≈21,8s** — isso sozinho estoura
-`SIMVERA_RAG_TIMEOUT=20`. Com preload, o boot absorve esse custo.
+**B — stack completa** (Meissa + Gemma + RAG, VRAM ~28,3 GiB / 32 GiB, swap ~22 GiB).
+Série de 6 queries clínicas + 1 repetição (2026-08-04):
 
-Exemplo quente (embolia, stopwords ok):
+| query | total_s | dominant | nota |
+|---|---|---|---|
+| embolia (1ª após LLMs up) | 7,3s | dense | pressão inicial |
+| adrenalina | 12,2s | **lexical** | pior da série; ainda &lt; 20s |
+| Wells | 1,8s | rerank | |
+| pneumonia UTI | 7,2s | lexical | |
+| cetoacidose (+hex) | 4,6s | lexical | |
+| sepse | 1,6s | rerank | |
+| embolia **repetida** | **1,0s** | rerank | quente estável |
 
-```
-dominant=rerank_s  total≈1,28s
-lex=0,04 dense=0,55 rerank=0,62 n_reranked≈137
-```
+Nenhuma da série estorou `SIMVERA_RAG_TIMEOUT=20`. O lexical **volta a ser errático**
+sob stack completa (0,03s → 10,7s na mesma sessão) — coerente com thrashing de
+cache SQLite/disco quando a VRAM e o swap estão cheios, não com bug de stopwords.
+
+1ª query **após restart do RAG sem preload**: `embed≈11,8s` + `rerank≈4s` →
+**total≈21,8s** (estoura 20s). Com preload no boot, 1ª query após health = **1,29s**.
 
 ### Releitura do bug "query nova = 37s"
 
@@ -153,12 +161,15 @@ Meissa+Gemma no ar antes de declarar o problema fechado ponta a ponta.
 
 ### O que ainda pode melhorar (não bloqueante sob carga atual)
 
-- **`n_reranked` ≈ 130–150** (lex∪dense + budget de grafo), não 50. `rerank_s`~0,6s é o
-  maior estágio quente; cortar candidatos ao rerank é o próximo ganho fácil — medir
-  qualidade antes de commitar.
-- **~713k vetores órfãos** no LanceDB (suspeita de overhead IVF; `dense_s` já é ~0,4s).
-- Re-medir com **Gemma + Meissa + RAG** juntos (working set ~30 GiB) — é o regime de
-  produção real.
+- **`n_reranked` ≈ 130–150** é **proposital** (#321 never-degrades: todo lex∪dense
+  entra no rerank + budget de grafo). Capar `prot[:candidate_n]` falha
+  `test_graph_only_candidate_survives_when_protected_set_fills_candidate_n`.
+  Ganho de latência no rerank exige outro desenho (ex.: rerank em duas fases),
+  não um teto cego.
+- **~713k vetores órfãos** no LanceDB.
+- **Containers Meissa/Gemma** estavam montando `~/synvera-data/models` **vazio**
+  (resto da Fase 3). Recriados com `ops/llama/start-server.sh {meissa,gemma}` →
+  `Synvera-ng/data/models`. Se voltarem a reiniciar em loop, checar o bind.
 
 Não suba `SIMVERA_RAG_TIMEOUT` "no escuro": troca recusa por espera. Com preload +
 caminho quente a 1,2s, o timeout de 20s é folga.

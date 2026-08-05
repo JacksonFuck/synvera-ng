@@ -14,7 +14,7 @@
 set -euo pipefail
 
 BIN=${BIN:-$HOME/opt/llama-bin}
-MODELS_DIR=${MODELS_DIR:-$HOME/synvera-data/models}
+MODELS_DIR=${MODELS_DIR:-$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/../../data/models}
 IMAGE=${IMAGE:-nvidia/cuda:12.8.0-devel-ubuntu22.04}
 CTX=${CTX:-32768}
 

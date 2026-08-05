@@ -1,0 +1,7 @@
+[cache]
+    type = "hardlink,symlink"
+[core]
+    autostage = true
+    remote = local
+['remote "local"']
+    url = /home/jackson-fuck/synvera-dvc-store

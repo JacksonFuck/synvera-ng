@@ -11,9 +11,14 @@ secrets/
 # Nada de dado entra no git. Corpus tratado e bruto ficam em ~/synvera-data/
 # sob DVC (ponteiros .dvc são versionados, os bytes não). Índices são artefato
 # derivado e nem em DVC entram — regeneráveis a partir de processed/.
-data/
-!data/*.dvc
-!data/.gitignore
+# Regra em três partes de propósito: o git NÃO consegue re-incluir um arquivo cujo
+# diretório-pai está excluído. Por isso é preciso ignorar o conteúdo (`/data/**`),
+# reabrir os diretórios (`!/data/*/`) e só então liberar os ponteiros .dvc.
+/data/**
+!/data/
+!/data/*/
+!/data/**/*.dvc
+!/data/**/.gitignore
 *.db
 *.db-shm
 *.db-wal

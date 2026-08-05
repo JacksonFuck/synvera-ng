@@ -5,7 +5,7 @@ assume, leia isto inteiro antes de tocar em qualquer coisa.
 
 **Última atualização:** 2026-08-04, após as Fases 3, 4 e 7.
 
-> **Estado imediato:** os dados foram movidos para `~/synvera-data/` e o page cache
+> **Estado imediato:** os dados foram movidos para `Synvera-ng/data/` e o page cache
 > de 34G está sendo repovoado do disco. Latência do RAG observada assentando:
 > 42s → 13s → 2,2s. **Não meça latência nas próximas horas** — o número não é real
 > até o load average voltar ao normal (estava em 27 logo após o move).
@@ -31,7 +31,7 @@ assume, leia isto inteiro antes de tocar em qualquer coisa.
 > 1. **Toda resposta clínica é ancorada no RAG.** Sem evidência, o sistema recusa —
 >    nunca deixa o modelo responder de memória. Isso já funciona e foi verificado.
 > 2. **Nada de segredo ou dado no git.** `.env` real nunca; corpus e modelos ficam
->    em `~/synvera-data/`, fora do repo.
+>    em `Synvera-ng/data/`, fora do repo.
 > 3. **Medir antes de afirmar.** Este projeto já teve um grafo custando 4,5s para
 >    contribuir zero porque ninguém mediu. Não repita.
 
@@ -137,9 +137,9 @@ teste ou script rodado de outro diretório testava código que não é o que est
    Meissa. Fase 7 resolve; até lá, não reinicie a máquina sem rebuildar.
 6. **Os scorers do Meissa não rodam** — importam `eval_helpers`, ausente do repo.
 7. **O indexador do desktop é um predador de I/O.** `localsearch-extractor-3` começou a
-   varrer os 633k markdowns assim que eles apareceram em `~/synvera-data/`: 4,5GB
+   varrer os 633k markdowns assim que eles apareceram em `Synvera-ng/data/`: 4,5GB
    residentes, 40% de CPU em estado D, RAG empurrado para o swap, busca de ~1s para
-   15–47s. Resolvido com `~/synvera-data/.trackerignore`. **Se aparecer lentidão
+   15–47s. Resolvido com `Synvera-ng/data/.trackerignore`. **Se aparecer lentidão
    inexplicada depois de mover dados, cheque `ps aux | grep localsearch` antes de
    qualquer outra hipótese.**
 8. **Comparar quente com frio inventa regressões.** Errei isso três vezes num dia:
@@ -156,9 +156,9 @@ teste ou script rodado de outro diretório testava código que não é o que est
 | 0 | Resgatar customização volátil do LibreChat | **feita** |
 | 1 | Parar serviços | **dispensada** — a ingestão já estava travada há 2 dias |
 | 2 | Limpeza de disco (~90G) | **feita** |
-| 3 | Mover dados para `~/synvera-data/` | **feita** |
+| 3 | Mover dados para `Synvera-ng/data/` | **feita** |
 | 4 | Consolidar os `rag_corpus.db` divergentes | **feita** |
-| 5 | Criar monorepo + DVC + push | arquivos prontos; **commit bloqueado** |
+| 5 | Criar monorepo + DVC | **feita** — commit `0fe4fc5`; **push bloqueado** |
 | 6 | LibreChat com imagem própria | arquivos escritos, `docker build` não rodado |
 | 7 | llama.cpp fora do tmpfs | **feita** |
 | 8 | Verificação ponta a ponta (9 critérios no plano) | parcial — 5/5 serviços de pé, 8 citações na resposta |
@@ -188,7 +188,7 @@ Interação com o harness: `--forced-choice` precisa suprimir isso, senão
 
 1. **Desbloquear o commit** (ação do usuário). Mensagem pronta em
    `/tmp/claude-*/scratchpad/commit-msg.txt`.
-2. `dvc init` + `dvc add` de `~/synvera-data/{processed,raw}` com remote local.
+2. `dvc init` + `dvc add` de `Synvera-ng/data/{processed,raw}` com remote local.
 3. `cd librechat && docker compose up -d --build` e confirmar que `synvera_rag`
    sobrevive a um `--force-recreate` — é o critério 1 da verificação.
 4. Reescrever as units systemd com `%h` e prefixo `synvera-` (hoje ainda são
@@ -198,16 +198,16 @@ Interação com o harness: `--forced-choice` precisa suprimir isso, senão
 
 | Antes | Agora |
 |---|---|
-| `~/models/` | `~/synvera-data/models/` |
-| `apppocus-rag-wt/.../data/rag_corpus.db` | `~/synvera-data/index/rag_corpus.db` |
-| `apppocus-rag-wt/.../data/lancedb_corpus` | `~/synvera-data/index/lancedb_corpus` |
-| `apppocus-rag-wt/.../data/parsed_markdown` | `~/synvera-data/processed/parsed_markdown` |
-| `~/fine-tuning-data/{pubmed,textbooks}-md` | `~/synvera-data/processed/` |
-| `~/fine-tuning-data/` (PDFs), `~/corpora/` | `~/synvera-data/raw/` |
+| `~/models/` | `Synvera-ng/data/models/` |
+| `apppocus-rag-wt/.../data/rag_corpus.db` | `Synvera-ng/data/index/rag_corpus.db` |
+| `apppocus-rag-wt/.../data/lancedb_corpus` | `Synvera-ng/data/index/lancedb_corpus` |
+| `apppocus-rag-wt/.../data/parsed_markdown` | `Synvera-ng/data/processed/parsed_markdown` |
+| `~/fine-tuning-data/{pubmed,textbooks}-md` | `Synvera-ng/data/processed/` |
+| `~/fine-tuning-data/` (PDFs), `~/corpora/` | `Synvera-ng/data/raw/` |
 | `/tmp/llama.cpp/build/bin` (tmpfs) | `~/opt/llama-bin` |
 
 Os symlinks `Apppocus-2.0/rag-gateway/data` e `SYNVERA/rag-gateway/data` foram
-repontados para `~/synvera-data/index`, então os projetos antigos continuam
+repontados para `Synvera-ng/data/index`, então os projetos antigos continuam
 funcionando. Os containers agora sobem por `ops/llama/start-server.sh {gemma|meissa}`
 com `restart=unless-stopped` — sobrevivem a reboot, o que antes não acontecia.
 
@@ -215,7 +215,7 @@ com `restart=unless-stopped` — sobrevivem a reboot, o que antes não acontecia
 
 | Banco | docs | chunks | grafo | veredito |
 |---|---|---|---|---|
-| `~/synvera-data/index/rag_corpus.db` | 629.070 | 1.235.197 | 646.461 | **produção** |
+| `Synvera-ng/data/index/rag_corpus.db` | 629.070 | 1.235.197 | 646.461 | **produção** |
 | `Apppocus-2.0/data/rag_corpus.db` | 625.708 | 625.708 | 0 | snapshot velho, descartável |
 | `.../rag_corpus_fresh.db` | 507.174 | 738.274 | **1.208.269** | órfão — ver abaixo |
 

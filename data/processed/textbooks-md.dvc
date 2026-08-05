@@ -1,0 +1,6 @@
+outs:
+- md5: 2d9dbd913a5ad83d730c26d9e88e028c.dir
+  size: 100761430
+  nfiles: 125847
+  hash: md5
+  path: textbooks-md

@@ -99,13 +99,24 @@ class GraphStore:
         return {"chunks_indexed": n_chunks, "edges": len(edge_w) + len(self._lex.typed_edges)}
 
     # ── query-time ───────────────────────────────────────────────────────────
-    def _neighbors(self, entity_ids: set[str]) -> dict[str, float]:
-        """Vizinhos 1-hop ponderados (co-ocorrência não-direcionada + arestas típicas)."""
+    def _neighbors(self, entity_ids: set[str], *, only_typed: bool) -> dict[str, float]:
+        """Vizinhos 1-hop ponderados.
+
+        `only_typed` separa dois sinais que estavam misturados e não deveriam estar:
+
+        - **arestas tipadas** (`trata`, `dd`, `contraindicado`, `interage`) são FATOS
+          curados a partir de campos estruturados. "adrenalina trata anafilaxia" é
+          verdade ou não. Sempre valem.
+        - **`cooc`** é estatística sobre prosa: mede co-menção em capítulo, não relação
+          clínica. Neste corpus deu 66% de densidade — `choque` ↔ `sangramento-uterino`
+          com peso 1084 — e expandir por ela trazia 185 das 194 entidades. Ruído.
+        """
+        rel = " AND rel <> 'cooc'" if only_typed else ""
         weight: dict[str, float] = {}
         for eid in entity_ids:
             for row in self._conn.execute(
-                    "SELECT b AS other, weight FROM graph_edges WHERE a=? "
-                    "UNION ALL SELECT a AS other, weight FROM graph_edges WHERE b=?",
+                    f"SELECT b AS other, weight FROM graph_edges WHERE a=?{rel} "
+                    f"UNION ALL SELECT a AS other, weight FROM graph_edges WHERE b=?{rel}",
                     (eid, eid)):
                 other = row["other"]
                 if other not in entity_ids:
@@ -124,18 +135,23 @@ class GraphStore:
         seeds = self._lex.detect(query)
         if not seeds:
             return []
-        # peso por entidade: seeds=alto, vizinhos=proporcional à aresta (teto p/ não dominar)
+        # peso por entidade: seeds=alto, vizinhos abaixo (nunca empatam com o seed)
         ent_weight: dict[str, float] = {e: 3.0 for e in seeds}
-        # Só os N vizinhos de aresta mais forte. Medido neste corpus: 194 entidades e 12.438
-        # arestas `cooc` = 66% de densidade, então 1-hop irrestrito a partir de 2 seeds trazia
-        # 185/194 entidades — varria ~646k linhas (1,6s) e devolvia "os chunks que citam mais
-        # entidades", não os relevantes: graph_contribution=0 em toda query. Default 0 (só
-        # seeds) porque as arestas medem co-menção em capítulo, não relação clínica
-        # (choque↔sangramento-uterino = 1084). Suba quando houver typed_edges curadas.
+
+        # Arestas TIPADAS sempre expandem. São fatos curados de campos estruturados
+        # ("adrenalina trata anafilaxia"), e é justamente por elas que o grafo existe:
+        # respondem o que a busca densa responde mal — "o que trata X", "diferencial de X".
+        for other, w in self._neighbors(seeds, only_typed=True).items():
+            ent_weight[other] = ent_weight.get(other, 0.0) + min(w, 2.0)
+
+        # Co-ocorrência só sob pedido explícito. Medido neste corpus: 194 entidades e
+        # 12.438 arestas `cooc` = 66% de densidade, então 1-hop a partir de 2 seeds trazia
+        # 185/194 entidades — varria ~646k linhas (1,6s) e devolvia "os chunks que citam
+        # mais entidades", não os relevantes: graph_contribution=0 em toda query.
         if _MAX_NEIGHBORS:
-            top = sorted(self._neighbors(seeds).items(), key=lambda kv: -kv[1])[:_MAX_NEIGHBORS]
-            for other, w in top:
-                # teto 1.0: vizinho nunca pesa como seed (3.0), só desempata.
+            cooc = self._neighbors(seeds, only_typed=False)
+            for other, w in sorted(cooc.items(), key=lambda kv: -kv[1])[:_MAX_NEIGHBORS]:
+                # teto 1.0: abaixo do vizinho tipado (2.0) e do seed (3.0). Só desempata.
                 ent_weight[other] = ent_weight.get(other, 0.0) + min(w / 100.0, 1.0)
 
         spec_sql, spec_params = soft_specialty_sql(specialties)

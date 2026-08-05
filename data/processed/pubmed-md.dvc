@@ -1,0 +1,6 @@
+outs:
+- md5: 19ab95f6df438e4af81da7c42dc7e9ce.dir
+  size: 476488669
+  nfiles: 500000
+  hash: md5
+  path: pubmed-md

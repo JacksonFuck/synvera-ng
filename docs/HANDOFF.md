@@ -3,37 +3,55 @@
 Estado vivo do trabalho. Atualizado ao fim de cada fase. Se você é o agente que
 assume, leia isto inteiro antes de tocar em qualquer coisa.
 
-**Última atualização:** 2026-08-04, após as Fases 3, 4 e 7.
+**Última atualização:** 2026-08-04, fim da sessão de reorganização. Fases 0–7 fechadas,
+9 implementada. Três commits locais: `0fe4fc5`, `6a1a9c0`, `a1e7286`.
 
-> **Estado imediato:** os dados foram movidos para `Synvera-ng/data/` e o page cache
-> de 34G está sendo repovoado do disco. Latência do RAG observada assentando:
-> 42s → 13s → 2,2s. **Não meça latência nas próximas horas** — o número não é real
-> até o load average voltar ao normal (estava em 27 logo após o move).
+> **Uma coisa bloqueia tudo:** `git push` foi negado pelo classificador de permissões.
+> O trabalho está commitado localmente, mas o remote continua vazio. Peça ao usuário:
+> `cd ~/Projetos/Synvera-ng && git push -u origin main`. Só depois disso o fluxo de
+> issue → branch → PR descrito em `docs/agents/workflow.md` passa a ser possível.
 >
-> **Bloqueado:** o `git commit` do repo novo foi negado pelo classificador de
-> permissões. 146 arquivos estão no stage, verificados sem segredo. O usuário
-> precisa autorizar ou rodar o commit e o push manualmente.
+> **Um bug em aberto domina o resto:** query nunca vista leva mais que o
+> `SIMVERA_RAG_TIMEOUT` de 20s, e o orquestrador recusa uma pergunta respondível. Ver
+> "Problema aberto e prioritário". Não trate como transiente — já foi investigado.
 
 ---
 
 ## Prompt para o agente que continua
 
-> Você assume o projeto **Synvera-ng** (`~/Projetos/Synvera-ng`, remote
-> `github.com/JacksonFuck/synvera-ng`): um sistema de apoio à decisão clínica que
-> orquestra três serviços locais — um RAG sobre corpus médico, o modelo especialista
-> Meissa-4B, e o Gemma-4 como consolidador multimodal.
+> Você assume o **Synvera-ng** (`~/Projetos/Synvera-ng`, remote
+> `github.com/JacksonFuck/synvera-ng`, privado): apoio à decisão clínica que orquestra
+> três serviços locais — Super-RAG sobre corpus médico (`:8099`), especialista
+> Meissa-4B (`:8003`) e Gemma-4-12B como consolidador multimodal (`:8081`), atrás de um
+> shim OpenAI-compatible (`:8100`) que o LibreChat (`:3080`) consome.
 >
-> O plano aprovado está em `~/.claude/plans/atomic-juggling-moore.md`. Leia-o e leia
-> este handoff antes de agir. As fases 0 a 2 estão concluídas; a 5 está em andamento.
-> Continue de onde o "Próximo passo" abaixo indica.
+> **Antes de agir, leia nesta ordem:** este handoff inteiro, `AGENTS.md`, e o plano
+> aprovado em `~/.claude/plans/atomic-juggling-moore.md`. As fases 0–7 e 9 estão
+> fechadas; o que resta está em "Próximo passo".
 >
-> Três regras que vieram do usuário e valem acima de conveniência:
-> 1. **Toda resposta clínica é ancorada no RAG.** Sem evidência, o sistema recusa —
->    nunca deixa o modelo responder de memória. Isso já funciona e foi verificado.
-> 2. **Nada de segredo ou dado no git.** `.env` real nunca; corpus e modelos ficam
->    em `Synvera-ng/data/`, fora do repo.
-> 3. **Medir antes de afirmar.** Este projeto já teve um grafo custando 4,5s para
->    contribuir zero porque ninguém mediu. Não repita.
+> **Objetivo declarado pelo usuário:** deixar o Super-RAG funcional e o Synvera-ng
+> completo e testado. Hoje ele responde com citação de página e recusa sem evidência —
+> mas a latência de query nova o torna inutilizável na prática. É por aí que se começa.
+>
+> **Cinco regras que vieram do usuário e valem acima de conveniência:**
+>
+> 1. **Toda resposta clínica é ancorada no corpus**, com fonte e página. Sem evidência,
+>    o sistema recusa. Nunca "conserte" isso deixando o modelo responder de memória —
+>    é a propriedade pela qual o sistema existe, e já foi verificada funcionando.
+> 2. **Medir antes de afirmar.** Este projeto já teve um grafo custando 4,5s para
+>    contribuir zero porque ninguém mediu, e eu mesmo anunciei três regressões
+>    inexistentes por comparar quente com frio. Leia "Armadilhas" antes de concluir
+>    qualquer coisa sobre desempenho.
+> 3. **Nada de segredo nem dado no git.** `.env` real nunca. `data/` tem ~120GB sob DVC.
+> 4. **Auditabilidade não é opcional.** O destino é prontuário eletrônico hospitalar e
+>    de APS; risco CFM classificado como alto. Antes de mexer em modelo, inferência ou
+>    recuperação clínica, carregue a skill `cfm-sbis-auditabilidade`.
+> 5. **O sistema simula uma consulta.** Quando falta dado essencial, ele pergunta em vez
+>    de supor. Isso já está implementado — não o remova para "simplificar".
+>
+> **Duas coisas que parecem bug e não são:** o RAG demora ~40s na primeiríssima query
+> após reiniciar (carrega BGE-M3 e o reranker); e `/health` do orquestrador consulta os
+> três upstreams, então um `curl -m 8` pode estourar sem que nada esteja errado.
 
 ---
 
@@ -156,10 +174,10 @@ teste ou script rodado de outro diretório testava código que não é o que est
 | 0 | Resgatar customização volátil do LibreChat | **feita** |
 | 1 | Parar serviços | **dispensada** — a ingestão já estava travada há 2 dias |
 | 2 | Limpeza de disco (~90G) | **feita** |
-| 3 | Mover dados para `Synvera-ng/data/` | **feita** |
+| 3 | Mover dados para `Synvera-ng/data/` | **feita** — duas vezes; ver nota |
 | 4 | Consolidar os `rag_corpus.db` divergentes | **feita** |
-| 5 | Criar monorepo + DVC | **feita** — commit `0fe4fc5`; **push bloqueado** |
-| 6 | LibreChat com imagem própria | arquivos escritos, `docker build` não rodado |
+| 5 | Criar monorepo + DVC | **feita** — `0fe4fc5`, `6a1a9c0`; **push bloqueado** |
+| 6 | LibreChat com imagem própria | **imagem construída e verificada**; não trocada em produção |
 | 7 | llama.cpp fora do tmpfs | **feita** |
 | 8 | Verificação ponta a ponta (9 critérios no plano) | parcial — 5/5 serviços de pé, 8 citações na resposta |
 | 9 | Modo consulta | **implementado**, verificação bloqueada pela latência |
@@ -186,13 +204,39 @@ Interação com o harness: `--forced-choice` precisa suprimir isso, senão
 
 ### Próximo passo
 
-1. **Desbloquear o commit** (ação do usuário). Mensagem pronta em
-   `/tmp/claude-*/scratchpad/commit-msg.txt`.
-2. `dvc init` + `dvc add` de `Synvera-ng/data/{processed,raw}` com remote local.
-3. `cd librechat && docker compose up -d --build` e confirmar que `synvera_rag`
-   sobrevive a um `--force-recreate` — é o critério 1 da verificação.
-4. Reescrever as units systemd com `%h` e prefixo `synvera-` (hoje ainda são
-   `apppocus-*` apontando para `~/Projetos/Apppocus-2.0`).
+Na ordem. O item 1 é o único que exige o usuário; os outros são trabalho.
+
+1. **`git push`** (ação do usuário — bloqueado para o agente). Sem isso o remote fica
+   vazio e o fluxo de PR do `docs/agents/workflow.md` não existe na prática.
+
+2. **Isolar a latência de query nova.** É o que impede o sistema de ser usável: hoje
+   uma pergunta inédita estoura o `SIMVERA_RAG_TIMEOUT` e vira recusa. FTS5, grafo,
+   `_load_chunks`, `_neighbor_context` e cache frio **já foram descartados com
+   medição** — não repita. O que falta instrumentar é o **denso/ANN** e o **rerank**.
+   Faça isso com um middleware de timing por estágio dentro de `raggw/api.py::_search`,
+   no processo que já está no ar; subir uma segunda cópia dos modelos numa máquina com
+   22GB de RAM e 19GB de swap vai falhar ou falsear a medida.
+
+3. **Trocar o LibreChat para a imagem própria.** A imagem `synvera/librechat:local` já
+   está construída e verificada (ferramenta embutida, script idempotente, falha alto se
+   o upstream mudar). O que falta é trocar em produção — e há uma armadilha: rodar o
+   compose a partir de `Synvera-ng/librechat/` cria um `./data-node` novo e **perde o
+   histórico de conversas**, que hoje vive em `Projetos/LibreChat/data-node`. Migre o
+   volume do Mongo antes, ou aponte o bind para o caminho antigo.
+
+4. **Verificar o modo consulta ponta a ponta** — bloqueado hoje pelo item 2. Critérios
+   8 e 9 do plano: pergunta incompleta deve *perguntar*; a mesma em `--forced-choice`
+   deve responder a letra, provando que o harness não é contaminado.
+
+5. **Fase A do programa de RAG** (harness de avaliação). Spec em
+   `docs/specs/2026-08-04-harness-avaliacao-design.md`, plano em
+   `docs/plans/2026-08-04-harness-avaliacao.md`. Código não começado.
+
+6. **Fase B** — as 245 arestas tipadas. `build_lexicon.py` grava `"typed_edges": []`
+   fixo; os dados estão em `src/data/{doencas,bulario}.ts` do Apppocus-2.0, nos campos
+   `conduta`, `diagnosticoDiferencial`, `usoClinico`, `interacoes`, `contraindicacoes`.
+   O caminho já está aberto: `_neighbors(only_typed=True)` expande aresta tipada por
+   padrão desde `a1e7286`.
 
 ### O que mudou de lugar
 
@@ -223,6 +267,33 @@ com `restart=unless-stopped` — sobrevivem a reboot, o que antes não acontecia
 contra 0,52 da produção. O grafo de produção pode ter ficado pela metade, ou o
 `fresh` usou um léxico mais rico. Vale investigar antes da fase B do programa de RAG.
 
+### Nota sobre a Fase 3 (por que os dados mudaram de lugar duas vezes)
+
+Primeiro foram para `~/synvera-data/`, fora do repo. Aí o DVC recusou:
+*"Cannot add files inside symlinked directories"* — ele não aceita chegar aos dados por
+symlink, e o layout padrão exige os dados sob a raiz do repositório para que os
+ponteiros `.dvc` sejam versionados junto ao código. Foram para `Synvera-ng/data/`.
+
+Se alguém propuser tirá-los de novo "para não poluir o repo": os bytes **não** estão no
+git (só ponteiros de ~120 bytes), e tirá-los quebra o DVC. O risco real é outro e está
+avisado em `data/README.md` e no `AGENTS.md`: **`git clean -xfd` apagaria os 120GB**,
+porque para o git aquilo é arquivo não rastreado.
+
+## Configuração para agentes (desde `a1e7286`)
+
+`AGENTS.md` e `CLAUDE.md` carregam o mesmo bloco `## Agent skills`, no modelo do
+Panoptis-APS; o `CLAUDE.md` tem a seção extra *Fluxo de trabalho (obrigatório)*.
+Detalhes em `docs/agents/{issue-tracker,triage-labels,domain,workflow}.md`.
+
+Issues vivem no GitHub (`JacksonFuck/synvera-ng`, privado); PRs externos não entram na
+triagem. Os cinco rótulos canônicos existem no repositório. **Não coloque PHI em issue**
+— nem em título, corpo, comentário ou anexo.
+
+Os portões de PR aqui são `pytest` (28 arquivos, todos verdes). O `workflow.md` foi
+adaptado do Panoptis, que é TypeScript: `vitest`/`eslint` foram substituídos, e a
+cláusula anti-drift de escore clínico foi trocada pelo risco real deste projeto —
+regressão na recuperação aparece como latência ou resposta pior, **nunca como erro**.
+
 ## Programa de RAG (separado das fases acima)
 
 O usuário quer "estado-da-arte em RAG". Decompus em quatro, nesta ordem:
@@ -230,8 +301,11 @@ O usuário quer "estado-da-arte em RAG". Decompus em quatro, nesta ordem:
 - **A — harness de avaliação.** Spec e plano escritos (`docs/specs/` e `docs/plans/`),
   código não começado. É o instrumento: sem ele, B/C/D são mudanças não falseáveis.
 - **B — grafo tipado.** 245 arestas clínicas já provadas extraíveis de
-  `src/data/{doencas,bulario}.ts` (`tratado_por`, `trata`, `dd`, `contraindicado`,
-  `interage`). Hoje 100% das arestas são co-ocorrência, que é ruído.
+  `src/data/{doencas,bulario}.ts` (`tratado_por` 79, `trata` 27, `dd` 107,
+  `contraindicado` 19, `interage` 13). Hoje 100% das arestas no banco são `cooc`, que é
+  ruído. **O caminho de código já está pronto** desde `a1e7286`: aresta tipada expande
+  sempre (peso 2,0), `cooc` só sob `RAG_GRAPH_NEIGHBORS`. Falta só gerar as arestas —
+  `build_lexicon.py` grava `"typed_edges": []` fixo e nunca leu aqueles campos.
 - **C — recuperação em tempo de query.** rewriting, HyDE, multi-query.
 - **D — ingestão dos 34G de `~/corpora` + contextual retrieval numa passada só.**
   Contextual retrieval reescreve o que um chunk é; fazer depois custa reprocessar tudo.

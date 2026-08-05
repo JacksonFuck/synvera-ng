@@ -90,6 +90,21 @@ comorbidades, medicações em uso), NÃO recomende. Responda apenas com a linha 
 - Perguntar não é o mesmo que responder sem fonte. Na dúvida entre perguntar e supor, pergunte.
 """
 
+# Harness / MedQA: escolha forçada. Produção NÃO usa isto. Desliga modo consulta e
+# Meissa (que disputa o RAG e estoura timeout sob carga). Só consolida com evidência.
+SYSTEM_FORCED_CHOICE = """Você é o SimVera em modo avaliação (escolha forçada).
+
+Você recebe EVIDÊNCIA do corpus local. Responda à pergunta de múltipla escolha \
+usando APENAS essa evidência quando possível.
+
+Regras:
+- Responda com UMA letra (A, B, C ou D) ou yes/no/maybe conforme o enunciado.
+- Sem raciocínio longo, sem PRECISO_SABER, sem pedir mais dados, sem recusar com prosa.
+- Se a evidência for fraca, ainda assim escolha a alternativa mais suportada e \
+responda só com a letra/palavra.
+- Formato: uma linha com a resposta, ex.: `Answer: B`
+"""
+
 # Teto de rodadas de pergunta. Sem teto vira interrogatório: o modelo sempre acha que
 # poderia saber mais. Atingido o teto, ele responde com o que tem e declara o que ficou
 # sem saber. Medido: o Gemma-12B julga suficiência bem (3-4 acertos em 4 casos); o
@@ -267,6 +282,53 @@ def _refusal_text(motivo: str) -> str:
             "Reformule a pergunta ou verifique o serviço de RAG.")
 
 
+def _forced_choice(body: dict) -> bool:
+    """Detecta modo avaliação. Aceita body.forced_choice ou extra_body (OpenAI SDK)."""
+    if body.get("forced_choice") is True:
+        return True
+    extra = body.get("extra_body")
+    if isinstance(extra, dict) and extra.get("forced_choice") is True:
+        return True
+    # Alguns clientes aninham em metadata
+    meta = body.get("metadata")
+    if isinstance(meta, dict) and str(meta.get("forced_choice", "")).lower() in (
+            "1", "true", "yes"):
+        return True
+    return False
+
+
+def _pack_citations(pack: dict) -> list[dict]:
+    """Provenance mínima para auditabilidade e para o harness de avaliação."""
+    out = []
+    for c in pack.get("chunks") or []:
+        out.append({
+            "citation_label": c.get("citation_label"),
+            "page_start": c.get("page_start"),
+            "page_end": c.get("page_end"),
+            "rerank_score": c.get("rerank_score"),
+            "document_id": c.get("document_id"),
+            "chunk_id": c.get("chunk_id"),
+        })
+    return out
+
+
+def _attach_provenance(payload: dict, *, pack: dict | None, parecer: str | None,
+                       forced: bool, t0: float) -> dict:
+    """Campos extras (não-OpenAI) para o harness e auditoria. Clientes ignoram o que não conhecem."""
+    cites = _pack_citations(pack) if pack else []
+    payload["simvera"] = {
+        "forced_choice": forced,
+        "meissa": "ok" if parecer else "off",
+        "latency_s": round(time.time() - t0, 3),
+        "citations": cites,
+        "citation_labels": [c["citation_label"] for c in cites if c.get("citation_label")],
+        "confidence_precheck": (pack or {}).get("confidence_precheck"),
+        "supporting_chunks": (pack or {}).get("supporting_chunks"),
+        "abstained": bool(pack and (pack.get("abstain") or not pack.get("chunks"))),
+    }
+    return payload
+
+
 # ── endpoints ────────────────────────────────────────────────────────────────
 
 @app.get("/health")
@@ -293,6 +355,7 @@ async def models() -> dict:
 async def chat(body: dict) -> Any:
     messages = body.get("messages") or []
     stream = bool(body.get("stream"))
+    forced = _forced_choice(body)
     query = _last_user_text(messages)
     cid = f"chatcmpl-{uuid.uuid4().hex[:24]}"
     t0 = time.time()
@@ -303,66 +366,82 @@ async def chat(body: dict) -> Any:
         if _has_image(messages):
             return await _forward_gemma(messages, body, stream, cid, system=(
                 "Descreva objetivamente a imagem. NÃO faça diagnóstico nem recomende conduta: "
-                "esta resposta não foi ancorada no corpus clínico."))
+                "esta resposta não foi ancorada no corpus clínico."),
+                forced=forced, pack=None, parecer=None, t0=t0)
         return JSONResponse({"error": {"message": "mensagem vazia"}}, status_code=400)
 
-    # As duas pernas em paralelo.
+    # As duas pernas em paralelo — exceto forced_choice: Meissa disputa o RAG
+    # (tool rag_search) e no smoke MedQA-20 gerou 45% de recusa por timeout 20s.
     import asyncio
     pack_task = asyncio.create_task(rag_evidence(query))
-    # Prazo no parecer, não só no erro: o loop agêntico do Meissa é a perna longa
-    # (medido 7-16s, contra ~2s do evidence-pack, porque as duas disputam o RAG).
-    # Estourou o prazo → responde com a evidência, que é a âncora de qualquer forma.
-    meissa_task = asyncio.create_task(
-        asyncio.wait_for(meissa_opinion(messages), timeout=MEISSA_DEADLINE))
-    results = await asyncio.gather(pack_task, meissa_task, return_exceptions=True)
-    pack, parecer = results[0], results[1]
+    if forced:
+        # Sem gather(return_exceptions): await puro propaga — capturamos para o
+        # mesmo caminho de recusa que o modo normal.
+        try:
+            pack = await pack_task
+        except Exception as exc:
+            pack = exc
+        parecer = None
+    else:
+        # Prazo no parecer, não só no erro: o loop agêntico do Meissa é a perna longa
+        # (medido 7-16s, contra ~2s do evidence-pack, porque as duas disputam o RAG).
+        meissa_task = asyncio.create_task(
+            asyncio.wait_for(meissa_opinion(messages), timeout=MEISSA_DEADLINE))
+        results = await asyncio.gather(pack_task, meissa_task, return_exceptions=True)
+        pack, parecer = results[0], results[1]
 
-    if isinstance(parecer, asyncio.TimeoutError):
-        log.warning("Meissa estourou %.0fs — seguindo só com evidência", MEISSA_DEADLINE)
-        parecer = None
-    elif isinstance(parecer, BaseException):
-        log.warning("Meissa falhou (%s) — seguindo só com evidência", type(parecer).__name__)
-        parecer = None
+        if isinstance(parecer, asyncio.TimeoutError):
+            log.warning("Meissa estourou %.0fs — seguindo só com evidência", MEISSA_DEADLINE)
+            parecer = None
+        elif isinstance(parecer, BaseException):
+            log.warning("Meissa falhou (%s) — seguindo só com evidência", type(parecer).__name__)
+            parecer = None
 
     # Âncora ausente ou fraca → recusa. Nunca cai para o Gemma sozinho.
     if isinstance(pack, BaseException):
         log.error("RAG indisponível: %r", pack)
         return _emit(_refusal_text(
-            f"O serviço de RAG não respondeu (`{type(pack).__name__}`)."), stream, cid)
+            f"O serviço de RAG não respondeu (`{type(pack).__name__}`)."),
+            stream, cid, pack=None, parecer=None, forced=forced, t0=t0)
     if pack.get("abstain") or not pack.get("chunks"):
         log.info("RAG absteve para %r", query[:80])
         return _emit(_refusal_text(
             "O corpus não tem evidência suficiente para sustentar uma resposta a esta pergunta."),
-            stream, cid)
+            stream, cid, pack=pack, parecer=None, forced=forced, t0=t0)
 
-    log.info("query=%r rag=%d chunks conf=%.3f meissa=%s t=%.2fs",
+    log.info("query=%r rag=%d chunks conf=%.3f meissa=%s forced=%s t=%.2fs",
              query[:60], len(pack["chunks"]), pack.get("confidence_precheck", 0),
-             "ok" if parecer else "off", time.time() - t0)
+             "ok" if parecer else "off", forced, time.time() - t0)
 
-    # Modo consulta: o sistema pergunta em vez de supor. As perguntas do Gemma SÃO a
-    # resposta daquele turno — o usuário responde e o histórico carrega o estado. Não há
-    # classificador nem máquina de estados aqui de propósito: o julgamento de suficiência
-    # pertence ao consolidador, que já vê evidência, parecer e conversa inteira.
-    system = SYSTEM_CONSOLIDACAO
-    rodadas = _rodadas_de_pergunta(messages)
-    if rodadas >= MAX_PERGUNTAS:
-        system += SEM_MAIS_PERGUNTAS
-        log.info("teto de %d perguntas atingido — respondendo com o que há", MAX_PERGUNTAS)
+    if forced:
+        system = SYSTEM_FORCED_CHOICE
+    else:
+        # Modo consulta: o sistema pergunta em vez de supor.
+        system = SYSTEM_CONSOLIDACAO
+        rodadas = _rodadas_de_pergunta(messages)
+        if rodadas >= MAX_PERGUNTAS:
+            system += SEM_MAIS_PERGUNTAS
+            log.info("teto de %d perguntas atingido — respondendo com o que há", MAX_PERGUNTAS)
 
     enriched = [{"role": "system", "content": system},
                 *[m for m in messages if m.get("role") != "system"],
                 {"role": "user", "content": build_context(pack, parecer)}]
-    return await _forward_gemma(enriched, body, stream, cid)
+    return await _forward_gemma(enriched, body, stream, cid,
+                                forced=forced, pack=pack, parecer=parecer, t0=t0)
 
 
-def _emit(text: str, stream: bool, cid: str) -> Any:
+def _emit(text: str, stream: bool, cid: str, *, pack: dict | None = None,
+          parecer: str | None = None, forced: bool = False, t0: float | None = None) -> Any:
     """Resposta local (recusa) nos dois formatos."""
+    t0 = t0 if t0 is not None else time.time()
     if not stream:
-        return JSONResponse({
+        body = {
             "id": cid, "object": "chat.completion", "created": int(time.time()),
             "model": MODEL_ID,
             "choices": [{"index": 0, "message": {"role": "assistant", "content": text},
-                         "finish_reason": "stop"}]})
+                         "finish_reason": "stop"}]}
+        _attach_provenance(body, pack=pack, parecer=parecer, forced=forced, t0=t0)
+        return JSONResponse(body)
 
     async def gen():
         yield _sse(_msg_chunk(cid, text))
@@ -373,16 +452,24 @@ def _emit(text: str, stream: bool, cid: str) -> Any:
 
 
 async def _forward_gemma(messages: list[dict], body: dict, stream: bool,
-                         cid: str, system: str | None = None) -> Any:
+                         cid: str, system: str | None = None, *,
+                         forced: bool = False, pack: dict | None = None,
+                         parecer: str | None = None, t0: float | None = None) -> Any:
+    t0 = t0 if t0 is not None else time.time()
     if system:
         messages = [{"role": "system", "content": system},
                     *[m for m in messages if m.get("role") != "system"]]
-    # Piso alto de propósito: o Gemma-4 raciocina antes de responder e o pensamento
-    # consome o mesmo orçamento. Medido: com max_tokens=700 ele gastou tudo em
-    # reasoning_content e devolveu content vazio (finish_reason=length).
+    # Piso alto em produção (raciocínio consome tokens). Em forced_choice o piso
+    # sabota o MCQ: max_tokens do harness virava 3072 e a resposta saía longa/lenta.
+    if forced:
+        max_tokens = int(body.get("max_tokens") or 64)
+        max_tokens = max(16, min(max_tokens, 256))
+        temperature = float(body.get("temperature", 0.0))
+    else:
+        max_tokens = max(int(body.get("max_tokens") or 0), MIN_GEMMA_TOKENS)
+        temperature = body.get("temperature", 0.3)
     payload = {"model": "gemma", "messages": messages, "stream": stream,
-               "max_tokens": max(int(body.get("max_tokens") or 0), MIN_GEMMA_TOKENS),
-               "temperature": body.get("temperature", 0.3)}
+               "max_tokens": max_tokens, "temperature": temperature}
     if not GEMMA_THINKING:
         # Medido: com thinking ligado o Gemma gasta ~20s raciocinando ANTES do primeiro
         # token visível (TTFT 27s no fluxo completo). Desligado, TTFT cai para ~0.2s com
@@ -408,6 +495,7 @@ async def _forward_gemma(messages: list[dict], body: dict, stream: bool,
                 f"raciocínio). Reformule ou aumente max_tokens._" if think
                 else "⚠️ O modelo não produziu resposta. Tente reformular a pergunta.")
             choice["message"] = msg
+        _attach_provenance(out, pack=pack, parecer=parecer, forced=forced, t0=t0)
         return JSONResponse(out)
 
     async def gen():

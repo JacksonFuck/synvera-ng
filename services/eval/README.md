@@ -24,7 +24,21 @@ $PY report.py --dir results/simvera --bench medqa
 
 `--no-forced-choice` desliga a instrução de “só a letra” (mede taxa de recusa em produção).
 
+Com `forced_choice` (padrão), o alvo `simvera` manda `forced_choice: true` no body do
+orquestrador: sem Meissa, sem modo consulta, `max_tokens` baixo, e o JSON devolve
+`simvera.citation_labels` para o report.
+
 Subsets fixos em `data/*.jsonl` (versionáveis). Resultados em `results/` (gitignored).
+
+## Baseline MedQA-20 (forced-choice)
+
+| alvo | acurácia | citação | recusa | lat p50 |
+|------|--------:|--------:|-------:|--------:|
+| gemma | 65% | 0% | 0% | 0,2s |
+| meissa | 35% | 0% | 0% | 0,6s |
+| rag | 70% | 100% | 0% | 8,2s |
+| simvera (antes do fix) | 35% | 0% | 45% | 16s |
+| **simvera (após forced_choice)** | **70%** | **100%** | **0%** | **8,5s** |
 
 ## Limitações
 

@@ -125,28 +125,32 @@ def target_rag(item: dict, *, forced_choice: bool) -> Resposta:
 
 def target_simvera(item: dict, *, forced_choice: bool) -> Resposta:
     def go():
+        payload = {
+            "model": SIMVERA_MODEL,
+            "messages": [
+                {
+                    "role": "user",
+                    "content": build_prompt(item, forced_choice),
+                }
+            ],
+            "stream": False,
+            "temperature": 0.0,
+            "max_tokens": 64 if forced_choice else 1024,
+        }
+        # Flag nativa do orquestrador: desliga Meissa + modo consulta e anexa provenance.
+        if forced_choice:
+            payload["forced_choice"] = True
         with httpx.Client(timeout=TIMEOUT) as c:
-            r = c.post(
-                f"{SIMVERA}/chat/completions",
-                json={
-                    "model": SIMVERA_MODEL,
-                    "messages": [
-                        {
-                            "role": "user",
-                            "content": build_prompt(item, forced_choice),
-                        }
-                    ],
-                    "stream": False,
-                    "temperature": 0.0,
-                    "max_tokens": 1024,
-                },
-            )
+            r = c.post(f"{SIMVERA}/chat/completions", json=payload)
             r.raise_for_status()
             body = r.json()
         msg = body["choices"][0]["message"]
         text = (msg.get("content") or "").strip()
-        cites = re.findall(r"\[([^\]]{3,80})\]", text)
-        abst = (not text) or _looks_abstained(text)
+        meta = body.get("simvera") or {}
+        cites = list(meta.get("citation_labels") or [])
+        if not cites:
+            cites = re.findall(r"\[([^\]]{3,80})\]", text)
+        abst = bool(meta.get("abstained")) or (not text) or _looks_abstained(text)
         return text, cites, abst
 
     return _timed(go)

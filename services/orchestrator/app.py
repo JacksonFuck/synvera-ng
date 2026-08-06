@@ -71,12 +71,15 @@ RAG_TOOL = [{
 
 SYSTEM_CONSOLIDACAO = """Você é o SimVera, assistente clínico para profissionais de saúde.
 
-Você recebe: (a) EVIDÊNCIA recuperada do corpus local e (b) o PARECER de um modelo \
-especialista médico. Sua resposta deve ser fundamentada na EVIDÊNCIA.
+Você recebe: (a) EVIDÊNCIA recuperada do corpus local, (b) opcionalmente GRAFO CLÍNICO \
+(triplas tipadas com fonte no corpus) e (c) o PARECER de um modelo especialista médico. \
+Sua resposta deve ser fundamentada na EVIDÊNCIA (e no grafo só com as citações dele).
 
 Regras:
 - Toda afirmação clínica deve vir da EVIDÊNCIA. Cite a fonte entre colchetes usando o \
 rótulo dado, ex.: [Knobel — SIRS — p. 291–292].
+- O GRAFO CLÍNICO lista relações tipadas (trata, dd, interage…) com citation no corpus: \
+use para hops multi-relacionais; não invente triplas nem trate o grafo como parecer.
 - O PARECER do especialista é insumo, não fonte. Se ele afirmar algo que a EVIDÊNCIA não \
 sustenta, não repita — ou diga explicitamente que não há suporte no corpus.
 - Se a EVIDÊNCIA não cobrir parte da pergunta, diga o que falta em vez de completar de memória.
@@ -355,6 +358,66 @@ async def meissa_opinion(messages: list[dict]) -> str | None:
     return None
 
 
+# Schema fechado — espelho do Clinical GraphRAG no evidence-pack (#7/#8).
+_TYPED_PREDICATES = frozenset({
+    "trata", "tratado_por", "dd", "interage", "contraindicado",
+})
+
+
+def _pack_graph_triples(pack: dict | None) -> list[dict]:
+    """Triplas tipadas com citation; omite sem fonte ou fora do schema.
+
+    Nunca inventa relação — só re-filtra o que o evidence-pack já ancorou.
+    """
+    if not pack:
+        return []
+    out: list[dict] = []
+    for t in pack.get("graph_triples") or []:
+        if not isinstance(t, dict):
+            continue
+        pred = t.get("predicate")
+        cite = t.get("citation_label")
+        if pred not in _TYPED_PREDICATES or not cite:
+            continue
+        out.append({
+            "source": t.get("source"),
+            "source_label": t.get("source_label"),
+            "predicate": pred,
+            "target": t.get("target"),
+            "target_label": t.get("target_label"),
+            "citation_label": cite,
+            "page_start": t.get("page_start"),
+            "page_end": t.get("page_end"),
+            "chunk_id": t.get("chunk_id"),
+            "document_id": t.get("document_id"),
+        })
+    return out
+
+
+def _format_graph_section(triples: list[dict]) -> str:
+    """Seção legível, distinta do parecer Meissa, com hops e fonte."""
+    lines = []
+    for t in triples:
+        src = t.get("source_label") or t.get("source") or "?"
+        tgt = t.get("target_label") or t.get("target") or "?"
+        pages = ""
+        if t.get("page_start"):
+            pages = f" (p. {t['page_start']}" + (
+                f"–{t['page_end']}" if t.get("page_end") and t["page_end"] != t["page_start"]
+                else "") + ")"
+        lines.append(
+            f"- ({src}) --[{t['predicate']}]--> ({tgt})  "
+            f"[{t.get('citation_label', '?')}]{pages}"
+        )
+    return (
+        "\n\n=== GRAFO CLÍNICO (triplas com fonte no corpus) ===\n"
+        "Relações tipadas ancoradas em chunk citável — "
+        "não são o parecer do especialista; use para hops multi-relacionais "
+        "só com a citação indicada.\n\n"
+        + "\n".join(lines)
+    )
+
+
 def build_context(pack: dict, parecer: str | None) -> str:
     blocos = []
     for c in pack.get("chunks", []):
@@ -364,6 +427,10 @@ def build_context(pack: dict, parecer: str | None) -> str:
                 f"–{c['page_end']}" if c.get("page_end") and c["page_end"] != c["page_start"] else "") + ")"
         blocos.append(f"[{c.get('citation_label', '?')}]{pages}\n{c.get('text', '')}")
     ctx = "=== EVIDÊNCIA DO CORPUS ===\n\n" + "\n\n---\n\n".join(blocos)
+    # Grafo entre evidência e parecer: hops citáveis ≠ opinião do Meissa (#8).
+    triples = _pack_graph_triples(pack)
+    if triples:
+        ctx += _format_graph_section(triples)
     if parecer:
         ctx += ("\n\n=== PARECER DO ESPECIALISTA (Meissa) ===\n"
                 "Insumo, não fonte. Só repita o que a EVIDÊNCIA acima sustentar.\n\n" + parecer)
@@ -427,10 +494,13 @@ def _attach_provenance(payload: dict, *, pack: dict | None, parecer: str | None,
     abstained = bool(pack and (pack.get("abstain") or not pack.get("chunks")))
     # Recusa e modo consulta NÃO devem vazar chunks espúrios (medido: "Sirius Black"
     # puxava stent SIRIUS / Sirius red com conf≈0). Provenance limpa ou vazia.
+    # Mesmo para graph_triples: sem chunks/abstain → lista vazia (nunca inventar).
     if consultation or abstained or not pack:
         cites: list[dict] = []
+        triples: list[dict] = []
     else:
         cites = _pack_citations(pack)
+        triples = _pack_graph_triples(pack)
     payload["simvera"] = {
         "forced_choice": forced,
         "consultation": consultation,
@@ -438,6 +508,7 @@ def _attach_provenance(payload: dict, *, pack: dict | None, parecer: str | None,
         "latency_s": round(time.time() - t0, 3),
         "citations": cites,
         "citation_labels": [c["citation_label"] for c in cites if c.get("citation_label")],
+        "graph_triples": triples,
         "confidence_precheck": None if (consultation or abstained) else (pack or {}).get("confidence_precheck"),
         "supporting_chunks": None if (consultation or abstained) else (pack or {}).get("supporting_chunks"),
         "abstained": abstained,

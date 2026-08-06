@@ -1,0 +1,143 @@
+[
+  {
+    "id": "mh-01",
+    "query": "Qual vasopressor de primeira linha no choque séptico?",
+    "expect_entities": ["sepse", "drug-vancomicina"],
+    "expect_rels": ["trata", "tratado_por"],
+    "kind": "trata"
+  },
+  {
+    "id": "mh-02",
+    "query": "O que trata anafilaxia na primeira linha?",
+    "expect_entities": ["anafilaxia", "drug-adrenalina"],
+    "expect_rels": ["trata", "tratado_por"],
+    "kind": "trata"
+  },
+  {
+    "id": "mh-03",
+    "query": "Anticoagulação inicial na embolia pulmonar: heparina",
+    "expect_entities": ["tep", "drug-heparina"],
+    "expect_rels": ["trata", "tratado_por"],
+    "kind": "trata"
+  },
+  {
+    "id": "mh-04",
+    "query": "Diagnóstico diferencial de sepse",
+    "expect_entities": ["sepse"],
+    "expect_rels": ["dd"],
+    "kind": "dd"
+  },
+  {
+    "id": "mh-05",
+    "query": "Insulina no manejo da cetoacidose diabética CAD",
+    "expect_entities": ["cad-ehh", "drug-insulina-humana"],
+    "expect_rels": ["trata", "tratado_por"],
+    "kind": "trata"
+  },
+  {
+    "id": "mh-06",
+    "query": "Trombólise no AVC isquêmico com alteplase",
+    "expect_entities": ["avc-isquemico", "drug-alteplase"],
+    "expect_rels": ["trata", "tratado_por"],
+    "kind": "trata"
+  },
+  {
+    "id": "mh-07",
+    "query": "AAS na síndrome coronariana aguda SSST",
+    "expect_entities": ["sca-ssst", "drug-aas"],
+    "expect_rels": ["trata", "tratado_por"],
+    "kind": "trata"
+  },
+  {
+    "id": "mh-08",
+    "query": "Adrenalina na PCR ACLS do adulto",
+    "expect_entities": ["pcr-acls", "drug-adrenalina"],
+    "expect_rels": ["trata", "tratado_por"],
+    "kind": "trata"
+  },
+  {
+    "id": "mh-09",
+    "query": "Diferencial de TEP com SCA",
+    "expect_entities": ["tep", "sca-ssst"],
+    "expect_rels": ["dd"],
+    "kind": "dd"
+  },
+  {
+    "id": "mh-10",
+    "query": "Salbutamol na crise de asma",
+    "expect_entities": ["asma", "drug-salbutamol"],
+    "expect_rels": ["trata", "tratado_por"],
+    "kind": "trata"
+  },
+  {
+    "id": "mh-11",
+    "query": "Furosemida no edema agudo / ICC descompensada",
+    "expect_entities": ["drug-furosemida"],
+    "expect_rels": ["trata", "tratado_por"],
+    "kind": "trata"
+  },
+  {
+    "id": "mh-12",
+    "query": "Vancomicina quando há risco de MRSA na sepse",
+    "expect_entities": ["sepse", "drug-vancomicina"],
+    "expect_rels": ["trata", "tratado_por"],
+    "kind": "trata"
+  },
+  {
+    "id": "mh-13",
+    "query": "Interação entre ibuprofeno e AAS",
+    "expect_entities": ["drug-ibuprofeno", "drug-aas"],
+    "expect_rels": ["interage"],
+    "kind": "interage"
+  },
+  {
+    "id": "mh-14",
+    "query": "Ceftriaxona na meningite bacteriana",
+    "expect_entities": ["meningite", "drug-ceftriaxona"],
+    "expect_rels": ["trata", "tratado_por"],
+    "kind": "trata"
+  },
+  {
+    "id": "mh-15",
+    "query": "Enoxaparina na TEP",
+    "expect_entities": ["tep", "drug-enoxaparina"],
+    "expect_rels": ["trata", "tratado_por"],
+    "kind": "trata"
+  },
+  {
+    "id": "mh-16",
+    "query": "Hidrocortisona no choque séptico refratário",
+    "expect_entities": ["sepse", "drug-hidrocortisona"],
+    "expect_rels": ["trata", "tratado_por"],
+    "kind": "trata"
+  },
+  {
+    "id": "mh-17",
+    "query": "Amiodarona na PCR com FV/TV refratária",
+    "expect_entities": ["pcr-acls", "drug-amiodarona"],
+    "expect_rels": ["trata", "tratado_por"],
+    "kind": "trata"
+  },
+  {
+    "id": "mh-18",
+    "query": "ITU como diferencial de sepse",
+    "expect_entities": ["sepse", "itu"],
+    "expect_rels": ["dd"],
+    "kind": "dd"
+  },
+  {
+    "id": "mh-19",
+    "query": "Clopidogrel na SCA SSST",
+    "expect_entities": ["sca-ssst", "drug-clopidogrel"],
+    "expect_rels": ["trata", "tratado_por"],
+    "kind": "trata"
+  },
+  {
+    "id": "mh-20",
+    "query": "Dexametasona como adjuvante na meningite",
+    "expect_entities": ["meningite", "drug-dexametasona"],
+    "expect_rels": ["trata", "tratado_por"],
+    "kind": "trata"
+  }
+]
+

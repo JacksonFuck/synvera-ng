@@ -26,11 +26,17 @@ class Settings:
     quality_min_words: int
     quality_max_bad_chars: int
     diversity_family_cap: int
+    # Clinical GraphRAG pack caps (#10) — k≤2, top-N triplas no evidence-pack.
+    graph_max_triples: int
+    graph_max_hops: int
 
 
 def get_settings() -> Settings:
     # Read at call time so tests can override via env / monkeypatch.
     db_path = Path(os.environ.get("RAG_DB_PATH", "data/rag_gateway.db"))
+    # hard ceiling k=2 even if env pede mais (timeout do orquestrador)
+    raw_hops = int(os.environ.get("RAG_GRAPH_MAX_HOPS", "2"))
+    graph_max_hops = max(1, min(2, raw_hops))
     return Settings(
         host=os.environ.get("RAG_HOST", "127.0.0.1"),  # zero-egress: loopback only
         port=int(os.environ.get("RAG_PORT", "8099")),
@@ -50,4 +56,6 @@ def get_settings() -> Settings:
         quality_min_words=int(os.environ.get("RAG_QUALITY_MIN_WORDS", "0")),
         quality_max_bad_chars=int(os.environ.get("RAG_QUALITY_MAX_BAD_CHARS", "20")),
         diversity_family_cap=int(os.environ.get("RAG_DIVERSITY_FAMILY_CAP", "3")),
+        graph_max_triples=max(0, int(os.environ.get("RAG_GRAPH_MAX_TRIPLES", "12"))),
+        graph_max_hops=graph_max_hops,
     )

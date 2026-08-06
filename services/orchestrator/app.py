@@ -109,6 +109,10 @@ responda só com a letra/palavra.
 # poderia saber mais. Atingido o teto, ele responde com o que tem e declara o que ficou
 # sem saber. Medido: o Gemma-12B julga suficiência bem (3-4 acertos em 4 casos); o
 # Meissa-4B não (1 em 4 — ecoava o literal "<pergunta 1>" do template).
+#
+# 2026-08-06: o prompt sozinho NÃO bastou. Com evidence-pack rico o Gemma despeja
+# protocolo em "Paciente com dor torácica, o que faço?" (medido: 3,5k chars, zero
+# pergunta ao usuário). O gate determinístico abaixo corta ANTES do RAG/Gemma.
 MAX_PERGUNTAS = int(os.environ.get("SIMVERA_MAX_PERGUNTAS", "2"))
 _PERGUNTA_MARK = "PRECISO_SABER"
 
@@ -117,6 +121,111 @@ SEM_MAIS_PERGUNTAS = (
     "NÃO peça mais. Responda agora com a evidência disponível e declare explicitamente "
     "quais dados faltaram e como isso limita a recomendação."
 )
+
+# ── modo consulta (determinístico) ───────────────────────────────────────────
+# Vinheta / pedido de conduta sobre um caso. Conceitual puro NÃO entra.
+_VIGNETTE_RE = re.compile(
+    r"\b(paciente|doente|caso\s+cl[ií]nico|senhor[a]?|crian[cç]a|"
+    r"homem|mulher|lactente|neonato)\b|"
+    r"o que\s+(fa[cç]o|fazer)\b|qual\s+(a\s+)?conduta\b|"
+    r"como\s+(manejar|conduzir|abordar|tratar)\s+(este|esse|esta|o\s+paciente)|"
+    r"manejo\s+(inicial|deste|desse|desta)\b",
+    re.IGNORECASE,
+)
+# Pergunta de conhecimento (escore, dose, definição) — responde sem interrogar.
+_CONCEPTUAL_RE = re.compile(
+    r"\b(crit[eé]rios?|escore|score|defini[cç][aã]o|fisiopatolog|"
+    r"o que\s+[eé]\b|quais\s+s[aã]o\b|dose\s+(de|da|do)\b|"
+    r"protocolo\s+(da|de|do)\b|classifica[cç][aã]o|diferen[cç]a\s+entre|"
+    r"mecanismo\b|indica[cç][oõ]es?\b|contraindica)\b",
+    re.IGNORECASE,
+)
+# Slots essenciais para não inventar conduta (humano no loop / CFM alto).
+_SLOT_IDADE = re.compile(
+    r"\b(\d{1,3}\s*anos?|\d{1,3}\s*a\b|idade|neonato|rec[eé]m[-\s]?nascido|"
+    r"lactente|idos[oa]|adolescente|gestante)\b",
+    re.IGNORECASE,
+)
+_SLOT_TEMPO = re.compile(
+    r"\b(h[aá]\s+\d|\d+\s*h(?:oras?)?|\d+\s*dias?|\d+\s*semanas?|"
+    r"in[ií]cio|evolu[cç][aã]o|s[uú]bit[oa]|agud[oa]|cr[oô]nic[oa]|"
+    r"minutos?|desde\s+ontem|hoje\s+de\s+manh[aã])\b",
+    re.IGNORECASE,
+)
+_SLOT_VITAIS = re.compile(
+    r"\b(PA|P\.?A\.?|press[aã]o\s+arterial|FC\b|F\.?C\.?|freq(?:u[eê]ncia)?\s*card|"
+    r"SpO\s*2|satura|temperatura|febril|afebril|hipotens|taquicard|FR\b|"
+    r"bpm|mmHg|glasgow|HEMODIN|est[aá]vel|inst[aá]vel)\b",
+    re.IGNORECASE,
+)
+_SLOT_CONTEXTO = re.compile(
+    r"\b(HAS|hipertens|DM\b|diabet|asma|DPOC|IRC|ICC|comorbidad|antecedente|"
+    r"hist[oó]ria\s+(de|pr[eé]via)|IAM|TEP|TVP|tabag|medica[cç][oõ]es?\s+em\s+uso|"
+    r"usa\s+\w+|alerg)\b",
+    re.IGNORECASE,
+)
+
+_SLOT_QUESTIONS = (
+    ("idade", _SLOT_IDADE,
+     "Qual a idade (e sexo) do paciente?"),
+    ("tempo", _SLOT_TEMPO,
+     "Há quanto tempo e como começou o quadro (súbito ou gradual)?"),
+    ("vitais", _SLOT_VITAIS,
+     "Quais os sinais vitais (PA, FC, FR, SpO₂, temperatura) e o estado geral?"),
+    ("contexto", _SLOT_CONTEXTO,
+     "Há comorbidades, medicações em uso ou antecedentes relevantes?"),
+)
+
+
+def _user_blob(messages: list[dict]) -> str:
+    """Todo o texto do usuário na conversa (slots podem vir em turnos anteriores)."""
+    return " ".join(
+        _text_of(m.get("content")) for m in messages if m.get("role") == "user"
+    ).strip()
+
+
+def _slots_present(text: str) -> dict[str, bool]:
+    return {name: bool(rx.search(text or "")) for name, rx, _ in _SLOT_QUESTIONS}
+
+
+def _perguntas_faltantes(messages: list[dict]) -> list[str] | None:
+    """Se o caso é vinheta incompleta, devolve até 3 perguntas; senão None.
+
+    Determinístico de propósito: o Gemma, com evidence-pack na mão, prefere
+    protocolizar a perguntar (medido). Perguntar NÃO é resposta clínica — não
+    exige âncora de corpus e reforça humano no loop (CFM alto).
+    """
+    last = _last_user_text(messages)
+    blob = _user_blob(messages)
+    if not last:
+        return None
+    vignette = bool(_VIGNETTE_RE.search(blob))
+    conceptual = bool(_CONCEPTUAL_RE.search(last))
+    # "Quais critérios de Wells?" → responde. "Paciente com dor, o que faço?" → pergunta.
+    if conceptual and not vignette:
+        return None
+    if not vignette:
+        return None
+    present = _slots_present(blob)
+    missing = [q for name, _, q in _SLOT_QUESTIONS if not present[name]]
+    n_present = sum(1 for v in present.values() if v)
+    # Precisa de base mínima: idade+tempo+vitais, ou ≥2 slots se já trouxe algum.
+    critical_missing = [q for name, _, q in _SLOT_QUESTIONS[:3] if not present[name]]
+    if n_present == 0 and len(critical_missing) >= 2:
+        return critical_missing[:3]
+    if len(critical_missing) >= 2:
+        return critical_missing[:3]
+    # Já tem quase tudo — deixa consolidar (pode ainda pedir 1 detalhe via prompt).
+    return None
+
+
+def _format_preciso_saber(perguntas: list[str]) -> str:
+    body = "\n".join(f"- {p}" for p in perguntas)
+    return (
+        f"{_PERGUNTA_MARK}:\n{body}\n\n"
+        "Com esses dados fecho a conduta ancorada no corpus. "
+        "Sem eles eu inventaria premissas — o que este sistema não faz."
+    )
 
 
 def _rodadas_de_pergunta(messages: list[dict]) -> int:
@@ -313,18 +422,25 @@ def _pack_citations(pack: dict) -> list[dict]:
 
 
 def _attach_provenance(payload: dict, *, pack: dict | None, parecer: str | None,
-                       forced: bool, t0: float) -> dict:
+                       forced: bool, t0: float, consultation: bool = False) -> dict:
     """Campos extras (não-OpenAI) para o harness e auditoria. Clientes ignoram o que não conhecem."""
-    cites = _pack_citations(pack) if pack else []
+    abstained = bool(pack and (pack.get("abstain") or not pack.get("chunks")))
+    # Recusa e modo consulta NÃO devem vazar chunks espúrios (medido: "Sirius Black"
+    # puxava stent SIRIUS / Sirius red com conf≈0). Provenance limpa ou vazia.
+    if consultation or abstained or not pack:
+        cites: list[dict] = []
+    else:
+        cites = _pack_citations(pack)
     payload["simvera"] = {
         "forced_choice": forced,
+        "consultation": consultation,
         "meissa": "ok" if parecer else "off",
         "latency_s": round(time.time() - t0, 3),
         "citations": cites,
         "citation_labels": [c["citation_label"] for c in cites if c.get("citation_label")],
-        "confidence_precheck": (pack or {}).get("confidence_precheck"),
-        "supporting_chunks": (pack or {}).get("supporting_chunks"),
-        "abstained": bool(pack and (pack.get("abstain") or not pack.get("chunks"))),
+        "confidence_precheck": None if (consultation or abstained) else (pack or {}).get("confidence_precheck"),
+        "supporting_chunks": None if (consultation or abstained) else (pack or {}).get("supporting_chunks"),
+        "abstained": abstained,
     }
     return payload
 
@@ -369,6 +485,17 @@ async def chat(body: dict) -> Any:
                 "esta resposta não foi ancorada no corpus clínico."),
                 forced=forced, pack=None, parecer=None, t0=t0)
         return JSONResponse({"error": {"message": "mensagem vazia"}}, status_code=400)
+
+    # Modo consulta determinístico — ANTES do RAG. Perguntar não é afirmar conduta;
+    # não precisa de âncora e evita o Gemma protocolizar com evidence-pack (medido).
+    # forced_choice (harness) NUNCA entra aqui.
+    if not forced and _rodadas_de_pergunta(messages) < MAX_PERGUNTAS:
+        faltantes = _perguntas_faltantes(messages)
+        if faltantes:
+            log.info("consulta: pedindo %d slots em %r", len(faltantes), query[:60])
+            return _emit(_format_preciso_saber(faltantes), stream, cid,
+                         pack=None, parecer=None, forced=forced, t0=t0,
+                         consultation=True)
 
     # As duas pernas em paralelo — exceto forced_choice: Meissa disputa o RAG
     # (tool rag_search) e no smoke MedQA-20 gerou 45% de recusa por timeout 20s.
@@ -431,8 +558,9 @@ async def chat(body: dict) -> Any:
 
 
 def _emit(text: str, stream: bool, cid: str, *, pack: dict | None = None,
-          parecer: str | None = None, forced: bool = False, t0: float | None = None) -> Any:
-    """Resposta local (recusa) nos dois formatos."""
+          parecer: str | None = None, forced: bool = False, t0: float | None = None,
+          consultation: bool = False) -> Any:
+    """Resposta local (recusa / PRECISO_SABER) nos dois formatos."""
     t0 = t0 if t0 is not None else time.time()
     if not stream:
         body = {
@@ -440,7 +568,8 @@ def _emit(text: str, stream: bool, cid: str, *, pack: dict | None = None,
             "model": MODEL_ID,
             "choices": [{"index": 0, "message": {"role": "assistant", "content": text},
                          "finish_reason": "stop"}]}
-        _attach_provenance(body, pack=pack, parecer=parecer, forced=forced, t0=t0)
+        _attach_provenance(body, pack=pack, parecer=parecer, forced=forced, t0=t0,
+                           consultation=consultation)
         return JSONResponse(body)
 
     async def gen():

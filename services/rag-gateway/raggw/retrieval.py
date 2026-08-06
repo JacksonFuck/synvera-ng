@@ -14,7 +14,7 @@ from dataclasses import dataclass
 
 from .embedding import Embedder, decode_vector
 from .filters import soft_specialty_sql
-from .graph.lexicon import Lexicon
+from .graph.lexicon import Lexicon, normalize as _norm_surface
 from .graph.store import GraphStore
 from .query_planning import plan_query
 from .reranking import Reranker
@@ -328,20 +328,157 @@ def should_abstain(hits: list[Hit], *, top_rerank_min: float,
     return supporting < min_supporting_chunks
 
 
+# Schema fechado de relações clínicas (Clinical GraphRAG). Fora disto não entra no pack.
+TYPED_PREDICATES = frozenset({
+    "trata", "tratado_por", "dd", "interage", "contraindicado",
+})
+
+
+def typed_triples_with_provenance(
+    conn: sqlite3.Connection,
+    query: str,
+    lexicon: Lexicon,
+    *,
+    hits: list[Hit] | None = None,
+    max_triples: int = 20,
+) -> list[dict]:
+    """Triplas tipadas com âncora de corpus para o evidence-pack (#7).
+
+    Só emite predicao do schema fechado e **somente** se existir chunk fonte que
+    co-mencione as duas entidades (graph_chunk_entities ou texto dos hits).
+    Sem fonte → omite (nunca inventa relação citável).
+    """
+    if lexicon is None or not query.strip():
+        return []
+    seeds = lexicon.detect(query)
+    if not seeds:
+        return []
+    # vizinhança tipada 1-hop a partir das seeds (mesmo espírito do expand only_typed)
+    candidate_edges: list[tuple[str, str, str]] = []
+    for a, rel, b in lexicon.typed_edges:
+        if rel not in TYPED_PREDICATES:
+            continue
+        if a in seeds or b in seeds:
+            candidate_edges.append((a, rel, b))
+    if not candidate_edges:
+        return []
+
+    hit_by_id = {h.chunk_id: h for h in (hits or [])}
+    hit_ids = set(hit_by_id)
+
+    def _chunks_for_entity(eid: str) -> set[int]:
+        rows = conn.execute(
+            "SELECT chunk_id FROM graph_chunk_entities WHERE entity_id=?",
+            (eid,),
+        ).fetchall()
+        return {int(r["chunk_id"] if hasattr(r, "keys") else r[0]) for r in rows}
+
+    def _citation_row(cid: int) -> dict | None:
+        if cid in hit_by_id:
+            h = hit_by_id[cid]
+            return {
+                "chunk_id": h.chunk_id,
+                "document_id": h.document_id,
+                "citation_label": h.citation_label,
+                "page_start": h.page_start,
+                "page_end": h.page_end,
+            }
+        row = conn.execute(
+            "SELECT dc.id AS chunk_id, dc.document_id, dc.citation_label, "
+            "dc.page_start, dc.page_end "
+            "FROM document_chunks dc JOIN documents d ON d.id = dc.document_id "
+            "WHERE dc.id=? AND d.status='active'",
+            (cid,),
+        ).fetchone()
+        if row is None:
+            return None
+        return {
+            "chunk_id": int(row["chunk_id"]),
+            "document_id": int(row["document_id"]),
+            "citation_label": row["citation_label"],
+            "page_start": row["page_start"],
+            "page_end": row["page_end"],
+        }
+
+    def _provenance(a: str, b: str) -> dict | None:
+        # 1) interseção de chunks indexados para ambas entidades
+        ca, cb = _chunks_for_entity(a), _chunks_for_entity(b)
+        shared = ca & cb
+        if hit_ids:
+            preferred = shared & hit_ids
+            if preferred:
+                shared = preferred
+        if shared:
+            # estável: menor chunk_id
+            return _citation_row(min(shared))
+        # 2) hits cujo texto contém surfaces das duas entidades
+        ea, eb = lexicon.get(a), lexicon.get(b)
+        if not ea or not eb:
+            return None
+        for h in hit_by_id.values():
+            pad = f" {_norm_surface(h.chunk_text)} "
+            if any(f" {_norm_surface(s)} " in pad
+                   for s in ea.surfaces if len(_norm_surface(s)) >= 3) and \
+               any(f" {_norm_surface(s)} " in pad
+                   for s in eb.surfaces if len(_norm_surface(s)) >= 3):
+                return {
+                    "chunk_id": h.chunk_id,
+                    "document_id": h.document_id,
+                    "citation_label": h.citation_label,
+                    "page_start": h.page_start,
+                    "page_end": h.page_end,
+                }
+        return None
+
+    out: list[dict] = []
+    seen: set[tuple[str, str, str]] = set()
+    for a, rel, b in candidate_edges:
+        key = (a, rel, b)
+        if key in seen:
+            continue
+        prov = _provenance(a, b)
+        if prov is None or not prov.get("citation_label"):
+            continue
+        seen.add(key)
+        la = (lexicon.get(a).label if lexicon.get(a) else a)
+        lb = (lexicon.get(b).label if lexicon.get(b) else b)
+        out.append({
+            "source": a,
+            "source_label": la,
+            "predicate": rel,
+            "target": b,
+            "target_label": lb,
+            "chunk_id": prov["chunk_id"],
+            "document_id": prov["document_id"],
+            "citation_label": prov["citation_label"],
+            "page_start": prov["page_start"],
+            "page_end": prov["page_end"],
+        })
+        if len(out) >= max_triples:
+            break
+    return out
+
+
 def build_evidence_pack(query: str, hits: list[Hit], *, top_rerank_min: float = 0.0,
                         min_supporting_chunks: int = 1,
-                        conn: sqlite3.Connection | None = None) -> dict:
+                        conn: sqlite3.Connection | None = None,
+                        graph_triples: list[dict] | None = None) -> dict:
     abstain = should_abstain(hits, top_rerank_min=top_rerank_min,
                              min_supporting_chunks=min_supporting_chunks)
     # Contagem que dirige a abstenção — EXPOSTA no contrato: o gateway a lê como
     # `supporting_chunks` p/ o guard (sem ela, supportingChunks=0 -> weakRag -> toda
     # resposta vira "não confirmada", mesmo com retrieval forte). Bug corrigido 2026-07-16.
     supporting = sum(1 for h in hits if h.rerank_score >= top_rerank_min)
+    # Só triplas com provenance; nunca inventar. Default [] se o caller não passar.
+    triples = list(graph_triples or [])
+    triples = [t for t in triples
+               if t.get("predicate") in TYPED_PREDICATES and t.get("citation_label")]
     return {
         "query": query,
         "abstain": abstain,
         "supporting_chunks": supporting,
         "confidence_precheck": round(hits[0].rerank_score, 4) if hits else 0.0,
+        "graph_triples": triples,
         "chunks": [
             {
                 "chunk_id": h.chunk_id,

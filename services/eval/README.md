@@ -40,6 +40,18 @@ Subsets fixos em `data/*.jsonl` (versionáveis). Resultados em `results/` (gitig
 | simvera (antes do fix) | 35% | 0% | 45% | 16s |
 | **simvera (após forced_choice)** | **70%** | **100%** | **0%** | **8,5s** |
 
+## GraphRAG (multi-hop / pack de triplas)
+
+Ver [`graph/README.md`](graph/README.md). Resumo:
+
+```bash
+cd services/eval/graph
+PY=../../rag-gateway/.venv/bin/python
+$PY run_baseline.py                          # offline
+$PY run_baseline.py --live --pack            # evidence-pack vs gold
+$PY -m pytest tests/test_pack_metrics.py -q  # invariante + scoring
+```
+
 ## Limitações
 
 - MedQA/PubMedQA em inglês vs corpus majoritariamente em português — BGE-M3 multilíngue, mas a acurácia sub-reporta o valor clínico real em PT.

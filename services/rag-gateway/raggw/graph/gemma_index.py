@@ -77,11 +77,13 @@ def extract_relation_candidates(
     allowed_rels: tuple[str, ...] = (
         "trata", "tratado_por", "dd", "interage", "contraindicado",
     ),
+    chat_fn=None,
 ) -> list[dict[str, str]]:
     """Candidatos de relação entre duas entidades já linkadas no chunk.
 
     Retorno é **candidato** — deve passar por gate (schema + revisão) antes
     de entrar no grafo de produção. Nunca confiar cegamente no LLM.
+    `chat_fn` injeta fake local nos testes (assinatura compatível com gemma_chat).
     """
     rel_list = ", ".join(allowed_rels)
     prompt = (
@@ -89,12 +91,13 @@ def extract_relation_candidates(
         f"Entidades: A={entity_a!r}  B={entity_b!r}\n"
         f"Relações permitidas (apenas estas): {rel_list}\n"
         "Responda SOMENTE com um JSON array de objetos "
-        '{"source":"A|B id ou label","predicate":"...","target":"..."}.\n'
+        '{"source":"id da entidade A ou B","predicate":"...","target":"id"}.\n'
         "Se não houver relação clara, responda [].\n"
         "Não invente doses nem fatos fora do trecho.\n\n"
         f"<trecho>\n{chunk_text[:3000]}\n</trecho>"
     )
-    raw = gemma_chat([{"role": "user", "content": prompt}], max_tokens=512)
+    chat = chat_fn or gemma_chat
+    raw = chat([{"role": "user", "content": prompt}], max_tokens=512)
     # extrai primeiro array JSON
     m = re.search(r"\[.*\]", raw, re.S)
     if not m:

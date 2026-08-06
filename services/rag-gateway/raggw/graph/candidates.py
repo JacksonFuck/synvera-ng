@@ -157,3 +157,100 @@ def list_candidates(
             (lim,),
         ).fetchall()
     return [_row_to_dict(r) for r in rows]  # type: ignore[misc]
+
+
+def _ensure_graph_schema(conn: sqlite3.Connection) -> None:
+    """Tabelas de produção do GraphStore (sem rebuild)."""
+    conn.executescript(
+        """
+        CREATE TABLE IF NOT EXISTS graph_nodes (
+            entity_id TEXT PRIMARY KEY,
+            label     TEXT,
+            kind      TEXT
+        );
+        CREATE TABLE IF NOT EXISTS graph_edges (
+            a      TEXT NOT NULL,
+            b      TEXT NOT NULL,
+            rel    TEXT NOT NULL DEFAULT 'cooc',
+            weight REAL NOT NULL DEFAULT 0,
+            PRIMARY KEY (a, b, rel)
+        );
+        """
+    )
+
+
+def promote_candidate(
+    conn: sqlite3.Connection,
+    candidate_id: int,
+    *,
+    note: str | None = None,
+) -> dict[str, Any]:
+    """Gate manual (#20): pending → aresta tipada de produção + status promoted.
+
+    Revalida chunk ativo + citation e predicado fechado. Não promove em silêncio.
+    """
+    ensure_schema(conn)
+    row = get_candidate(conn, candidate_id)
+    if row is None:
+        raise CandidateError(f"candidato inexistente: id={candidate_id}")
+    if row["status"] != "pending":
+        raise CandidateError(
+            f"só candidatos pending podem ser promovidos (status={row['status']!r})"
+        )
+    pred = row["predicate"]
+    if pred not in TYPED_PREDICATES:
+        raise CandidateError(f"predicado fora do schema fechado: {pred!r}")
+    # revalida âncora no momento do promote (chunk pode ter sido invalidado)
+    meta = _resolve_chunk(conn, int(row["source_chunk_id"]))
+    src, tgt = row["source"], row["target"]
+
+    _ensure_graph_schema(conn)
+    for eid, label in ((src, src), (tgt, tgt)):
+        conn.execute(
+            "INSERT OR IGNORE INTO graph_nodes (entity_id, label, kind) VALUES (?,?,?)",
+            (eid, label, None),
+        )
+    # peso alinhado às typed_edges curadas no build_from_chunks
+    conn.execute(
+        "INSERT OR REPLACE INTO graph_edges (a, b, rel, weight) VALUES (?,?,?,?)",
+        (src, tgt, pred, 5.0),
+    )
+    conn.execute(
+        "UPDATE openie_candidates SET status='promoted', "
+        "citation_label=?, page_start=?, page_end=?, document_id=?, "
+        "note=COALESCE(?, note), updated_at=datetime('now') WHERE id=?",
+        (
+            meta["citation_label"], meta["page_start"], meta["page_end"],
+            meta["document_id"], note, int(candidate_id),
+        ),
+    )
+    conn.commit()
+    out = get_candidate(conn, candidate_id)
+    assert out is not None
+    return out
+
+
+def reject_candidate(
+    conn: sqlite3.Connection,
+    candidate_id: int,
+    *,
+    note: str | None = None,
+) -> dict[str, Any]:
+    """Gate manual (#20): pending → rejected; não escreve produção."""
+    ensure_schema(conn)
+    row = get_candidate(conn, candidate_id)
+    if row is None:
+        raise CandidateError(f"candidato inexistente: id={candidate_id}")
+    if row["status"] != "pending":
+        raise CandidateError(
+            f"só candidatos pending podem ser rejeitados (status={row['status']!r})"
+        )
+    conn.execute(
+        "UPDATE openie_candidates SET status='rejected', "
+        "note=COALESCE(?, note), updated_at=datetime('now') WHERE id=?",
+        (note, int(candidate_id)),
+    )
+    conn.commit()
+    out = get_candidate(conn, candidate_id)
+    assert out is not None
+    return out

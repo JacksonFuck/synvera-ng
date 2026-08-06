@@ -58,6 +58,56 @@ def test_health_ok(db_path):
         assert body["host"] == "127.0.0.1"          # zero-egress: loopback only
         assert "pdftotext" in body["parsers"]
         assert body["embedder"] == "FakeEmbedder"   # transparent: no silent fake
+        # Clinical GraphRAG observabilidade (#15)
+        assert "graph" in body
+        g = body["graph"]
+        assert "lexicon_loaded" in g
+        assert "n_entities" in g and "n_typed_edges" in g
+        assert "edges_by_rel" in g and isinstance(g["edges_by_rel"], dict)
+        assert "n_nodes" in g and "n_chunk_links" in g
+
+
+def test_health_graph_edges_by_rel(db_path, tmp_path, monkeypatch):
+    """Com lexicon tipado + edges no DB, health lista contagens por rel."""
+    import json
+    from raggw.api import create_app
+    from raggw.embedding import FakeEmbedder
+
+    lex_path = tmp_path / "lex.json"
+    lex_path.write_text(json.dumps({
+        "entities": [
+            {"id": "sepse", "label": "Sepse", "kind": "disease",
+             "surfaces": ["sepse"]},
+            {"id": "drug-nora", "label": "Nora", "kind": "drug",
+             "surfaces": ["noradrenalina"]},
+        ],
+        "typed_edges": [["drug-nora", "trata", "sepse"]],
+    }), encoding="utf-8")
+    monkeypatch.setenv("RAG_GRAPH_LEXICON", str(lex_path))
+
+    conn = db.open_db(db_path)
+    try:
+        # schema graph via GraphStore path: insert edges after ensure
+        from raggw.graph.store import GraphStore
+        from raggw.graph.lexicon import load_lexicon
+        GraphStore(conn, load_lexicon(lex_path)).build_from_chunks()
+        # inject typed edge count (build may only cooc if no chunks)
+        conn.execute(
+            "INSERT OR IGNORE INTO graph_edges (a, rel, b, weight) VALUES (?,?,?,?)",
+            ("drug-nora", "trata", "sepse", 1.0))
+        conn.commit()
+    finally:
+        conn.close()
+
+    app = create_app(db_path=str(db_path), embedder=FakeEmbedder(dim=8),
+                     start_worker=False)
+    with TestClient(app) as client:
+        g = client.get("/health").json()["graph"]
+    assert g["lexicon_loaded"] is True
+    assert g["n_entities"] >= 2
+    assert g["n_typed_edges"] >= 1
+    assert g["edges_by_rel"].get("trata", 0) >= 1
+    assert "error" not in g
 
 
 def test_ingest_enqueues_then_worker_completes(db_path, sample_pdf):

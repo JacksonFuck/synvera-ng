@@ -3,19 +3,22 @@
 Estado vivo do trabalho. Atualizado ao fim de cada fase. Se você é o agente que
 assume, leia isto inteiro antes de tocar em qualquer coisa.
 
-**Última atualização:** 2026-08-04, instrumentação de latência + preload. Fases 0–7 e 9
-fechadas. Commits locais anteriores: `0fe4fc5`, `6a1a9c0`, `a1e7286`, `91834c6`. Mudanças
-de latência ainda **não commitadas**.
+**Última atualização:** 2026-08-06 — Clinical GraphRAG Fase 0–2 em `main`
+(PRs #5, #11–#14). Issues #3/#6 fechadas. Em curso: #15 health graph metrics.
 
-> **Uma coisa bloqueia tudo:** `git push` foi negado pelo classificador de permissões.
-> O trabalho está commitado localmente, mas o remote continua vazio. Peça ao usuário:
-> `cd ~/Projetos/Synvera-ng && git push -u origin main`. Só depois disso o fluxo de
-> issue → branch → PR descrito em `docs/agents/workflow.md` passa a ser possível.
->
-> **Latência (atualizado 2026-08-04):** com modelos quentes e Meissa/Gemma **fora** da
-> VRAM, query clínica limpa fica em **1,1–1,5s** (abaixo do timeout de 20s). O que
-> estourava o orquestrador era sobretudo a **1ª query pós-restart** (~22s de carga
-> preguiçosa do BGE-M3 + reranker). Ver "Problema aberto e prioritário".
+### GraphRAG (estado 2026-08-06)
+
+| Fase | Estado | Entrega |
+|------|--------|---------|
+| 0–1 typed edges + harness | done | ~773 typed_edges, inject SQLite, gold multi-hop |
+| 2 pack de triplas + consolidação | done | evidence-pack `graph_triples`, GRAFO CLÍNICO no orch, `simvera`, caps k≤2/top-N, harness `--pack` |
+| OpenIE Gemma-local com gate | **não iniciado** | ver design; nunca auto-merge |
+
+Seam de contrato: `POST /rag/evidence-pack` + espelho `simvera.graph_triples`.  
+Harness: `services/eval/graph/README.md`.
+
+> **Latência (2026-08-04, ainda válido):** query clínica quente ~1,1–1,5s RAG;
+> 1ª query pós-restart sem preload ~22s. Ver secção de latência abaixo.
 
 ---
 

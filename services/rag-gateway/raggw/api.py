@@ -103,6 +103,38 @@ def _has_specialty_index(conn) -> bool:
     return row is not None
 
 
+def _graph_health(conn, lexicon) -> dict:
+    """Observabilidade do Clinical GraphRAG (#15): léxico + contagens por rel.
+
+    Degrada com `error` se o SQLite falhar — nunca derruba o /health inteiro.
+    """
+    out: dict = {
+        "lexicon_loaded": lexicon is not None,
+        "n_entities": len(lexicon.entities) if lexicon is not None else 0,
+        "n_typed_edges": len(lexicon.typed_edges) if lexicon is not None else 0,
+        "edges_by_rel": {},
+        "n_nodes": 0,
+        "n_chunk_links": 0,
+    }
+    try:
+        out["n_nodes"] = int(
+            conn.execute("SELECT COUNT(*) FROM graph_nodes").fetchone()[0] or 0)
+        out["n_chunk_links"] = int(
+            conn.execute("SELECT COUNT(*) FROM graph_chunk_entities").fetchone()[0] or 0)
+        rows = conn.execute(
+            "SELECT rel, COUNT(*) AS n FROM graph_edges GROUP BY rel ORDER BY rel"
+        ).fetchall()
+        edges: dict[str, int] = {}
+        for r in rows:
+            rel = r["rel"] if hasattr(r, "keys") else r[0]
+            n = r["n"] if hasattr(r, "keys") else r[1]
+            edges[str(rel)] = int(n)
+        out["edges_by_rel"] = edges
+    except Exception as exc:  # noqa: BLE001 — health deve degradar, não 500
+        out["error"] = type(exc).__name__
+    return out
+
+
 def create_app(*, db_path=None, embedder: Embedder | None = None,
                reranker: Reranker | None = None,
                vector_store: VectorStore | None = None,
@@ -179,6 +211,7 @@ def create_app(*, db_path=None, embedder: Embedder | None = None,
                 "FROM document_chunks dc JOIN documents d ON d.id = dc.document_id "
                 "WHERE d.status='active' AND dc.embedding IS NOT NULL").fetchall()
             n_agents = len(agents.list_agents(conn))
+            graph = _graph_health(conn, graph_lexicon)
         finally:
             conn.close()
         readiness = _readiness(
@@ -202,6 +235,7 @@ def create_app(*, db_path=None, embedder: Embedder | None = None,
             "rag_ready": readiness["ready"],
             "agents": n_agents,
             "graph_enabled": graph_lexicon is not None,
+            "graph": graph,
             "simvera_version": "2.0",
             "multi_retriever": {
                 "enabled": len(multi_embedder.models) > 1,

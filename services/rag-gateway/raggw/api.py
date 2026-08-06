@@ -301,17 +301,22 @@ def create_app(*, db_path=None, embedder: Embedder | None = None,
             triples: list = []
             if graph_lexicon is not None:
                 triples = retrieval.typed_triples_with_provenance(
-                    conn, req.query, graph_lexicon, hits=hits)
+                    conn, req.query, graph_lexicon, hits=hits,
+                    max_triples=settings.graph_max_triples,
+                    max_hops=settings.graph_max_hops)
             pack = retrieval.build_evidence_pack(
                 req.query, hits, top_rerank_min=settings.rerank_min,
                 min_supporting_chunks=settings.min_supporting_chunks, conn=conn,
-                graph_triples=triples)
+                graph_triples=triples,
+                max_triples=settings.graph_max_triples)
         finally:
             conn.close()
         pack["retrieval"] = diagnostics  # contribuição do grafo + plano (mensurável, #321)
         # contagem auditável no diagnostics espelhado
         if isinstance(pack.get("retrieval"), dict):
             pack["retrieval"]["graph_triples"] = len(pack.get("graph_triples") or [])
+            pack["retrieval"]["graph_max_triples"] = settings.graph_max_triples
+            pack["retrieval"]["graph_max_hops"] = settings.graph_max_hops
         return pack
 
     @app.post("/ingest")

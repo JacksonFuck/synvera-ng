@@ -332,6 +332,60 @@ def should_abstain(hits: list[Hit], *, top_rerank_min: float,
 TYPED_PREDICATES = frozenset({
     "trata", "tratado_por", "dd", "interage", "contraindicado",
 })
+# k-hop tipado no pack: nunca acima de 2 (budget de latência do orquestrador, #10).
+MAX_GRAPH_HOPS = 2
+DEFAULT_GRAPH_MAX_TRIPLES = 12
+
+
+def candidate_typed_edges(
+    lexicon: Lexicon,
+    seeds: set[str],
+    *,
+    max_hops: int = MAX_GRAPH_HOPS,
+) -> list[tuple[str, str, str]]:
+    """Arestas tipadas em até k hops a partir das seeds (k ≤ 2).
+
+    Ordem determinística: hop ascendente, depois (source, predicate, target).
+    """
+    if not seeds or lexicon is None:
+        return []
+    hops = max(1, min(MAX_GRAPH_HOPS, int(max_hops)))
+    typed = [
+        (a, rel, b) for a, rel, b in lexicon.typed_edges
+        if rel in TYPED_PREDICATES
+    ]
+    # ordenação estável do léxico para o walk
+    typed.sort(key=lambda e: (e[0], e[1], e[2]))
+
+    collected: list[tuple[int, str, str, str]] = []  # hop, a, rel, b
+    seen: set[tuple[str, str, str]] = set()
+    frontier = set(seeds)
+    reached = set(seeds)
+    for hop in range(1, hops + 1):
+        next_frontier: set[str] = set()
+        hop_edges: list[tuple[str, str, str]] = []
+        for a, rel, b in typed:
+            if a not in frontier and b not in frontier:
+                continue
+            key = (a, rel, b)
+            if key in seen:
+                continue
+            seen.add(key)
+            hop_edges.append((a, rel, b))
+            if a in frontier:
+                next_frontier.add(b)
+            if b in frontier:
+                next_frontier.add(a)
+        hop_edges.sort(key=lambda e: (e[0], e[1], e[2]))
+        for a, rel, b in hop_edges:
+            collected.append((hop, a, rel, b))
+        next_frontier -= reached
+        reached |= next_frontier
+        frontier = next_frontier
+        if not frontier:
+            break
+    # hop asc, depois chave lexicográfica (já ordenado por hop e dentro do hop)
+    return [(a, rel, b) for _, a, rel, b in collected]
 
 
 def typed_triples_with_provenance(
@@ -340,26 +394,25 @@ def typed_triples_with_provenance(
     lexicon: Lexicon,
     *,
     hits: list[Hit] | None = None,
-    max_triples: int = 20,
+    max_triples: int = DEFAULT_GRAPH_MAX_TRIPLES,
+    max_hops: int = MAX_GRAPH_HOPS,
 ) -> list[dict]:
-    """Triplas tipadas com âncora de corpus para o evidence-pack (#7).
+    """Triplas tipadas com âncora de corpus para o evidence-pack (#7/#10).
 
     Só emite predicao do schema fechado e **somente** se existir chunk fonte que
     co-mencione as duas entidades (graph_chunk_entities ou texto dos hits).
     Sem fonte → omite (nunca inventa relação citável).
+    Cap top-N (`max_triples`) e k-hop ≤ 2 (`max_hops`) — truncamento determinístico.
     """
     if lexicon is None or not query.strip():
         return []
     seeds = lexicon.detect(query)
     if not seeds:
         return []
-    # vizinhança tipada 1-hop a partir das seeds (mesmo espírito do expand only_typed)
-    candidate_edges: list[tuple[str, str, str]] = []
-    for a, rel, b in lexicon.typed_edges:
-        if rel not in TYPED_PREDICATES:
-            continue
-        if a in seeds or b in seeds:
-            candidate_edges.append((a, rel, b))
+    cap = max(0, int(max_triples))
+    if cap == 0:
+        return []
+    candidate_edges = candidate_typed_edges(lexicon, seeds, max_hops=max_hops)
     if not candidate_edges:
         return []
 
@@ -454,7 +507,7 @@ def typed_triples_with_provenance(
             "page_start": prov["page_start"],
             "page_end": prov["page_end"],
         })
-        if len(out) >= max_triples:
+        if len(out) >= cap:
             break
     return out
 
@@ -462,7 +515,8 @@ def typed_triples_with_provenance(
 def build_evidence_pack(query: str, hits: list[Hit], *, top_rerank_min: float = 0.0,
                         min_supporting_chunks: int = 1,
                         conn: sqlite3.Connection | None = None,
-                        graph_triples: list[dict] | None = None) -> dict:
+                        graph_triples: list[dict] | None = None,
+                        max_triples: int = DEFAULT_GRAPH_MAX_TRIPLES) -> dict:
     abstain = should_abstain(hits, top_rerank_min=top_rerank_min,
                              min_supporting_chunks=min_supporting_chunks)
     # Contagem que dirige a abstenção — EXPOSTA no contrato: o gateway a lê como
@@ -470,9 +524,13 @@ def build_evidence_pack(query: str, hits: list[Hit], *, top_rerank_min: float = 
     # resposta vira "não confirmada", mesmo com retrieval forte). Bug corrigido 2026-07-16.
     supporting = sum(1 for h in hits if h.rerank_score >= top_rerank_min)
     # Só triplas com provenance; nunca inventar. Default [] se o caller não passar.
+    # Cap defensivo (#10): pack nunca excede max_triples.
+    cap = max(0, int(max_triples))
     triples = list(graph_triples or [])
     triples = [t for t in triples
                if t.get("predicate") in TYPED_PREDICATES and t.get("citation_label")]
+    if cap >= 0:
+        triples = triples[:cap]
     return {
         "query": query,
         "abstain": abstain,

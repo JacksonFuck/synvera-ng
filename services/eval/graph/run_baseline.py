@@ -34,6 +34,7 @@ import httpx
 # pack_metrics vive ao lado deste script
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from pack_metrics import (  # noqa: E402
+    openie_candidate_stats,
     score_pack_against_gold,
     summarize_pack_scores,
     validate_pack_triples,
@@ -258,6 +259,17 @@ def main() -> int:
         "gold_triples": gold_triple_coverage(lex, gold_t),
         "multihop_offline": multihop_offline(lex, gold_q),
     }
+    # OpenIE store (#21): offline contagens pending/promoted/rejected
+    if DB.exists():
+        try:
+            oconn = sqlite3.connect(f"file:{DB}?mode=ro", uri=True)
+            oconn.row_factory = sqlite3.Row
+            report["openie_candidates"] = openie_candidate_stats(oconn)
+            oconn.close()
+        except Exception as exc:
+            report["openie_candidates"] = {"error": type(exc).__name__}
+    else:
+        report["openie_candidates"] = {"table_present": False, "note": "no db"}
     if args.live:
         report["multihop_live"] = multihop_live(gold_q, limit=args.live_n)
         if args.pack:
@@ -283,6 +295,12 @@ def main() -> int:
         summary["mean_graph_triples"] = mp.get("mean_graph_triples")
         summary["pack_invariant_ok"] = mp.get("invariant_ok")
         summary["pack_mean_wall_s"] = mp.get("mean_wall_s")
+    if "openie_candidates" in report:
+        oc = report["openie_candidates"]
+        summary["openie_pending"] = oc.get("pending")
+        summary["openie_promoted"] = oc.get("promoted")
+        summary["openie_rejected"] = oc.get("rejected")
+        summary["openie_promote_rate"] = oc.get("promote_rate")
     print(json.dumps(summary, ensure_ascii=False, indent=2))
 
     # Falha alta: tripla sem provenance no pack quebra o invariante clínico.

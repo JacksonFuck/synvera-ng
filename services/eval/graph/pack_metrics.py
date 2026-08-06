@@ -116,3 +116,37 @@ def summarize_pack_scores(rows: list[dict[str, Any]]) -> dict[str, Any]:
         "invariant_ok": inv_ok,
         "rows": rows,
     }
+
+
+def openie_candidate_stats(conn) -> dict[str, Any]:
+    """Contagens do store OpenIE (#21) — offline, sem rede.
+
+    `conn` é sqlite3 com tabela openie_candidates (ou vazia).
+    """
+    out: dict[str, Any] = {
+        "pending": 0,
+        "promoted": 0,
+        "rejected": 0,
+        "total": 0,
+        "promote_rate": None,
+        "table_present": False,
+    }
+    try:
+        rows = conn.execute(
+            "SELECT status, COUNT(*) AS n FROM openie_candidates GROUP BY status"
+        ).fetchall()
+    except Exception:
+        return out
+    out["table_present"] = True
+    by = {}
+    for r in rows:
+        st = r["status"] if hasattr(r, "keys") else r[0]
+        n = int(r["n"] if hasattr(r, "keys") else r[1])
+        by[str(st)] = n
+    out["pending"] = by.get("pending", 0)
+    out["promoted"] = by.get("promoted", 0)
+    out["rejected"] = by.get("rejected", 0)
+    out["total"] = sum(by.values())
+    decided = out["promoted"] + out["rejected"]
+    out["promote_rate"] = (out["promoted"] / decided) if decided else None
+    return out

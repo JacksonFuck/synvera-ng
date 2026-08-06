@@ -1,8 +1,8 @@
 # Clinical GraphRAG — Design (Synvera-ng)
 
 **Data:** 2026-08-06  
-**Issue:** #4  
-**Status:** Fase 0–1 em implementação
+**Issue:** #4 (Fase 0–1), #6 (Fase 2)  
+**Status:** Fase 0–2 **entregues** (PRs #5, #11–#14). Observabilidade residual #15.
 
 ## Objetivo
 
@@ -42,12 +42,20 @@ Query → hybrid (lex + dense + graph.expand only_typed) → rerank → orquestr
 
 ## Métricas
 
-Ver `services/eval/graph/run_baseline.py`:
+Ver `services/eval/graph/run_baseline.py` e `graph/README.md`:
 
 - contagem typed no lexicon e no SQLite
 - recall de gold triples
 - multi-hop offline (detect + vizinho tipado)
 - multi-hop live (`graph_contribution` via `/rag/search`)
+- pack live (`--live --pack`: hit rate de triplas no evidence-pack + invariante de provenance)
+
+`GET /health` → bloco `graph` (`lexicon_loaded`, `n_typed_edges`, `edges_by_rel`, …).
+
+## Fase 2 (entregue)
+
+Evidence-pack `graph_triples` com provenance; orquestrador seção GRAFO CLÍNICO +
+`simvera.graph_triples`; caps k≤2 / top-N; harness pack.
 
 ## Non-goals
 

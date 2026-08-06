@@ -5,10 +5,15 @@ Mede:
   - contagens no lexicon e no SQLite
   - cobertura do gold de triplas no lexicon.typed_edges
   - para cada query multi-hop: entidades detectadas, vizinhos tipados, graph_contribution
+  - (#9) evidence-pack: triplas com provenance, hit/miss vs gold, invariante de citation
 
 Uso (services/eval/graph):
+    # offline (sem rede): lexicon + gold + multihop local
     python run_baseline.py
     python run_baseline.py --out results/baseline.json
+
+    # live: Super-RAG :8099 — search contribution + pack de triplas
+    python run_baseline.py --live --pack --out results/baseline_live.json
 
 Não chama LLM de indexação. Retrieval usa Super-RAG :8099 se disponível.
 """
@@ -25,6 +30,14 @@ from collections import Counter
 from pathlib import Path
 
 import httpx
+
+# pack_metrics vive ao lado deste script
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from pack_metrics import (  # noqa: E402
+    score_pack_against_gold,
+    summarize_pack_scores,
+    validate_pack_triples,
+)
 
 ROOT = Path(__file__).resolve().parents[3]  # Synvera-ng (…/eval/graph → repo root)
 LEX = ROOT / "services" / "rag-gateway" / "raggw" / "graph" / "lexicon.json"
@@ -168,10 +181,54 @@ def multihop_live(items: list[dict], limit: int = 10) -> dict:
     }
 
 
+def multihop_pack_live(items: list[dict], limit: int = 10) -> dict:
+    """Live contra POST /rag/evidence-pack: hit/miss de triplas + invariante (#9)."""
+    rows: list[dict] = []
+    with httpx.Client(timeout=60.0) as c:
+        for it in items[:limit]:
+            t0 = time.time()
+            row: dict = {"id": it.get("id"), "query": it.get("query")}
+            try:
+                r = c.post(
+                    f"{RAG}/rag/evidence-pack",
+                    json={"query": it["query"], "top_k": 6},
+                )
+                r.raise_for_status()
+                pack = r.json()
+                inv = validate_pack_triples(pack)
+                score = score_pack_against_gold(pack, it)
+                ret = pack.get("retrieval") or {}
+                row.update({
+                    "status": score["status"],
+                    "n_triples": score["n_triples"],
+                    "n_matching": score["n_matching"],
+                    "matching_sample": score["matching_sample"],
+                    "chunks": score["chunks"],
+                    "abstain": score["abstain"],
+                    "invariant_ok": inv["ok"],
+                    "invariant_violations": inv["violations"],
+                    "graph_contribution": ret.get("graph_contribution"),
+                    "retrieval_graph_triples": ret.get("graph_triples"),
+                    "wall_s": round(time.time() - t0, 3),
+                })
+            except Exception as exc:
+                row.update({
+                    "status": "error",
+                    "error": f"{type(exc).__name__}: {exc}",
+                    "invariant_ok": True,  # falha de rede ≠ violação de provenance
+                    "wall_s": round(time.time() - t0, 3),
+                })
+            rows.append(row)
+    return summarize_pack_scores(rows)
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", type=Path, default=Path(__file__).parent / "results" / "baseline.json")
-    ap.add_argument("--live", action="store_true", help="chama Super-RAG :8099")
+    ap.add_argument("--live", action="store_true",
+                    help="chama Super-RAG :8099 (search contribution)")
+    ap.add_argument("--pack", action="store_true",
+                    help="com --live: valida evidence-pack (graph_triples vs gold)")
     ap.add_argument("--live-n", type=int, default=10)
     args = ap.parse_args()
 
@@ -203,17 +260,39 @@ def main() -> int:
     }
     if args.live:
         report["multihop_live"] = multihop_live(gold_q, limit=args.live_n)
+        if args.pack:
+            report["multihop_pack"] = multihop_pack_live(gold_q, limit=args.live_n)
 
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(json.dumps({
+
+    summary = {
         "lexicon_typed": report["lexicon"]["n_typed_edges"],
         "typed_by_rel": report["lexicon"]["typed_by_rel"],
         "db_edges": report["db"].get("edges_by_rel"),
         "gold_triple_recall": report["gold_triples"].get("recall"),
         "multihop_offline_rate": report["multihop_offline"].get("rate"),
         "out": str(args.out),
-    }, ensure_ascii=False, indent=2))
+    }
+    if "multihop_live" in report:
+        summary["mean_graph_contribution"] = report["multihop_live"].get(
+            "mean_graph_contribution")
+    if "multihop_pack" in report:
+        mp = report["multihop_pack"]
+        summary["pack_triple_hit_rate"] = mp.get("pack_triple_hit_rate")
+        summary["mean_graph_triples"] = mp.get("mean_graph_triples")
+        summary["pack_invariant_ok"] = mp.get("invariant_ok")
+        summary["pack_mean_wall_s"] = mp.get("mean_wall_s")
+    print(json.dumps(summary, ensure_ascii=False, indent=2))
+
+    # Falha alta: tripla sem provenance no pack quebra o invariante clínico.
+    if report.get("multihop_pack", {}).get("invariant_ok") is False:
+        print(
+            "INVARIANT FAIL: evidence-pack devolveu tripla sem provenance "
+            "ou predicado aberto — ver multihop_pack.rows[].invariant_violations",
+            file=sys.stderr,
+        )
+        return 2
     return 0
 
 

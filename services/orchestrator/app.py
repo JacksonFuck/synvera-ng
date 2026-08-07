@@ -392,16 +392,23 @@ async def _parecer_meissa(messages: list[dict]) -> tuple[str | None, str, float]
     O parecer é ENRIQUECIMENTO; nenhuma destas causas invalida a resposta, porque a
     âncora é o evidence-pack. Elas mudam só o que se pode concluir da telemetria.
     """
-    t = time.time()
+    # monotonic, não time.time(): esta duração existe para ser comparada ao prazo, e
+    # um passo de NTP no wall clock daria número negativo ou absurdo justo aqui.
+    t = time.monotonic()
     try:
         parecer = await asyncio.wait_for(meissa_opinion(messages), timeout=MEISSA_DEADLINE)
     except asyncio.TimeoutError:
+        # Precisa vir ANTES do except Exception: em Python 3.13 asyncio.TimeoutError É o
+        # TimeoutError builtin, que herda de Exception. Inverter as duas cláusulas
+        # colapsaria "timeout" em "erro" e apagaria a distinção que este código existe
+        # para criar. Nota: um TimeoutError vindo de DENTRO de meissa_opinion também cai
+        # aqui — httpx não levanta esse tipo (usa TransportError), então fica aceito.
         log.warning("Meissa estourou %.1fs — seguindo só com evidência", MEISSA_DEADLINE)
-        return None, "timeout", time.time() - t
+        return None, "timeout", time.monotonic() - t
     except Exception as exc:  # noqa: BLE001 — qualquer falha degrada, não invalida
         log.warning("Meissa falhou (%s) — seguindo só com evidência", type(exc).__name__)
-        return None, "erro", time.time() - t
-    dur = time.time() - t
+        return None, "erro", time.monotonic() - t
+    dur = time.monotonic() - t
     if not (parecer or "").strip():
         # Meissa responde "<think></think>" sem conteúdo útil depois da tool. Chamar
         # isso de timeout faria alguém subir o prazo achando que resolveria.
@@ -600,6 +607,9 @@ def _attach_provenance(payload: dict, *, pack: dict | None, parecer: str | None,
         "consultation": consultation,
         # "ok" | "vazio" | "timeout" | "erro" | "off". Antes era só ok/off, e "off"
         # confundia as três causas — impossível saber se mexer no prazo ajudou (#36).
+        # Semântica deliberada: "ok" agora quer dizer "a perna do Meissa concluiu", não
+        # "o parecer influenciou esta resposta" — numa recusa por RAG fora do ar o
+        # parecer existe e não é usado, e ainda assim é isso que a telemetria precisa ver.
         "meissa": meissa_status or ("ok" if parecer else "off"),
         "meissa_s": meissa_s,
         "latency_s": round(time.time() - t0, 3),
@@ -684,20 +694,27 @@ async def chat(body: dict) -> Any:
         # cronometra, e descartava 5 de 8 pareceres. Não mexa nesse número sem olhar a
         # telemetria que _parecer_meissa passou a emitir; subir no escuro troca resposta
         # rápida por espera, do mesmo jeito que SIMVERA_RAG_TIMEOUT.
+        t_pernas = time.monotonic()
         meissa_task = asyncio.create_task(_parecer_meissa(messages))
         results = await asyncio.gather(pack_task, meissa_task, return_exceptions=True)
         pack, meissa_res = results[0], results[1]
 
         if isinstance(meissa_res, BaseException):
+            # Praticamente só CancelledError chega aqui (BaseException escapa do
+            # except Exception lá dentro). Cronometramos por fora para que meissa_s
+            # nunca fique None num caminho de erro — é justamente onde se quer o tempo.
             log.warning("Perna do Meissa falhou (%s)", type(meissa_res).__name__)
-            parecer, meissa_status, meissa_s = None, "erro", None
+            parecer, meissa_status = None, "erro"
+            meissa_s = round(time.monotonic() - t_pernas, 2)
         else:
             parecer, meissa_status, dur = meissa_res
             meissa_s = round(dur, 2)
 
     # Âncora ausente ou fraca → recusa. Nunca cai para o Gemma sozinho.
     if isinstance(pack, BaseException):
-        log.error("RAG indisponível: %r", pack)
+        # meissa no log porque em streaming o payload não carrega provenance: sem isto,
+        # este é o único caminho onde a classificação é calculada e some inteira.
+        log.error("RAG indisponível: %r (meissa=%s/%ss)", pack, meissa_status, meissa_s)
         return _emit(_refusal_text(
             f"O serviço de RAG não respondeu (`{type(pack).__name__}`)."),
             stream, cid, pack=None, parecer=None, forced=forced, t0=t0,

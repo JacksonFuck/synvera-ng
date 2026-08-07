@@ -3,27 +3,34 @@
 Estado vivo do trabalho. Atualizado ao fim de cada fase. Se você é o agente que
 assume, leia isto inteiro antes de tocar em qualquer coisa.
 
-**Última atualização:** 2026-08-07 — Clinical GraphRAG Fases 0–3 em `main`.
+**Última atualização:** 2026-08-07 — GraphRAG Fases 0–3 + lexicon match + inject DB.
 
 ### GraphRAG (estado 2026-08-07)
 
 | Fase | Estado | Entrega |
 |------|--------|---------|
-| 0–1 typed edges + harness | done | ~773 typed_edges, inject SQLite, gold multi-hop (PR #5) |
-| 2 pack de triplas + consolidação | done | evidence-pack `graph_triples`, GRAFO CLÍNICO, `simvera`, caps k≤2/top-N (PRs #11–#14) |
-| 3 OpenIE local + gate manual | done | candidates → extract Gemma → promote/reject → pack só promoted (PRs #22–#25; #17) |
-| Health graph metrics | done | `GET /health` → `graph.*` (PR #16 / #15) |
+| 0–1 typed edges + harness | done | gold multi-hop (PR #5) |
+| 2 pack de triplas + consolidação | done | evidence-pack / orch / caps (PRs #11–#14) |
+| 3 OpenIE local + gate manual | done | PRs #22–#25; #17 |
+| Health graph metrics | done | PR #16 / #15 |
+| Lexicon surface match | done | #27 / PR #28 — typed **2075**, gold recall **~0.70** |
+| Inject SQLite produção | done | #29 — 2026-08-07; `cooc` 12438 preservado; tipadas = lexicon |
 
-Seam de contrato: `POST /rag/evidence-pack` + `simvera.graph_triples`.  
-OpenIE: offline only; **nunca** auto-merge; gate manual.  
-Harness: `services/eval/graph/README.md` (incl. `openie_*` stats).
+**Re-inject** (após rebuild do léxico):
+```bash
+cd services/rag-gateway
+RAG_DB_PATH=../../data/index/rag_corpus.db .venv/bin/python scripts/inject_typed_edges.py
+```
+Reiniciar o processo `:8099` se o pack live não refletir as edges novas (código/DB).
+
+Seam: `POST /rag/evidence-pack` + `simvera.graph_triples`.  
+Harness: `services/eval/graph/` — offline `run_baseline.py`; live `--live --pack`.
 
 ### Próximo (sem ticket aberto)
 
-- Melhorar gold triple recall (~0.47) se prioridade de cobertura
-- Path pruning opcional além dos caps
-- Rodar extract+gate em amostra real de corpus (operacional, não código)
-- Fora do GraphRAG: latência sob stack completa Meissa+Gemma (ver secção latência)
+- Reiniciar Super-RAG e validar pack live (ex. sepse/noradrenalina → `graph_triples` > 0)
+- OpenIE extract+gate em amostra real (operacional)
+- Path pruning opcional; latência stack Meissa+Gemma
 
 > **Latência (2026-08-04, ainda válido):** query clínica quente ~1,1–1,5s RAG;
 > 1ª query pós-restart sem preload ~22s. Ver secção de latência abaixo.

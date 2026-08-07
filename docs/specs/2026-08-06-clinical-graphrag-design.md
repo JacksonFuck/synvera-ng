@@ -15,7 +15,7 @@ Elevar o grafo de *entity-linked hybrid* a GraphRAG clínico com arestas tipadas
 > Proibido Anthropic, OpenAI cloud ou outros providers no pipeline de grafo.
 
 A Fase 1 (arestas a partir de `doencas.ts` / `bulario.ts`) é **determinística** e não chama LLM.  
-Fases futuras (candidatos OpenIE) usam `raggw/graph/gemma_index.py`.
+Fase 3 (OpenIE): candidatos via `gemma_index` / `openie_extract` → store pending → **gate manual** → produção.
 
 ## Arquitetura
 
@@ -57,8 +57,15 @@ Ver `services/eval/graph/run_baseline.py` e `graph/README.md`:
 Evidence-pack `graph_triples` com provenance; orquestrador seção GRAFO CLÍNICO +
 `simvera.graph_triples`; caps k≤2 / top-N; harness pack.
 
+## Fase 3 (entregue)
+
+OpenIE offline (Gemma-4 local only) → `openie_candidates` (`pending`) → gate
+**manual** promote/reject → só `promoted` em `graph_edges` e no evidence-pack.
+Harness: contagens `openie_pending|promoted|rejected` + `promote_rate`.
+CLI: `scripts/openie_extract.py`.
+
 ## Non-goals
 
 - Community summaries MS GraphRAG no corpus inteiro
-- OpenIE LLM sem gate / sem `source_chunk_id`
+- OpenIE LLM sem gate / sem `source_chunk_id` / **auto-merge**
 - Reativar expansão `cooc` massiva sem estudo

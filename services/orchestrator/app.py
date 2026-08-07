@@ -27,6 +27,7 @@ import os
 import re
 import time
 import uuid
+from pathlib import Path
 from typing import Any
 
 import httpx
@@ -34,6 +35,31 @@ from fastapi import FastAPI
 from fastapi.responses import JSONResponse, StreamingResponse
 
 log = logging.getLogger("simvera")
+
+_CODIGO = Path(__file__).resolve()
+
+
+def _code_mtime() -> float:
+    """mtime do módulo do serviço.
+
+    Este processo é o que motivou a issue #35: rodou 3h com código anterior ao merge
+    da Fase 2 e devolveu `graph_triples` vazio o tempo todo. Não deu erro, não deu log,
+    não deu teste vermelho — só uma lista vazia indistinguível de "não há triplas".
+    """
+    return _CODIGO.stat().st_mtime
+
+
+_CODE_MTIME_BOOT = _code_mtime()
+
+
+def _code_status() -> dict:
+    """`stale=True` significa: reinicie o serviço, ele não é o código que você lê."""
+    disco = _code_mtime()
+    return {
+        "loaded_mtime": round(_CODE_MTIME_BOOT, 3),
+        "disk_mtime": round(disco, 3),
+        "stale": disco > _CODE_MTIME_BOOT,
+    }
 logging.basicConfig(level=os.environ.get("LOG_LEVEL", "INFO"),
                     format="%(asctime)s %(levelname)s %(message)s")
 
@@ -554,7 +580,7 @@ def _attach_provenance(payload: dict, *, pack: dict | None, parecer: str | None,
 
 @app.get("/health")
 async def health() -> dict:
-    out: dict[str, Any] = {"status": "ok", "model": MODEL_ID}
+    out: dict[str, Any] = {"status": "ok", "model": MODEL_ID, "code": _code_status()}
     for name, url in (("rag", f"{RAG_URL}/health"),
                       ("gemma", f"{GEMMA_URL}/models"),
                       ("meissa", f"{MEISSA_URL}/models")):

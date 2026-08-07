@@ -33,13 +33,28 @@ exatamente o que o `AGENTS.md` avisa ser o modo de falha caro deste projeto.
 | 36 | `meissa: "off"` confundia timeout, vazio e erro | impossível decidir o prazo com dado | #43, #46 |
 | 38 | surface só com parêntese (`Tromboembolismo pulmonar (TEP)`) | abstain com corpus saudável | #45, #47 |
 | 44 | `detect_fuzzy` casava `como`→`coma` | entidade não relacionada na expansão | #48 |
-| 50 | shim não devolvia modelo nem versão | lacuna CFM aberta | #51 |
+| 50 | shim não devolvia modelo nem versão | lacuna CFM aberta | #51, #54 |
+| 49 | sinônimo com parêntese sem a variante pura | 1 fármaco não detectado | #56 |
+| 52 | streaming não carregava `simvera` | provenance ausente no caminho de produção | #55 |
+| 53 | provenance do Meissa declarava o id pedido | apelido no registro de auditoria | #57 |
 
-**Provenance de IA (#50):** `simvera.provenance` traz `ts`, `shim`, `gemma` (modelo
-**ecoado** pelo upstream), `meissa` (id **pedido**, e só quando participou) e `rag`
-(`raggw_version`, embedder, reranker, vector store, `lexicon_typed_edges`).
-Duas ressalvas registradas: vale **só em não-streaming** — a resposta em streaming nunca
-carregou o bloco `simvera` — e o Meissa declara o id pedido, não o eco. Ver issues abertas.
+**Provenance de IA (#50, #52, #53) — fechada.** `simvera.provenance` traz `ts`, `shim`,
+`gemma`, `meissa` e `rag` (`raggw_version`, embedder, reranker, vector store,
+`lexicon_typed_edges`). Os dois modelos declaram o **eco do upstream**, com o campo `fonte`
+dizendo a origem; `meissa.model` fica `null` quando a perna não participou, porque presença
+tem de significar participação. Vale em **streaming também** (#52): o bloco viaja no chunk
+que já carrega `finish_reason`, então a sequência SSE não mudou. Compat medida com o SDK
+oficial da `openai` 2.45.0 — 1009 chunks, sem erro.
+
+Medido no host: `gemma` = `/models/gemma-4-12b-it-Q6_K.gguf`,
+`meissa` = `/models/Meissa-4B.Q8_0.gguf`.
+
+**Não verificado:** a renderização na interface do LibreChat. O SDK oficial não é o
+LibreChat, e a mudança é aditiva, mas a diferença fica registrada em vez de suposta.
+
+**Ops em aberto:** `ops/llama/start-server.sh` não passa `--alias`, então o valor auditado
+é o `model_alias` default do llama.cpp (o caminho do arquivo). Informativo — nomeia a
+quantização — mas é detalhe de implementação, não decisão nossa.
 
 **Telemetria do Meissa (#36), medida:** perna com mediana **9,8s** isolada e **8,9s** em
 paralelo (n=8), contra `SIMVERA_MEISSA_DEADLINE=7` — o prazo cai **abaixo da mediana** do
@@ -72,7 +87,24 @@ Reiniciar o processo `:8099` se o pack live não refletir as edges novas (códig
 Seam: `POST /rag/evidence-pack` + `simvera.graph_triples`.  
 Harness: `services/eval/graph/` — offline `run_baseline.py`; live `--live --pack`.
 
-### Próximo (sem ticket aberto)
+### Próximo (sem issue aberta em 2026-08-07)
+
+Nenhuma issue aberta. O que resta, em ordem de valor, e por que ainda não foi feito:
+
+1. **Decidir o prazo do Meissa.** Medido e instrumentado (#36); a escolha entre subir o
+   prazo e tirar a perna do caminho síncrono é de produto. Hoje 7s fica abaixo da mediana
+   de 9s e a perna é descartada na maioria das queries — as duas alternativas dominam a
+   configuração atual. Não suba no escuro.
+2. **`RAG_HOST=0.0.0.0`** e **prompt do llama.cpp no journalctl** — as duas lacunas CFM
+   restantes. São de deploy e a decisão é do usuário.
+3. **Verificar a provenance na interface do LibreChat** — medida com o SDK oficial, não
+   com o cliente real.
+4. **OpenIE em amostra operacional** e **latência sob stack completa** — os itens B e C do
+   handoff de sessão, ambos operacionais.
+5. ~713k vetores órfãos no LanceDB; 34G em `~/corpora` nunca ingeridos; MedCPT desligado
+   sem decisão.
+
+### Próximo (histórico)
 
 - Reiniciar Super-RAG e validar pack live (ex. sepse/noradrenalina → `graph_triples` > 0)
 - OpenIE extract+gate em amostra real (operacional)
@@ -419,11 +451,11 @@ sem evidência, humano no loop. Lacunas abertas:
 
 - `RAG_HOST=0.0.0.0` (mudança minha, necessária para o container alcançar) — em PEP
   vira serviço com PHI em todas as interfaces
-- ~~Sem provenance de IA~~ → **parcialmente fechada** em #50 / PR #51.
-  `simvera.provenance` traz modelo, versão e runtime; os chunks já vinham em
-  `simvera.citations`. **Duas ressalvas:** vale só em resposta **não-streaming** (o bloco
-  `simvera` nunca foi emitido em streaming, e o LibreChat streama por padrão), e o campo
-  do Meissa declara o **id pedido**, não o eco do upstream. Ambas com issue aberta.
+- ~~Sem provenance de IA~~ → **fechada** (#50/#52/#53, PRs #51, #54, #55, #57).
+  `simvera.provenance` traz modelo, versão, runtime e timestamp, em streaming e
+  não-streaming, com os dois modelos declarando o eco do upstream. Os chunks já vinham em
+  `simvera.citations`. Resta verificar a renderização no LibreChat e decidir `--alias`
+  explícito no llama.cpp — nenhum dos dois bloqueia.
 - llama.cpp loga prompt no journalctl — vira PHI quando integrado
 
 ## Pendências registradas, não resolvidas

@@ -21,6 +21,7 @@ quando a ferramenta não estava disponível.
 """
 from __future__ import annotations
 
+import asyncio
 import json
 import logging
 import os
@@ -378,6 +379,37 @@ async def rag_search_tool(query: str) -> str:
         f"[{h.get('citation_label', '?')}]\n{h.get('chunk_text', '')}" for h in hits)
 
 
+async def _parecer_meissa(messages: list[dict]) -> tuple[str | None, str, float]:
+    """Parecer do especialista, o **porquê** de não ter vindo, e quanto demorou.
+
+    `simvera.meissa` dizia só "ok"/"off", e "off" escondia três causas distintas —
+    prazo estourado, parecer vazio e falha de rede. Medido em 2026-08-06 (#36): a
+    perna do Meissa tem mediana ~9s (n=8, isolada e em paralelo), contra um prazo de
+    7s, então a maioria dos pareceres era descartada. Mas com prazo de 25s um deles
+    ainda voltava "off" — era vazio, não timeout. Sem separar as causas, mexer no
+    prazo é palpite: não dá para saber se ajudou.
+
+    O parecer é ENRIQUECIMENTO; nenhuma destas causas invalida a resposta, porque a
+    âncora é o evidence-pack. Elas mudam só o que se pode concluir da telemetria.
+    """
+    t = time.time()
+    try:
+        parecer = await asyncio.wait_for(meissa_opinion(messages), timeout=MEISSA_DEADLINE)
+    except asyncio.TimeoutError:
+        log.warning("Meissa estourou %.1fs — seguindo só com evidência", MEISSA_DEADLINE)
+        return None, "timeout", time.time() - t
+    except Exception as exc:  # noqa: BLE001 — qualquer falha degrada, não invalida
+        log.warning("Meissa falhou (%s) — seguindo só com evidência", type(exc).__name__)
+        return None, "erro", time.time() - t
+    dur = time.time() - t
+    if not (parecer or "").strip():
+        # Meissa responde "<think></think>" sem conteúdo útil depois da tool. Chamar
+        # isso de timeout faria alguém subir o prazo achando que resolveria.
+        log.info("Meissa devolveu parecer vazio em %.1fs", dur)
+        return None, "vazio", dur
+    return parecer, "ok", dur
+
+
 async def meissa_opinion(messages: list[dict]) -> str | None:
     """Meissa-4B com rag_search exposto como tool, loop agêntico limitado.
 
@@ -549,7 +581,9 @@ def _pack_citations(pack: dict) -> list[dict]:
 
 
 def _attach_provenance(payload: dict, *, pack: dict | None, parecer: str | None,
-                       forced: bool, t0: float, consultation: bool = False) -> dict:
+                       forced: bool, t0: float, consultation: bool = False,
+                       meissa_status: str | None = None,
+                       meissa_s: float | None = None) -> dict:
     """Campos extras (não-OpenAI) para o harness e auditoria. Clientes ignoram o que não conhecem."""
     abstained = bool(pack and (pack.get("abstain") or not pack.get("chunks")))
     # Recusa e modo consulta NÃO devem vazar chunks espúrios (medido: "Sirius Black"
@@ -564,7 +598,10 @@ def _attach_provenance(payload: dict, *, pack: dict | None, parecer: str | None,
     payload["simvera"] = {
         "forced_choice": forced,
         "consultation": consultation,
-        "meissa": "ok" if parecer else "off",
+        # "ok" | "vazio" | "timeout" | "erro" | "off". Antes era só ok/off, e "off"
+        # confundia as três causas — impossível saber se mexer no prazo ajudou (#36).
+        "meissa": meissa_status or ("ok" if parecer else "off"),
+        "meissa_s": meissa_s,
         "latency_s": round(time.time() - t0, 3),
         "citations": cites,
         "citation_labels": [c["citation_label"] for c in cites if c.get("citation_label")],
@@ -630,8 +667,8 @@ async def chat(body: dict) -> Any:
 
     # As duas pernas em paralelo — exceto forced_choice: Meissa disputa o RAG
     # (tool rag_search) e no smoke MedQA-20 gerou 45% de recusa por timeout 20s.
-    import asyncio
     pack_task = asyncio.create_task(rag_evidence(query))
+    meissa_status, meissa_s = "off", None
     if forced:
         # Sem gather(return_exceptions): await puro propaga — capturamos para o
         # mesmo caminho de recusa que o modo normal.
@@ -641,35 +678,40 @@ async def chat(body: dict) -> Any:
             pack = exc
         parecer = None
     else:
-        # Prazo no parecer, não só no erro: o loop agêntico do Meissa é a perna longa
-        # (medido 7-16s, contra ~2s do evidence-pack, porque as duas disputam o RAG).
-        meissa_task = asyncio.create_task(
-            asyncio.wait_for(meissa_opinion(messages), timeout=MEISSA_DEADLINE))
+        # Prazo no parecer, não só no erro: o loop agêntico do Meissa é a perna longa.
+        # Medido 2026-08-06 (#36), n=8: mediana 9,8s isolado e 8,9s em paralelo com o
+        # pack, contra MEISSA_DEADLINE=7 — o prazo cai ABAIXO da mediana do que ele
+        # cronometra, e descartava 5 de 8 pareceres. Não mexa nesse número sem olhar a
+        # telemetria que _parecer_meissa passou a emitir; subir no escuro troca resposta
+        # rápida por espera, do mesmo jeito que SIMVERA_RAG_TIMEOUT.
+        meissa_task = asyncio.create_task(_parecer_meissa(messages))
         results = await asyncio.gather(pack_task, meissa_task, return_exceptions=True)
-        pack, parecer = results[0], results[1]
+        pack, meissa_res = results[0], results[1]
 
-        if isinstance(parecer, asyncio.TimeoutError):
-            log.warning("Meissa estourou %.0fs — seguindo só com evidência", MEISSA_DEADLINE)
-            parecer = None
-        elif isinstance(parecer, BaseException):
-            log.warning("Meissa falhou (%s) — seguindo só com evidência", type(parecer).__name__)
-            parecer = None
+        if isinstance(meissa_res, BaseException):
+            log.warning("Perna do Meissa falhou (%s)", type(meissa_res).__name__)
+            parecer, meissa_status, meissa_s = None, "erro", None
+        else:
+            parecer, meissa_status, dur = meissa_res
+            meissa_s = round(dur, 2)
 
     # Âncora ausente ou fraca → recusa. Nunca cai para o Gemma sozinho.
     if isinstance(pack, BaseException):
         log.error("RAG indisponível: %r", pack)
         return _emit(_refusal_text(
             f"O serviço de RAG não respondeu (`{type(pack).__name__}`)."),
-            stream, cid, pack=None, parecer=None, forced=forced, t0=t0)
+            stream, cid, pack=None, parecer=None, forced=forced, t0=t0,
+            meissa_status=meissa_status, meissa_s=meissa_s)
     if pack.get("abstain") or not pack.get("chunks"):
-        log.info("RAG absteve para %r", query[:80])
+        log.info("RAG absteve para %r (meissa=%s/%ss)", query[:80], meissa_status, meissa_s)
         return _emit(_refusal_text(
             "O corpus não tem evidência suficiente para sustentar uma resposta a esta pergunta."),
-            stream, cid, pack=pack, parecer=None, forced=forced, t0=t0)
+            stream, cid, pack=pack, parecer=None, forced=forced, t0=t0,
+            meissa_status=meissa_status, meissa_s=meissa_s)
 
-    log.info("query=%r rag=%d chunks conf=%.3f meissa=%s forced=%s t=%.2fs",
+    log.info("query=%r rag=%d chunks conf=%.3f meissa=%s/%ss forced=%s t=%.2fs",
              query[:60], len(pack["chunks"]), pack.get("confidence_precheck", 0),
-             "ok" if parecer else "off", forced, time.time() - t0)
+             meissa_status, meissa_s, forced, time.time() - t0)
 
     if forced:
         system = SYSTEM_FORCED_CHOICE
@@ -685,12 +727,14 @@ async def chat(body: dict) -> Any:
                 *[m for m in messages if m.get("role") != "system"],
                 {"role": "user", "content": build_context(pack, parecer)}]
     return await _forward_gemma(enriched, body, stream, cid,
-                                forced=forced, pack=pack, parecer=parecer, t0=t0)
+                                forced=forced, pack=pack, parecer=parecer, t0=t0,
+                                meissa_status=meissa_status, meissa_s=meissa_s)
 
 
 def _emit(text: str, stream: bool, cid: str, *, pack: dict | None = None,
           parecer: str | None = None, forced: bool = False, t0: float | None = None,
-          consultation: bool = False) -> Any:
+          consultation: bool = False, meissa_status: str | None = None,
+          meissa_s: float | None = None) -> Any:
     """Resposta local (recusa / PRECISO_SABER) nos dois formatos."""
     t0 = t0 if t0 is not None else time.time()
     if not stream:
@@ -700,7 +744,8 @@ def _emit(text: str, stream: bool, cid: str, *, pack: dict | None = None,
             "choices": [{"index": 0, "message": {"role": "assistant", "content": text},
                          "finish_reason": "stop"}]}
         _attach_provenance(body, pack=pack, parecer=parecer, forced=forced, t0=t0,
-                           consultation=consultation)
+                           consultation=consultation, meissa_status=meissa_status,
+                           meissa_s=meissa_s)
         return JSONResponse(body)
 
     async def gen():
@@ -714,7 +759,9 @@ def _emit(text: str, stream: bool, cid: str, *, pack: dict | None = None,
 async def _forward_gemma(messages: list[dict], body: dict, stream: bool,
                          cid: str, system: str | None = None, *,
                          forced: bool = False, pack: dict | None = None,
-                         parecer: str | None = None, t0: float | None = None) -> Any:
+                         parecer: str | None = None, t0: float | None = None,
+                         meissa_status: str | None = None,
+                         meissa_s: float | None = None) -> Any:
     t0 = t0 if t0 is not None else time.time()
     if system:
         messages = [{"role": "system", "content": system},
@@ -755,7 +802,8 @@ async def _forward_gemma(messages: list[dict], body: dict, stream: bool,
                 f"raciocínio). Reformule ou aumente max_tokens._" if think
                 else "⚠️ O modelo não produziu resposta. Tente reformular a pergunta.")
             choice["message"] = msg
-        _attach_provenance(out, pack=pack, parecer=parecer, forced=forced, t0=t0)
+        _attach_provenance(out, pack=pack, parecer=parecer, forced=forced, t0=t0,
+                           meissa_status=meissa_status, meissa_s=meissa_s)
         return JSONResponse(out)
 
     async def gen():

@@ -3,7 +3,7 @@
 Estado vivo do trabalho. Atualizado ao fim de cada fase. Se você é o agente que
 assume, leia isto inteiro antes de tocar em qualquer coisa.
 
-**Última atualização:** 2026-08-07 — GraphRAG Fases 0–3 + lexicon match + inject DB.
+**Última atualização:** 2026-08-07 — smoke ponta a ponta; 7 defeitos achados e corrigidos.
 
 ### GraphRAG (estado 2026-08-07)
 
@@ -13,8 +13,54 @@ assume, leia isto inteiro antes de tocar em qualquer coisa.
 | 2 pack de triplas + consolidação | done | evidence-pack / orch / caps (PRs #11–#14) |
 | 3 OpenIE local + gate manual | done | PRs #22–#25; #17 |
 | Health graph metrics | done | PR #16 / #15 |
-| Lexicon surface match | done | #27 / PR #28 — typed **2075**, gold recall **~0.70** |
+| Lexicon surface match | done | #27 / PR #28; #31 / PR #32 |
 | Inject SQLite produção | done | #29 — 2026-08-07; `cooc` 12438 preservado; tipadas = lexicon |
+| Surfaces sem parêntese | done | #38 / PRs #45, #47 — typed **2144**, gold recall **0.7021** |
+| Fuzzy só como fallback | done | #44 / PR #48 |
+
+### Sessão 2026-08-07 — smoke ponta a ponta (o que ela ensinou)
+
+O smoke do orquestrador achou **sete** defeitos, e o padrão importa mais que a lista:
+**nenhum deles dava erro.** Todos apareciam como latência, recusa ou campo vazio — que é
+exatamente o que o `AGENTS.md` avisa ser o modo de falha caro deste projeto.
+
+| # | Defeito | Como aparecia | PR |
+|---|---------|---------------|-----|
+| 33 | `RuntimeError: Already borrowed` — tokenizer *fast* compartilhado entre threads | recusa clínica espúria em ~17% das queries | #34 |
+| 39 | teste de concorrência sem prazo no `join` | penduraria o pytest em vez de falhar | #40 |
+| 37 | `_VIGNETTE_RE` casava `qual a conduta` sem paciente | pergunta conceitual caía em `PRECISO_SABER` | #41 |
+| 35 | processo rodando código anterior ao merge | `graph_triples` vazio por 3h, sem sinal nenhum | #42 |
+| 36 | `meissa: "off"` confundia timeout, vazio e erro | impossível decidir o prazo com dado | #43, #46 |
+| 38 | surface só com parêntese (`Tromboembolismo pulmonar (TEP)`) | abstain com corpus saudável | #45, #47 |
+| 44 | `detect_fuzzy` casava `como`→`coma` | entidade não relacionada na expansão | #48 |
+| 50 | shim não devolvia modelo nem versão | lacuna CFM aberta | #51 |
+
+**Provenance de IA (#50):** `simvera.provenance` traz `ts`, `shim`, `gemma` (modelo
+**ecoado** pelo upstream), `meissa` (id **pedido**, e só quando participou) e `rag`
+(`raggw_version`, embedder, reranker, vector store, `lexicon_typed_edges`).
+Duas ressalvas registradas: vale **só em não-streaming** — a resposta em streaming nunca
+carregou o bloco `simvera` — e o Meissa declara o id pedido, não o eco. Ver issues abertas.
+
+**Telemetria do Meissa (#36), medida:** perna com mediana **9,8s** isolada e **8,9s** em
+paralelo (n=8), contra `SIMVERA_MEISSA_DEADLINE=7` — o prazo cai **abaixo da mediana** do
+que cronometra. Sob stack completa quente, **6/6 timeout**. O número não foi alterado: a
+escolha entre subir o prazo e tirar a perna do caminho síncrono é de produto, e agora tem
+telemetria (`simvera.meissa` ∈ {ok, vazio, timeout, erro, off} + `meissa_s`) para ser feita
+com dado. **Não suba no escuro** — mesmo aviso que vale para `SIMVERA_RAG_TIMEOUT`.
+
+**Código obsoleto (#35):** `GET /health` de ambos os serviços traz
+`code.{loaded_mtime, disk_mtime, stale}`. `stale: true` significa reinicie. Bloco `code`
+**ausente** = processo anterior a esta mudança, o que é o próprio sinal.
+
+**Armadilha 8 confirmada duas vezes nesta sessão.** Um A/B de prazo do Meissa saiu
+invertido por rodar sempre o mesmo lado primeiro (cache quente), e uma medida de
+`ReadTimeout` quase virou regressão inventada quando era cache frio. Aqueça a query e
+alterne a ordem **antes** de concluir qualquer coisa.
+
+**Erro de raciocínio registrado:** afirmei que o resíduo de `conf 0.657` em
+`Como manejar embolia pulmonar` vinha do fuzzy de #44. **Não vinha** — remover o `coma` da
+expansão não moveu a confiança em nada. A queda de 0.991 para 0.657 vem do prefixo
+`Como manejar` diluir o casamento, não da entidade espúria. Nexo causal afirmado sem teste.
 
 **Re-inject** (após rebuild do léxico):
 ```bash
@@ -373,7 +419,11 @@ sem evidência, humano no loop. Lacunas abertas:
 
 - `RAG_HOST=0.0.0.0` (mudança minha, necessária para o container alcançar) — em PEP
   vira serviço com PHI em todas as interfaces
-- **Sem provenance de IA**: o shim não devolve modelo, versão nem chunks usados
+- ~~Sem provenance de IA~~ → **parcialmente fechada** em #50 / PR #51.
+  `simvera.provenance` traz modelo, versão e runtime; os chunks já vinham em
+  `simvera.citations`. **Duas ressalvas:** vale só em resposta **não-streaming** (o bloco
+  `simvera` nunca foi emitido em streaming, e o LibreChat streama por padrão), e o campo
+  do Meissa declara o **id pedido**, não o eco do upstream. Ambas com issue aberta.
 - llama.cpp loga prompt no journalctl — vira PHI quando integrado
 
 ## Pendências registradas, não resolvidas

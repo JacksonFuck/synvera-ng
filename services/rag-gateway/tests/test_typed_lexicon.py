@@ -106,3 +106,23 @@ def test_artefato_detecta_tep_sem_o_parentese():
     assert "tep" in lex.detect("Como manejar tromboembolismo pulmonar de alto risco?")
     assert "pac" in lex.detect("pneumonia adquirida na comunidade")
     assert "tvp" in lex.detect("trombose venosa profunda")
+
+
+def test_evidence_pack_declara_quem_recuperou():
+    """Provenance do lado do RAG (#50) — sem isto, renomear um campo só quebra em runtime.
+
+    E o bloco não pode carregar a query: ela É a pergunta clínica, o vetor de PHI mais
+    direto do pack.
+    """
+    from fastapi.testclient import TestClient
+
+    from raggw.api import create_app
+
+    with TestClient(create_app()) as cliente:
+        pack = cliente.post("/rag/evidence-pack",
+                            json={"query": "PACIENTE JOAO DA SILVA sepse", "top_k": 2}).json()
+    prov = pack.get("provenance")
+    assert prov is not None, "o pack precisa declarar quem recuperou"
+    assert set(prov) == {"raggw_version", "embedder", "reranker", "vector_store",
+                         "lexicon_typed_edges"}
+    assert "JOAO" not in json.dumps(prov, ensure_ascii=False)

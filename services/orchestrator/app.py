@@ -809,7 +809,14 @@ def _emit(text: str, stream: bool, cid: str, *, pack: dict | None = None,
 
     async def gen():
         yield _sse(_msg_chunk(cid, text))
-        yield _sse(_msg_chunk(cid, "", finish="stop"))
+        # A provenance viaja no chunk que JÁ carrega finish_reason, em vez de num chunk
+        # extra: assim a sequência SSE fica idêntica à de antes e nenhum cliente precisa
+        # tolerar um evento a mais. Ver _emit_provenance_stream (#52).
+        final = _msg_chunk(cid, "", finish="stop")
+        _attach_provenance(final, pack=pack, parecer=parecer, forced=forced, t0=t0,
+                           consultation=consultation, meissa_status=meissa_status,
+                           meissa_s=meissa_s)
+        yield _sse(final)
         yield b"data: [DONE]\n\n"
 
     return StreamingResponse(gen(), media_type="text/event-stream")
@@ -871,7 +878,19 @@ async def _forward_gemma(messages: list[dict], body: dict, stream: bool,
 
     async def gen():
         emitted = False
+        prov_enviada = False
+        gemma_model: str | None = None
         thinking: list[str] = []
+
+        def _com_prov(obj: dict) -> dict:
+            """Anexa o bloco simvera e marca que a auditoria saiu."""
+            nonlocal prov_enviada
+            _attach_provenance(obj, pack=pack, parecer=parecer, forced=forced, t0=t0,
+                               meissa_status=meissa_status, meissa_s=meissa_s,
+                               gemma_model=gemma_model)
+            prov_enviada = True
+            return obj
+
         try:
             async with _client.stream("POST", f"{GEMMA_URL}/chat/completions",
                                       json=payload, timeout=GEMMA_TIMEOUT) as r:
@@ -893,7 +912,13 @@ async def _forward_gemma(messages: list[dict], body: dict, stream: bool,
                         thinking.append(delta["reasoning_content"])
                     if delta.get("content"):
                         emitted = True
+                    if gemma_model is None:
+                        # Mesmo overwrite do caminho não-streaming: o eco do upstream
+                        # morre na linha seguinte. Captura antes (#50/#52).
+                        gemma_model = obj.get("model")
                     obj["model"] = MODEL_ID
+                    if (obj.get("choices") or [{}])[0].get("finish_reason"):
+                        obj = _com_prov(obj)
                     yield _sse(obj)
         except Exception as exc:  # falha no meio do stream: avisa, não cala
             log.error("stream do Gemma quebrou: %r", exc)
@@ -906,7 +931,12 @@ async def _forward_gemma(messages: list[dict], body: dict, stream: bool,
                 f"{think}\n\n⚠️ _Resposta truncada (o modelo gastou o orçamento de tokens "
                 f"raciocinando)._" if think
                 else "⚠️ O modelo não produziu resposta. Tente reformular a pergunta.")))
-            yield _sse(_msg_chunk(cid, "", finish="stop"))
+            yield _sse(_com_prov(_msg_chunk(cid, "", finish="stop")))
+        if not prov_enviada:
+            # O stream quebrou antes de qualquer finish_reason. A provenance é registro
+            # de auditoria: não pode depender do caminho feliz, justamente porque a
+            # resposta parcial que o usuário já viu também precisa ser rastreável.
+            yield _sse(_com_prov(_msg_chunk(cid, "", finish="stop")))
         yield b"data: [DONE]\n\n"
 
     return StreamingResponse(gen(), media_type="text/event-stream")

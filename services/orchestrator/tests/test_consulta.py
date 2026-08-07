@@ -54,6 +54,44 @@ def test_conceitual_nao_interroga(query: str) -> None:
     assert orch._perguntas_faltantes(_msgs(query)) is None
 
 
+@pytest.mark.parametrize(
+    "query",
+    [
+        "Qual a conduta na cetoacidose diabética grave?",
+        "Qual o manejo inicial da sepse?",
+        "O que faço na hipercalemia grave?",
+        "Qual a conduta no tromboembolismo pulmonar de alto risco?",
+    ],
+)
+def test_conduta_sobre_tema_sem_paciente_nao_interroga(query: str) -> None:
+    """Fraseado de conduta amarrado a um tema é pergunta conceitual, não vinheta.
+
+    Não há paciente nenhum aqui — pedir a idade de ninguém é ruído. Medido em
+    2026-08-06: a primeira destas caía em PRECISO_SABER (issue #37).
+
+    Cuidado ao mexer: "cetoacidose diabética" preenche o slot de contexto (o regex
+    casa `diabet`), então "algum slot preenchido" NÃO serve como sinal de vinheta —
+    traria o bug de volta.
+    """
+    assert orch._perguntas_faltantes(_msgs(query)) is None
+
+
+@pytest.mark.parametrize("query", ["O que faço?", "Qual a conduta?", "O que fazer?"])
+def test_pedido_de_conduta_sem_tema_ainda_interroga(query: str) -> None:
+    """Sem tema e sem paciente, o certo é perguntar, não responder.
+
+    O lado caro do erro é deixar de perguntar numa vinheta real: some o humano no
+    loop que o risco CFM alto exige. Na dúvida, interrogar.
+    """
+    assert orch._perguntas_faltantes(_msgs(query)) is not None
+
+
+def test_paciente_vence_o_tema() -> None:
+    """Havendo paciente concreto, o tema não desarma o gate."""
+    q = "Paciente com cetoacidose diabética, qual a conduta na cetoacidose?"
+    assert orch._perguntas_faltantes(_msgs(q)) is not None
+
+
 def test_vinheta_completa_nao_interroga() -> None:
     q = (
         "Homem 58 anos com dor torácica há 2 horas, súbita, PA 80/50, "

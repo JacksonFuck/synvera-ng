@@ -92,6 +92,18 @@ def normalize(s: str) -> str:
     return " ".join(stripped.lower().split())
 
 
+def pad_for_match(text: str) -> str:
+    """Normaliza e trata pontuação/aspas como fronteira de token (#27).
+
+    Sem isto, `itens: [ 'noradrenalina e a 1ª escolha'` não casa ` noradrenalina `
+    porque a aspa cola no início da surface.
+    """
+    n = normalize(text or "")
+    # alfanumérico + hífen (nor-adrenalina, pip/tazo vira pip tazo)
+    n = re.sub(r"[^a-z0-9]+", " ", n)
+    return f" { ' '.join(n.split()) } "
+
+
 def _blocks(ts: str) -> list[str]:
     starts = [m.start() for m in _ID.finditer(ts)]
     return [ts[a:b] for a, b in zip(starts, starts[1:] + [len(ts)])]
@@ -187,12 +199,14 @@ def _surface_index(entities: list[dict], kinds: set[str] | None = None) -> list[
 def _match(text: str, index: list[tuple[str, str]], exclude: str | None = None) -> set[str]:
     if not text or not text.strip():
         return set()
-    padded = f" {normalize(text)} "
+    padded = pad_for_match(text)
     found: set[str] = set()
     for surf, eid in index:
         if exclude and eid == exclude:
             continue
-        if f" {surf} " in padded:
+        # surface do índice já é normalize(); re-pad por se tiver hífen/espaço
+        needle = pad_for_match(surf).strip()
+        if needle and f" {needle} " in padded:
             found.add(eid)
     return found
 
@@ -218,17 +232,19 @@ def _match_drugs_in_conduta(text: str, drug_idx: list[tuple[str, str]]) -> set[s
     if not text:
         return set()
     raw = text
-    low = normalize(text)
-    padded = f" {low} "
+    padded = pad_for_match(text)
     found: set[str] = set()
     for surf, eid in drug_idx:
         pos = 0
-        needle = f" {surf} "
+        needle_body = pad_for_match(surf).strip()
+        if not needle_body:
+            continue
+        needle = f" {needle_body} "
         while True:
             i = padded.find(needle, pos)
             if i < 0:
                 break
-            # janela de caracteres no texto normalizado
+            # janela de caracteres no texto tokenizado
             left = max(0, i - 80)
             right = min(len(padded), i + len(needle) + 80)
             window = padded[left:right]
@@ -241,8 +257,6 @@ def _match_drugs_in_conduta(text: str, drug_idx: list[tuple[str, str]]) -> set[s
                 continue
             found.add(eid)
             break
-    # fallback: se o bloco tem título terapêutico forte, aceita matches sem treat na janela
-    # mas ainda bloqueia NEG_CTX (já filtrado acima). Para blocos curtos de ATB, raw tem "dose".
     return found
 
 
@@ -253,7 +267,7 @@ def _ensure_emergency_drugs(entities: list[dict]) -> None:
         (e.get("_conduta") or "") + " " + (e.get("_uso") or "")
         for e in entities
     )
-    pad = f" {normalize(corpus)} "
+    pad = pad_for_match(corpus)
     for slug, surfaces in _EMERGENCY_DRUGS.items():
         eid = f"drug-{slug}"
         if eid in existing:
@@ -262,7 +276,10 @@ def _ensure_emergency_drugs(entities: list[dict]) -> None:
                 if e["id"] == eid:
                     e["surfaces"] = list(dict.fromkeys(e["surfaces"] + surfaces))
             continue
-        if any(f" {normalize(s)} " in pad for s in surfaces if len(normalize(s)) >= 3):
+        if any(
+            f" {pad_for_match(s).strip()} " in pad
+            for s in surfaces if len(normalize(s)) >= 3
+        ):
             entities.append({
                 "id": eid,
                 "label": surfaces[0].title() if surfaces else slug,

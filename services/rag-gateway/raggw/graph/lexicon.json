@@ -2902,6 +2902,17 @@
       ]
     },
     {
+      "id": "drug-glicose",
+      "label": "Glicose 50%",
+      "kind": "drug",
+      "surfaces": [
+        "glicose 50%",
+        "dextrose",
+        "G50%",
+        "glicose hipertônica"
+      ]
+    },
+    {
       "id": "drug-naloxona",
       "label": "Naloxona",
       "kind": "drug",
@@ -2970,6 +2981,24 @@
       ]
     },
     {
+      "id": "drug-linezolida",
+      "label": "Linezolida",
+      "kind": "drug",
+      "surfaces": [
+        "linezolida",
+        "linezolid"
+      ]
+    },
+    {
+      "id": "drug-oseltamivir",
+      "label": "Oseltamivir",
+      "kind": "drug",
+      "surfaces": [
+        "oseltamivir",
+        "tamiflu"
+      ]
+    },
+    {
       "id": "drug-fenitoina",
       "label": "Fenitoina",
       "kind": "drug",
@@ -2997,6 +3026,14 @@
       ]
     },
     {
+      "id": "drug-rocuronio",
+      "label": "Rocuronio",
+      "kind": "drug",
+      "surfaces": [
+        "rocuronio"
+      ]
+    },
+    {
       "id": "drug-cetamina",
       "label": "Cetamina",
       "kind": "drug",
@@ -3006,11 +3043,28 @@
       ]
     },
     {
+      "id": "drug-etomidato",
+      "label": "Etomidato",
+      "kind": "drug",
+      "surfaces": [
+        "etomidato"
+      ]
+    },
+    {
       "id": "drug-propofol",
       "label": "Propofol",
       "kind": "drug",
       "surfaces": [
         "propofol"
+      ]
+    },
+    {
+      "id": "drug-fentanil",
+      "label": "Fentanil",
+      "kind": "drug",
+      "surfaces": [
+        "fentanil",
+        "fentanyl"
       ]
     },
     {
@@ -3026,6 +3080,21 @@
     [
       "abortamento",
       "dd",
+      "apendicite"
+    ],
+    [
+      "abortamento",
+      "dd",
+      "crise-tireotoxica"
+    ],
+    [
+      "abortamento",
+      "dd",
+      "dip"
+    ],
+    [
+      "abortamento",
+      "dd",
       "gravidez-ectopica"
     ],
     [
@@ -3036,7 +3105,22 @@
     [
       "abortamento",
       "dd",
+      "hipertireoidismo"
+    ],
+    [
+      "abortamento",
+      "dd",
       "pre-eclampsia"
+    ],
+    [
+      "abortamento",
+      "tratado_por",
+      "drug-amoxicilina"
+    ],
+    [
+      "abortamento",
+      "tratado_por",
+      "drug-amoxicilina-clavulanato"
     ],
     [
       "abortamento",
@@ -3061,7 +3145,27 @@
     [
       "abstinencia-alcoolica-dt",
       "dd",
+      "delirium"
+    ],
+    [
+      "abstinencia-alcoolica-dt",
+      "dd",
       "estado-mal-epileptico"
+    ],
+    [
+      "abstinencia-alcoolica-dt",
+      "dd",
+      "hipoglicemia"
+    ],
+    [
+      "abstinencia-alcoolica-dt",
+      "dd",
+      "meningite"
+    ],
+    [
+      "abstinencia-alcoolica-dt",
+      "tratado_por",
+      "drug-cristaloides"
     ],
     [
       "abstinencia-alcoolica-dt",
@@ -3076,6 +3180,16 @@
     [
       "abstinencia-alcoolica-dt",
       "tratado_por",
+      "drug-haloperidol"
+    ],
+    [
+      "abstinencia-alcoolica-dt",
+      "tratado_por",
+      "drug-insulina-humana"
+    ],
+    [
+      "abstinencia-alcoolica-dt",
+      "tratado_por",
       "drug-midazolam"
     ],
     [
@@ -3086,7 +3200,22 @@
     [
       "acidentes-peconhentos",
       "dd",
+      "bradicardia"
+    ],
+    [
+      "acidentes-peconhentos",
+      "dd",
       "cad-ehh"
+    ],
+    [
+      "acidentes-peconhentos",
+      "dd",
+      "choque-hemorragico"
+    ],
+    [
+      "acidentes-peconhentos",
+      "dd",
+      "disturbios-calcio"
     ],
     [
       "acidentes-peconhentos",
@@ -3096,7 +3225,17 @@
     [
       "acidentes-peconhentos",
       "dd",
+      "pre-eclampsia"
+    ],
+    [
+      "acidentes-peconhentos",
+      "dd",
       "rabdomiolise"
+    ],
+    [
+      "acidentes-peconhentos",
+      "dd",
+      "tetano"
     ],
     [
       "acidentes-peconhentos",
@@ -3106,7 +3245,37 @@
     [
       "acidentes-peconhentos",
       "tratado_por",
+      "drug-amoxicilina"
+    ],
+    [
+      "acidentes-peconhentos",
+      "tratado_por",
+      "drug-amoxicilina-clavulanato"
+    ],
+    [
+      "acidentes-peconhentos",
+      "tratado_por",
       "drug-atropina"
+    ],
+    [
+      "acidentes-peconhentos",
+      "tratado_por",
+      "drug-ceftriaxona"
+    ],
+    [
+      "acidentes-peconhentos",
+      "tratado_por",
+      "drug-cetirizina"
+    ],
+    [
+      "acidentes-peconhentos",
+      "tratado_por",
+      "drug-desloratadina"
+    ],
+    [
+      "acidentes-peconhentos",
+      "tratado_por",
+      "drug-dipirona"
     ],
     [
       "acidentes-peconhentos",
@@ -3121,7 +3290,27 @@
     [
       "acidentes-peconhentos",
       "tratado_por",
+      "drug-loratadina"
+    ],
+    [
+      "acidentes-peconhentos",
+      "tratado_por",
+      "drug-paracetamol"
+    ],
+    [
+      "acidentes-peconhentos",
+      "tratado_por",
       "drug-prednisona"
+    ],
+    [
+      "afogamento",
+      "dd",
+      "choque-hemorragico"
+    ],
+    [
+      "afogamento",
+      "dd",
+      "disturbios-potassio"
     ],
     [
       "afogamento",
@@ -3130,8 +3319,58 @@
     ],
     [
       "afogamento",
+      "dd",
+      "fibrilacao-atrial"
+    ],
+    [
+      "afogamento",
+      "dd",
+      "intoxicacao-exogena"
+    ],
+    [
+      "afogamento",
+      "dd",
+      "pcr-acls"
+    ],
+    [
+      "afogamento",
+      "dd",
+      "sincope"
+    ],
+    [
+      "afogamento",
       "tratado_por",
       "drug-adrenalina"
+    ],
+    [
+      "afogamento",
+      "tratado_por",
+      "drug-furosemida"
+    ],
+    [
+      "afogamento",
+      "tratado_por",
+      "drug-montelucaste"
+    ],
+    [
+      "agitacao-psicomotora",
+      "dd",
+      "delirium"
+    ],
+    [
+      "agitacao-psicomotora",
+      "dd",
+      "hipoglicemia"
+    ],
+    [
+      "agitacao-psicomotora",
+      "dd",
+      "intoxicacao-exogena"
+    ],
+    [
+      "agitacao-psicomotora",
+      "dd",
+      "tce"
     ],
     [
       "agitacao-psicomotora",
@@ -3160,8 +3399,88 @@
     ],
     [
       "anafilaxia",
+      "dd",
+      "avc-isquemico"
+    ],
+    [
+      "anafilaxia",
+      "dd",
+      "celulite-erisipela"
+    ],
+    [
+      "anafilaxia",
+      "dd",
+      "estado-mal-epileptico"
+    ],
+    [
+      "anafilaxia",
+      "dd",
+      "iamcsst"
+    ],
+    [
+      "anafilaxia",
+      "dd",
+      "reacoes-transfusionais"
+    ],
+    [
+      "anafilaxia",
+      "dd",
+      "sincope"
+    ],
+    [
+      "anafilaxia",
+      "dd",
+      "tep"
+    ],
+    [
+      "anafilaxia",
       "tratado_por",
       "drug-adrenalina"
+    ],
+    [
+      "anafilaxia",
+      "tratado_por",
+      "drug-cetirizina"
+    ],
+    [
+      "anafilaxia",
+      "tratado_por",
+      "drug-desloratadina"
+    ],
+    [
+      "anafilaxia",
+      "tratado_por",
+      "drug-insulina-humana"
+    ],
+    [
+      "anafilaxia",
+      "tratado_por",
+      "drug-loratadina"
+    ],
+    [
+      "anemia-falciforme",
+      "dd",
+      "artrite-septica"
+    ],
+    [
+      "anemia-falciforme",
+      "dd",
+      "avc-isquemico"
+    ],
+    [
+      "anemia-falciforme",
+      "dd",
+      "colecistite-colangite"
+    ],
+    [
+      "anemia-falciforme",
+      "dd",
+      "meningite"
+    ],
+    [
+      "anemia-falciforme",
+      "dd",
+      "pac"
     ],
     [
       "anemia-falciforme",
@@ -3201,6 +3520,11 @@
     [
       "anemia-falciforme",
       "tratado_por",
+      "drug-montelucaste"
+    ],
+    [
+      "anemia-falciforme",
+      "tratado_por",
       "drug-morfina"
     ],
     [
@@ -3216,7 +3540,32 @@
     [
       "apendicite",
       "dd",
+      "abortamento"
+    ],
+    [
+      "apendicite",
+      "dd",
+      "colica-renal"
+    ],
+    [
+      "apendicite",
+      "dd",
+      "dip"
+    ],
+    [
+      "apendicite",
+      "dd",
       "diverticulite"
+    ],
+    [
+      "apendicite",
+      "dd",
+      "dor-pelvica-torcao"
+    ],
+    [
+      "apendicite",
+      "dd",
+      "emergencias-parto"
     ],
     [
       "apendicite",
@@ -3226,12 +3575,92 @@
     [
       "apendicite",
       "dd",
+      "infeccao-puerperal"
+    ],
+    [
+      "apendicite",
+      "dd",
       "insuficiencia-adrenal"
+    ],
+    [
+      "apendicite",
+      "dd",
+      "itu"
+    ],
+    [
+      "apendicite",
+      "tratado_por",
+      "drug-bromoprida"
+    ],
+    [
+      "apendicite",
+      "tratado_por",
+      "drug-ceftriaxona"
+    ],
+    [
+      "apendicite",
+      "tratado_por",
+      "drug-dexametasona"
+    ],
+    [
+      "apendicite",
+      "tratado_por",
+      "drug-metoclopramida"
     ],
     [
       "apendicite",
       "tratado_por",
       "drug-metronidazol"
+    ],
+    [
+      "apendicite",
+      "tratado_por",
+      "drug-ondansetrona"
+    ],
+    [
+      "apendicite",
+      "tratado_por",
+      "drug-piperacilina-tazobactam"
+    ],
+    [
+      "artrite-septica",
+      "dd",
+      "anemia-falciforme"
+    ],
+    [
+      "artrite-septica",
+      "dd",
+      "choque-hemorragico"
+    ],
+    [
+      "artrite-septica",
+      "dd",
+      "crise-gotosa"
+    ],
+    [
+      "artrite-septica",
+      "dd",
+      "fibrilacao-atrial"
+    ],
+    [
+      "artrite-septica",
+      "dd",
+      "trombose-venosa-cerebral"
+    ],
+    [
+      "artrite-septica",
+      "dd",
+      "tvp"
+    ],
+    [
+      "artrite-septica",
+      "tratado_por",
+      "drug-cefalexina"
+    ],
+    [
+      "artrite-septica",
+      "tratado_por",
+      "drug-ceftriaxona"
     ],
     [
       "artrite-septica",
@@ -3246,12 +3675,87 @@
     [
       "asma",
       "dd",
+      "dpoc"
+    ],
+    [
+      "asma",
+      "dd",
+      "ic-aguda"
+    ],
+    [
+      "asma",
+      "dd",
       "irpa-vni"
+    ],
+    [
+      "asma",
+      "dd",
+      "tep"
+    ],
+    [
+      "asma",
+      "tratado_por",
+      "drug-bromoprida"
+    ],
+    [
+      "asma",
+      "tratado_por",
+      "drug-metoclopramida"
+    ],
+    [
+      "asma",
+      "tratado_por",
+      "drug-montelucaste"
+    ],
+    [
+      "asma",
+      "tratado_por",
+      "drug-ondansetrona"
     ],
     [
       "asma",
       "tratado_por",
       "drug-prednisona"
+    ],
+    [
+      "asma",
+      "tratado_por",
+      "drug-salbutamol"
+    ],
+    [
+      "avc-hemorragico",
+      "dd",
+      "avc-isquemico"
+    ],
+    [
+      "avc-hemorragico",
+      "dd",
+      "cefaleia"
+    ],
+    [
+      "avc-hemorragico",
+      "dd",
+      "hsa"
+    ],
+    [
+      "avc-hemorragico",
+      "dd",
+      "tce"
+    ],
+    [
+      "avc-hemorragico",
+      "dd",
+      "trombose-venosa-cerebral"
+    ],
+    [
+      "avc-hemorragico",
+      "dd",
+      "tvp"
+    ],
+    [
+      "avc-hemorragico",
+      "tratado_por",
+      "drug-aas"
     ],
     [
       "avc-hemorragico",
@@ -3261,7 +3765,32 @@
     [
       "avc-hemorragico",
       "tratado_por",
+      "drug-clopidogrel"
+    ],
+    [
+      "avc-hemorragico",
+      "tratado_por",
+      "drug-heparina"
+    ],
+    [
+      "avc-hemorragico",
+      "tratado_por",
       "drug-varfarina"
+    ],
+    [
+      "avc-isquemico",
+      "dd",
+      "anafilaxia"
+    ],
+    [
+      "avc-isquemico",
+      "dd",
+      "anemia-falciforme"
+    ],
+    [
+      "avc-isquemico",
+      "dd",
+      "avc-hemorragico"
     ],
     [
       "avc-isquemico",
@@ -3271,7 +3800,32 @@
     [
       "avc-isquemico",
       "dd",
+      "coma-mixedematoso"
+    ],
+    [
+      "avc-isquemico",
+      "dd",
+      "coma-rebaixamento"
+    ],
+    [
+      "avc-isquemico",
+      "dd",
+      "disturbios-temperatura"
+    ],
+    [
+      "avc-isquemico",
+      "dd",
       "emergencias-oncologicas"
+    ],
+    [
+      "avc-isquemico",
+      "dd",
+      "hipoglicemia"
+    ],
+    [
+      "avc-isquemico",
+      "dd",
+      "insuficiencia-hepatica-aguda"
     ],
     [
       "avc-isquemico",
@@ -3286,7 +3840,27 @@
     [
       "avc-isquemico",
       "dd",
+      "sincope"
+    ],
+    [
+      "avc-isquemico",
+      "dd",
+      "tce"
+    ],
+    [
+      "avc-isquemico",
+      "dd",
+      "trombose-venosa-cerebral"
+    ],
+    [
+      "avc-isquemico",
+      "dd",
       "vertigem"
+    ],
+    [
+      "avc-isquemico",
+      "tratado_por",
+      "drug-aas"
     ],
     [
       "avc-isquemico",
@@ -3299,6 +3873,26 @@
       "drug-insulina-humana"
     ],
     [
+      "avc-isquemico",
+      "tratado_por",
+      "drug-tenecteplase"
+    ],
+    [
+      "bradicardia",
+      "dd",
+      "acidentes-peconhentos"
+    ],
+    [
+      "bradicardia",
+      "dd",
+      "choque-hemorragico"
+    ],
+    [
+      "bradicardia",
+      "dd",
+      "disturbios-potassio"
+    ],
+    [
       "bradicardia",
       "dd",
       "emergencias-parto"
@@ -3306,7 +3900,67 @@
     [
       "bradicardia",
       "dd",
+      "has-cronica"
+    ],
+    [
+      "bradicardia",
+      "dd",
+      "hemorragia-2a-metade"
+    ],
+    [
+      "bradicardia",
+      "dd",
+      "hipertensao-intracraniana"
+    ],
+    [
+      "bradicardia",
+      "dd",
+      "hipotireoidismo"
+    ],
+    [
+      "bradicardia",
+      "dd",
       "iamcsst"
+    ],
+    [
+      "bradicardia",
+      "dd",
+      "intoxicacao-exogena"
+    ],
+    [
+      "bradicardia",
+      "dd",
+      "irpa-vni"
+    ],
+    [
+      "bradicardia",
+      "tratado_por",
+      "drug-adrenalina"
+    ],
+    [
+      "bradicardia",
+      "tratado_por",
+      "drug-anlodipino"
+    ],
+    [
+      "bradicardia",
+      "tratado_por",
+      "drug-atenolol"
+    ],
+    [
+      "bradicardia",
+      "tratado_por",
+      "drug-carvedilol"
+    ],
+    [
+      "bradicardia",
+      "tratado_por",
+      "drug-digoxina"
+    ],
+    [
+      "bradicardia",
+      "tratado_por",
+      "drug-dobutamina"
     ],
     [
       "bradicardia",
@@ -3322,6 +3976,11 @@
       "bradicardia",
       "tratado_por",
       "drug-insulina-humana"
+    ],
+    [
+      "bradicardia",
+      "tratado_por",
+      "drug-propranolol"
     ],
     [
       "cad-ehh",
@@ -3346,6 +4005,16 @@
     [
       "cad-ehh",
       "dd",
+      "dm2"
+    ],
+    [
+      "cad-ehh",
+      "dd",
+      "hipoglicemia"
+    ],
+    [
+      "cad-ehh",
+      "dd",
       "intoxicacao-exogena"
     ],
     [
@@ -3355,8 +4024,43 @@
     ],
     [
       "cad-ehh",
+      "dd",
+      "vertigem"
+    ],
+    [
+      "cad-ehh",
+      "tratado_por",
+      "drug-bicarbonato"
+    ],
+    [
+      "cad-ehh",
+      "tratado_por",
+      "drug-dapagliflozina"
+    ],
+    [
+      "cad-ehh",
+      "tratado_por",
+      "drug-glibenclamida"
+    ],
+    [
+      "cad-ehh",
+      "tratado_por",
+      "drug-gliclazida"
+    ],
+    [
+      "cad-ehh",
       "tratado_por",
       "drug-insulina-humana"
+    ],
+    [
+      "cad-ehh",
+      "tratado_por",
+      "drug-metformina"
+    ],
+    [
+      "cefaleia",
+      "dd",
+      "avc-hemorragico"
     ],
     [
       "cefaleia",
@@ -3366,12 +4070,62 @@
     [
       "cefaleia",
       "dd",
+      "crise-hipertensiva"
+    ],
+    [
+      "cefaleia",
+      "dd",
+      "crise-tireotoxica"
+    ],
+    [
+      "cefaleia",
+      "dd",
+      "emergencias-parto"
+    ],
+    [
+      "cefaleia",
+      "dd",
+      "estado-mal-epileptico"
+    ],
+    [
+      "cefaleia",
+      "dd",
+      "has-cronica"
+    ],
+    [
+      "cefaleia",
+      "dd",
+      "hipertensao-intracraniana"
+    ],
+    [
+      "cefaleia",
+      "dd",
+      "hipertireoidismo"
+    ],
+    [
+      "cefaleia",
+      "dd",
       "hsa"
     ],
     [
       "cefaleia",
       "dd",
+      "meningite"
+    ],
+    [
+      "cefaleia",
+      "dd",
+      "sincope"
+    ],
+    [
+      "cefaleia",
+      "dd",
       "trombose-venosa-cerebral"
+    ],
+    [
+      "cefaleia",
+      "dd",
+      "tvp"
     ],
     [
       "cefaleia",
@@ -3386,6 +4140,21 @@
     [
       "cefaleia",
       "tratado_por",
+      "drug-amitriptilina"
+    ],
+    [
+      "cefaleia",
+      "tratado_por",
+      "drug-bromoprida"
+    ],
+    [
+      "cefaleia",
+      "tratado_por",
+      "drug-cetoprofeno"
+    ],
+    [
+      "cefaleia",
+      "tratado_por",
       "drug-dexametasona"
     ],
     [
@@ -3396,12 +4165,57 @@
     [
       "cefaleia",
       "tratado_por",
+      "drug-dipirona"
+    ],
+    [
+      "cefaleia",
+      "tratado_por",
+      "drug-fenitoina"
+    ],
+    [
+      "cefaleia",
+      "tratado_por",
+      "drug-ibuprofeno"
+    ],
+    [
+      "cefaleia",
+      "tratado_por",
       "drug-metoclopramida"
     ],
     [
       "cefaleia",
       "tratado_por",
+      "drug-nimesulida"
+    ],
+    [
+      "cefaleia",
+      "tratado_por",
+      "drug-ondansetrona"
+    ],
+    [
+      "cefaleia",
+      "tratado_por",
       "drug-paracetamol"
+    ],
+    [
+      "cefaleia",
+      "tratado_por",
+      "drug-propranolol"
+    ],
+    [
+      "celulite-erisipela",
+      "dd",
+      "anafilaxia"
+    ],
+    [
+      "celulite-erisipela",
+      "dd",
+      "fasciite-necrosante"
+    ],
+    [
+      "celulite-erisipela",
+      "dd",
+      "tvp"
     ],
     [
       "celulite-erisipela",
@@ -3436,12 +4250,32 @@
     [
       "celulite-erisipela",
       "tratado_por",
+      "drug-linezolida"
+    ],
+    [
+      "celulite-erisipela",
+      "tratado_por",
       "drug-vancomicina"
     ],
     [
       "choque",
       "dd",
       "choque-cardiogenico"
+    ],
+    [
+      "choque",
+      "dd",
+      "choque-hemorragico"
+    ],
+    [
+      "choque",
+      "dd",
+      "disturbios-potassio"
+    ],
+    [
+      "choque",
+      "dd",
+      "fibrilacao-atrial"
     ],
     [
       "choque",
@@ -3476,7 +4310,22 @@
     [
       "choque",
       "dd",
+      "reacoes-transfusionais"
+    ],
+    [
+      "choque",
+      "dd",
       "sdra"
+    ],
+    [
+      "choque",
+      "dd",
+      "sepse"
+    ],
+    [
+      "choque",
+      "dd",
+      "tep"
     ],
     [
       "choque",
@@ -3486,7 +4335,27 @@
     [
       "choque",
       "tratado_por",
+      "drug-adrenalina"
+    ],
+    [
+      "choque",
+      "tratado_por",
+      "drug-cetamina"
+    ],
+    [
+      "choque",
+      "tratado_por",
       "drug-dobutamina"
+    ],
+    [
+      "choque",
+      "tratado_por",
+      "drug-etomidato"
+    ],
+    [
+      "choque",
+      "tratado_por",
+      "drug-noradrenalina"
     ],
     [
       "choque",
@@ -3504,9 +4373,79 @@
       "pneumotorax"
     ],
     [
+      "choque-cardiogenico",
+      "dd",
+      "tep"
+    ],
+    [
+      "choque-cardiogenico",
+      "tratado_por",
+      "drug-dobutamina"
+    ],
+    [
+      "choque-hemorragico",
+      "dd",
+      "acidentes-peconhentos"
+    ],
+    [
+      "choque-hemorragico",
+      "dd",
+      "afogamento"
+    ],
+    [
+      "choque-hemorragico",
+      "dd",
+      "artrite-septica"
+    ],
+    [
+      "choque-hemorragico",
+      "dd",
+      "bradicardia"
+    ],
+    [
+      "choque-hemorragico",
+      "dd",
+      "choque"
+    ],
+    [
+      "choque-hemorragico",
+      "dd",
+      "colecistite-colangite"
+    ],
+    [
+      "choque-hemorragico",
+      "dd",
+      "crise-gotosa"
+    ],
+    [
       "choque-hemorragico",
       "dd",
       "hemorragia-pos-parto"
+    ],
+    [
+      "choque-hemorragico",
+      "dd",
+      "intoxicacao-exogena"
+    ],
+    [
+      "choque-hemorragico",
+      "dd",
+      "itu"
+    ],
+    [
+      "choque-hemorragico",
+      "dd",
+      "lesoes-eletricidade"
+    ],
+    [
+      "choque-hemorragico",
+      "dd",
+      "pericardite-tamponamento"
+    ],
+    [
+      "choque-hemorragico",
+      "dd",
+      "politrauma-atls"
     ],
     [
       "choque-hemorragico",
@@ -3521,12 +4460,27 @@
     [
       "choque-hemorragico",
       "dd",
+      "sepse"
+    ],
+    [
+      "choque-hemorragico",
+      "dd",
+      "taquiarritmias"
+    ],
+    [
+      "choque-hemorragico",
+      "dd",
       "tce"
     ],
     [
       "choque-hemorragico",
       "dd",
       "torcao-testicular"
+    ],
+    [
+      "choque-hemorragico",
+      "dd",
+      "trauma-gestacao"
     ],
     [
       "choque-hemorragico",
@@ -3539,9 +4493,34 @@
       "dengue"
     ],
     [
+      "choque-toxico",
+      "dd",
+      "leptospirose"
+    ],
+    [
+      "choque-toxico",
+      "dd",
+      "sepse"
+    ],
+    [
+      "civd",
+      "dd",
+      "fibrilacao-atrial"
+    ],
+    [
+      "civd",
+      "dd",
+      "hemoptise-macica"
+    ],
+    [
       "civd",
       "dd",
       "hemorragia-pos-parto"
+    ],
+    [
+      "civd",
+      "dd",
+      "microangiopatias-tromboticas"
     ],
     [
       "civd",
@@ -3555,8 +4534,43 @@
     ],
     [
       "civd",
+      "dd",
+      "trauma-gestacao"
+    ],
+    [
+      "civd",
+      "dd",
+      "trombose-venosa-cerebral"
+    ],
+    [
+      "civd",
+      "dd",
+      "tvp"
+    ],
+    [
+      "civd",
       "tratado_por",
       "drug-heparina"
+    ],
+    [
+      "colecistite-colangite",
+      "dd",
+      "anemia-falciforme"
+    ],
+    [
+      "colecistite-colangite",
+      "dd",
+      "choque-hemorragico"
+    ],
+    [
+      "colecistite-colangite",
+      "dd",
+      "dip"
+    ],
+    [
+      "colecistite-colangite",
+      "dd",
+      "emergencias-parto"
     ],
     [
       "colecistite-colangite",
@@ -3569,9 +4583,84 @@
       "iamcsst"
     ],
     [
+      "colecistite-colangite",
+      "dd",
+      "itu"
+    ],
+    [
+      "colecistite-colangite",
+      "dd",
+      "leptospirose"
+    ],
+    [
+      "colecistite-colangite",
+      "dd",
+      "pancreatite"
+    ],
+    [
+      "colecistite-colangite",
+      "dd",
+      "perfuracao-viscera-oca"
+    ],
+    [
+      "colecistite-colangite",
+      "tratado_por",
+      "drug-cefalexina"
+    ],
+    [
+      "colecistite-colangite",
+      "tratado_por",
+      "drug-ceftriaxona"
+    ],
+    [
+      "colecistite-colangite",
+      "tratado_por",
+      "drug-metronidazol"
+    ],
+    [
+      "colecistite-colangite",
+      "tratado_por",
+      "drug-piperacilina-tazobactam"
+    ],
+    [
+      "colica-renal",
+      "dd",
+      "apendicite"
+    ],
+    [
       "colica-renal",
       "dd",
       "dip"
+    ],
+    [
+      "colica-renal",
+      "dd",
+      "diverticulite"
+    ],
+    [
+      "colica-renal",
+      "dd",
+      "gravidez-ectopica"
+    ],
+    [
+      "colica-renal",
+      "dd",
+      "hsa"
+    ],
+    [
+      "colica-renal",
+      "dd",
+      "itu"
+    ],
+    [
+      "colica-renal",
+      "dd",
+      "torcao-testicular"
+    ],
+    [
+      "colica-renal",
+      "tratado_por",
+      "drug-butilescopolamina"
     ],
     [
       "colica-renal",
@@ -3591,12 +4680,47 @@
     [
       "coma-mixedematoso",
       "dd",
+      "avc-isquemico"
+    ],
+    [
+      "coma-mixedematoso",
+      "dd",
       "coma-rebaixamento"
     ],
     [
       "coma-mixedematoso",
       "dd",
       "disturbios-sodio"
+    ],
+    [
+      "coma-mixedematoso",
+      "dd",
+      "disturbios-temperatura"
+    ],
+    [
+      "coma-mixedematoso",
+      "dd",
+      "hipoglicemia"
+    ],
+    [
+      "coma-mixedematoso",
+      "dd",
+      "intoxicacao-exogena"
+    ],
+    [
+      "coma-mixedematoso",
+      "tratado_por",
+      "drug-hidrocortisona"
+    ],
+    [
+      "coma-mixedematoso",
+      "tratado_por",
+      "drug-levotiroxina"
+    ],
+    [
+      "coma-rebaixamento",
+      "dd",
+      "avc-isquemico"
     ],
     [
       "coma-rebaixamento",
@@ -3611,12 +4735,42 @@
     [
       "coma-rebaixamento",
       "dd",
+      "estado-mal-epileptico"
+    ],
+    [
+      "coma-rebaixamento",
+      "dd",
+      "hipertensao-intracraniana"
+    ],
+    [
+      "coma-rebaixamento",
+      "dd",
+      "hipoglicemia"
+    ],
+    [
+      "coma-rebaixamento",
+      "dd",
+      "insuficiencia-hepatica-aguda"
+    ],
+    [
+      "coma-rebaixamento",
+      "dd",
       "intoxicacao-exogena"
     ],
     [
       "coma-rebaixamento",
       "dd",
+      "queimaduras"
+    ],
+    [
+      "coma-rebaixamento",
+      "dd",
       "sincope"
+    ],
+    [
+      "coma-rebaixamento",
+      "dd",
+      "tce"
     ],
     [
       "coma-rebaixamento",
@@ -3626,7 +4780,27 @@
     [
       "crise-gotosa",
       "dd",
+      "artrite-septica"
+    ],
+    [
+      "crise-gotosa",
+      "dd",
+      "choque-hemorragico"
+    ],
+    [
+      "crise-gotosa",
+      "dd",
       "leptospirose"
+    ],
+    [
+      "crise-gotosa",
+      "tratado_por",
+      "drug-prednisona"
+    ],
+    [
+      "crise-hipercalcemica",
+      "dd",
+      "crise-tireotoxica"
     ],
     [
       "crise-hipercalcemica",
@@ -3641,7 +4815,17 @@
     [
       "crise-hipercalcemica",
       "dd",
+      "hipertireoidismo"
+    ],
+    [
+      "crise-hipercalcemica",
+      "dd",
       "intoxicacao-exogena"
+    ],
+    [
+      "crise-hipercalcemica",
+      "tratado_por",
+      "drug-furosemida"
     ],
     [
       "crise-hipercalcemica",
@@ -3649,9 +4833,54 @@
       "drug-insulina-humana"
     ],
     [
+      "crise-hipercalcemica",
+      "tratado_por",
+      "drug-prednisona"
+    ],
+    [
+      "crise-hipertensiva",
+      "dd",
+      "cefaleia"
+    ],
+    [
+      "crise-hipertensiva",
+      "dd",
+      "hipertensao-intracraniana"
+    ],
+    [
+      "crise-hipertensiva",
+      "dd",
+      "iamcsst"
+    ],
+    [
+      "crise-hipertensiva",
+      "dd",
+      "ic-aguda"
+    ],
+    [
+      "crise-hipertensiva",
+      "dd",
+      "lra"
+    ],
+    [
+      "crise-hipertensiva",
+      "dd",
+      "pre-eclampsia"
+    ],
+    [
+      "crise-hipertensiva",
+      "dd",
+      "sca-ssst"
+    ],
+    [
       "crise-hipertensiva",
       "tratado_por",
       "drug-atenolol"
+    ],
+    [
+      "crise-hipertensiva",
+      "tratado_por",
+      "drug-captopril"
     ],
     [
       "crise-hipertensiva",
@@ -3666,12 +4895,62 @@
     [
       "crise-hipertensiva",
       "tratado_por",
+      "drug-diazepam"
+    ],
+    [
+      "crise-hipertensiva",
+      "tratado_por",
+      "drug-nitroglicerina"
+    ],
+    [
+      "crise-hipertensiva",
+      "tratado_por",
       "drug-propranolol"
     ],
     [
       "crise-miastenica",
       "dd",
       "guillain-barre"
+    ],
+    [
+      "crise-tireotoxica",
+      "dd",
+      "abortamento"
+    ],
+    [
+      "crise-tireotoxica",
+      "dd",
+      "cefaleia"
+    ],
+    [
+      "crise-tireotoxica",
+      "dd",
+      "crise-hipercalcemica"
+    ],
+    [
+      "crise-tireotoxica",
+      "dd",
+      "dengue"
+    ],
+    [
+      "crise-tireotoxica",
+      "dd",
+      "disturbios-temperatura"
+    ],
+    [
+      "crise-tireotoxica",
+      "dd",
+      "hipertireoidismo"
+    ],
+    [
+      "crise-tireotoxica",
+      "dd",
+      "intoxicacao-exogena"
+    ],
+    [
+      "crise-tireotoxica",
+      "dd",
+      "snm-serotoninergica"
     ],
     [
       "crise-tireotoxica",
@@ -3686,7 +4965,22 @@
     [
       "crise-tireotoxica",
       "tratado_por",
+      "drug-atenolol"
+    ],
+    [
+      "crise-tireotoxica",
+      "tratado_por",
+      "drug-carvedilol"
+    ],
+    [
+      "crise-tireotoxica",
+      "tratado_por",
       "drug-clindamicina"
+    ],
+    [
+      "crise-tireotoxica",
+      "tratado_por",
+      "drug-haloperidol"
     ],
     [
       "crise-tireotoxica",
@@ -3699,9 +4993,64 @@
       "drug-propranolol"
     ],
     [
+      "delirium",
+      "dd",
+      "abstinencia-alcoolica-dt"
+    ],
+    [
+      "delirium",
+      "dd",
+      "agitacao-psicomotora"
+    ],
+    [
+      "delirium",
+      "dd",
+      "depressao"
+    ],
+    [
+      "delirium",
+      "tratado_por",
+      "drug-haloperidol"
+    ],
+    [
       "dengue",
       "dd",
       "choque-toxico"
+    ],
+    [
+      "dengue",
+      "dd",
+      "crise-tireotoxica"
+    ],
+    [
+      "dengue",
+      "dd",
+      "emergencias-parto"
+    ],
+    [
+      "dengue",
+      "dd",
+      "hipertireoidismo"
+    ],
+    [
+      "dengue",
+      "dd",
+      "leptospirose"
+    ],
+    [
+      "dengue",
+      "dd",
+      "malaria"
+    ],
+    [
+      "dengue",
+      "tratado_por",
+      "drug-cristaloides"
+    ],
+    [
+      "depressao",
+      "dd",
+      "delirium"
     ],
     [
       "depressao",
@@ -3711,7 +5060,17 @@
     [
       "depressao",
       "dd",
+      "hipotireoidismo"
+    ],
+    [
+      "depressao",
+      "dd",
       "intoxicacao-exogena"
+    ],
+    [
+      "depressao",
+      "dd",
+      "irpa-vni"
     ],
     [
       "depressao",
@@ -3734,9 +5093,104 @@
       "drug-sertralina"
     ],
     [
+      "derrame-pleural",
+      "dd",
+      "emergencias-oncologicas"
+    ],
+    [
+      "derrame-pleural",
+      "dd",
+      "irpa-vni"
+    ],
+    [
+      "derrame-pleural",
+      "dd",
+      "pancreatite"
+    ],
+    [
+      "derrame-pleural",
+      "dd",
+      "pneumotorax"
+    ],
+    [
+      "derrame-pleural",
+      "dd",
+      "sindromes-nefritica-nefrotica"
+    ],
+    [
+      "derrame-pleural",
+      "dd",
+      "tep"
+    ],
+    [
+      "derrame-pleural",
+      "tratado_por",
+      "drug-espironolactona"
+    ],
+    [
+      "derrame-pleural",
+      "tratado_por",
+      "drug-hidroclorotiazida"
+    ],
+    [
+      "derrame-pleural",
+      "tratado_por",
+      "drug-metronidazol"
+    ],
+    [
+      "dip",
+      "dd",
+      "abortamento"
+    ],
+    [
+      "dip",
+      "dd",
+      "apendicite"
+    ],
+    [
+      "dip",
+      "dd",
+      "colecistite-colangite"
+    ],
+    [
       "dip",
       "dd",
       "colica-renal"
+    ],
+    [
+      "dip",
+      "dd",
+      "diverticulite"
+    ],
+    [
+      "dip",
+      "dd",
+      "dor-pelvica-torcao"
+    ],
+    [
+      "dip",
+      "dd",
+      "gravidez-ectopica"
+    ],
+    [
+      "dip",
+      "dd",
+      "infeccao-puerperal"
+    ],
+    [
+      "dip",
+      "dd",
+      "itu"
+    ],
+    [
+      "dip",
+      "dd",
+      "sangramento-uterino-anormal"
+    ],
+    [
+      "dip",
+      "tratado_por",
+      "drug-azitromicina"
     ],
     [
       "dip",
@@ -3764,6 +5218,86 @@
       "drug-paracetamol"
     ],
     [
+      "dislipidemia",
+      "dd",
+      "hipotireoidismo"
+    ],
+    [
+      "dislipidemia",
+      "dd",
+      "sindromes-nefritica-nefrotica"
+    ],
+    [
+      "dislipidemia",
+      "tratado_por",
+      "drug-atorvastatina"
+    ],
+    [
+      "dislipidemia",
+      "tratado_por",
+      "drug-rosuvastatina"
+    ],
+    [
+      "dislipidemia",
+      "tratado_por",
+      "drug-sinvastatina"
+    ],
+    [
+      "disseccao-aorta",
+      "dd",
+      "dpoc"
+    ],
+    [
+      "disseccao-aorta",
+      "dd",
+      "iamcsst"
+    ],
+    [
+      "disseccao-aorta",
+      "dd",
+      "ic-aguda"
+    ],
+    [
+      "disseccao-aorta",
+      "dd",
+      "pericardite-tamponamento"
+    ],
+    [
+      "disseccao-aorta",
+      "dd",
+      "pneumotorax"
+    ],
+    [
+      "disseccao-aorta",
+      "dd",
+      "sca-ssst"
+    ],
+    [
+      "disseccao-aorta",
+      "dd",
+      "tep"
+    ],
+    [
+      "disseccao-aorta",
+      "tratado_por",
+      "drug-atenolol"
+    ],
+    [
+      "disseccao-aorta",
+      "tratado_por",
+      "drug-carvedilol"
+    ],
+    [
+      "disseccao-aorta",
+      "tratado_por",
+      "drug-insulina-humana"
+    ],
+    [
+      "disseccao-aorta",
+      "tratado_por",
+      "drug-propranolol"
+    ],
+    [
       "disturbios-acido-base",
       "dd",
       "cad-ehh"
@@ -3780,8 +5314,38 @@
     ],
     [
       "disturbios-acido-base",
+      "dd",
+      "disturbios-potassio"
+    ],
+    [
+      "disturbios-acido-base",
+      "dd",
+      "dpoc"
+    ],
+    [
+      "disturbios-acido-base",
+      "dd",
+      "intoxicacao-exogena"
+    ],
+    [
+      "disturbios-acido-base",
+      "dd",
+      "tep"
+    ],
+    [
+      "disturbios-acido-base",
+      "tratado_por",
+      "drug-bicarbonato"
+    ],
+    [
+      "disturbios-acido-base",
       "tratado_por",
       "drug-insulina-humana"
+    ],
+    [
+      "disturbios-calcio",
+      "dd",
+      "acidentes-peconhentos"
     ],
     [
       "disturbios-calcio",
@@ -3797,6 +5361,26 @@
       "disturbios-calcio",
       "dd",
       "disturbios-magnesio-fosforo"
+    ],
+    [
+      "disturbios-calcio",
+      "dd",
+      "emergencias-oncologicas"
+    ],
+    [
+      "disturbios-calcio",
+      "dd",
+      "estado-mal-epileptico"
+    ],
+    [
+      "disturbios-calcio",
+      "dd",
+      "pre-eclampsia"
+    ],
+    [
+      "disturbios-calcio",
+      "dd",
+      "tetano"
     ],
     [
       "disturbios-magnesio-fosforo",
@@ -3815,6 +5399,11 @@
     ],
     [
       "disturbios-magnesio-fosforo",
+      "dd",
+      "taquiarritmias"
+    ],
+    [
+      "disturbios-magnesio-fosforo",
       "tratado_por",
       "drug-espironolactona"
     ],
@@ -3822,6 +5411,11 @@
       "disturbios-magnesio-fosforo",
       "tratado_por",
       "drug-fluoxetina"
+    ],
+    [
+      "disturbios-magnesio-fosforo",
+      "tratado_por",
+      "drug-furosemida"
     ],
     [
       "disturbios-magnesio-fosforo",
@@ -3841,7 +5435,47 @@
     [
       "disturbios-potassio",
       "dd",
+      "afogamento"
+    ],
+    [
+      "disturbios-potassio",
+      "dd",
+      "bradicardia"
+    ],
+    [
+      "disturbios-potassio",
+      "dd",
+      "choque"
+    ],
+    [
+      "disturbios-potassio",
+      "dd",
+      "disturbios-acido-base"
+    ],
+    [
+      "disturbios-potassio",
+      "dd",
       "disturbios-magnesio-fosforo"
+    ],
+    [
+      "disturbios-potassio",
+      "dd",
+      "guillain-barre"
+    ],
+    [
+      "disturbios-potassio",
+      "dd",
+      "hipoglicemia"
+    ],
+    [
+      "disturbios-potassio",
+      "dd",
+      "iamcsst"
+    ],
+    [
+      "disturbios-potassio",
+      "dd",
+      "rabdomiolise"
     ],
     [
       "disturbios-potassio",
@@ -3880,13 +5514,73 @@
     ],
     [
       "disturbios-sodio",
+      "dd",
+      "hipertensao-intracraniana"
+    ],
+    [
+      "disturbios-sodio",
+      "dd",
+      "hipotireoidismo"
+    ],
+    [
+      "disturbios-sodio",
+      "dd",
+      "pre-eclampsia"
+    ],
+    [
+      "disturbios-sodio",
       "tratado_por",
       "drug-espironolactona"
     ],
     [
       "disturbios-sodio",
       "tratado_por",
+      "drug-furosemida"
+    ],
+    [
+      "disturbios-sodio",
+      "tratado_por",
+      "drug-glibenclamida"
+    ],
+    [
+      "disturbios-sodio",
+      "tratado_por",
+      "drug-gliclazida"
+    ],
+    [
+      "disturbios-sodio",
+      "tratado_por",
       "drug-hidroclorotiazida"
+    ],
+    [
+      "disturbios-sodio",
+      "tratado_por",
+      "drug-metformina"
+    ],
+    [
+      "disturbios-temperatura",
+      "dd",
+      "avc-isquemico"
+    ],
+    [
+      "disturbios-temperatura",
+      "dd",
+      "coma-mixedematoso"
+    ],
+    [
+      "disturbios-temperatura",
+      "dd",
+      "crise-tireotoxica"
+    ],
+    [
+      "disturbios-temperatura",
+      "dd",
+      "hipoglicemia"
+    ],
+    [
+      "disturbios-temperatura",
+      "dd",
+      "hipotireoidismo"
     ],
     [
       "disturbios-temperatura",
@@ -3896,7 +5590,17 @@
     [
       "disturbios-temperatura",
       "dd",
+      "meningite"
+    ],
+    [
+      "disturbios-temperatura",
+      "dd",
       "snm-serotoninergica"
+    ],
+    [
+      "disturbios-temperatura",
+      "dd",
+      "tce"
     ],
     [
       "disturbios-temperatura",
@@ -3909,6 +5613,11 @@
       "drug-diazepam"
     ],
     [
+      "disturbios-temperatura",
+      "tratado_por",
+      "drug-propranolol"
+    ],
+    [
       "diverticulite",
       "dd",
       "apendicite"
@@ -3916,7 +5625,42 @@
     [
       "diverticulite",
       "dd",
+      "colica-renal"
+    ],
+    [
+      "diverticulite",
+      "dd",
+      "dip"
+    ],
+    [
+      "diverticulite",
+      "dd",
+      "dor-pelvica-torcao"
+    ],
+    [
+      "diverticulite",
+      "dd",
+      "hdb"
+    ],
+    [
+      "diverticulite",
+      "dd",
+      "itu"
+    ],
+    [
+      "diverticulite",
+      "dd",
       "obstrucao-intestinal"
+    ],
+    [
+      "diverticulite",
+      "tratado_por",
+      "drug-amoxicilina"
+    ],
+    [
+      "diverticulite",
+      "tratado_por",
+      "drug-amoxicilina-clavulanato"
     ],
     [
       "diverticulite",
@@ -3931,7 +5675,22 @@
     [
       "dm2",
       "dd",
+      "cad-ehh"
+    ],
+    [
+      "dm2",
+      "dd",
       "disturbios-sodio"
+    ],
+    [
+      "dm2",
+      "dd",
+      "hipertensao-intracraniana"
+    ],
+    [
+      "dm2",
+      "dd",
+      "vertigem"
     ],
     [
       "dm2",
@@ -3946,7 +5705,22 @@
     [
       "dm2",
       "tratado_por",
+      "drug-glibenclamida"
+    ],
+    [
+      "dm2",
+      "tratado_por",
+      "drug-gliclazida"
+    ],
+    [
+      "dm2",
+      "tratado_por",
       "drug-insulina-humana"
+    ],
+    [
+      "dm2",
+      "tratado_por",
+      "drug-metformina"
     ],
     [
       "dm2",
@@ -3961,7 +5735,87 @@
     [
       "dor-pelvica-torcao",
       "dd",
+      "apendicite"
+    ],
+    [
+      "dor-pelvica-torcao",
+      "dd",
+      "dip"
+    ],
+    [
+      "dor-pelvica-torcao",
+      "dd",
+      "diverticulite"
+    ],
+    [
+      "dor-pelvica-torcao",
+      "dd",
       "gravidez-ectopica"
+    ],
+    [
+      "dor-pelvica-torcao",
+      "dd",
+      "hsa"
+    ],
+    [
+      "dor-pelvica-torcao",
+      "dd",
+      "itu"
+    ],
+    [
+      "dor-pelvica-torcao",
+      "dd",
+      "tvp"
+    ],
+    [
+      "dor-pelvica-torcao",
+      "tratado_por",
+      "drug-amoxicilina"
+    ],
+    [
+      "dor-pelvica-torcao",
+      "tratado_por",
+      "drug-amoxicilina-clavulanato"
+    ],
+    [
+      "dor-pelvica-torcao",
+      "tratado_por",
+      "drug-dipirona"
+    ],
+    [
+      "dor-pelvica-torcao",
+      "tratado_por",
+      "drug-paracetamol"
+    ],
+    [
+      "dor-pelvica-torcao",
+      "tratado_por",
+      "drug-tramadol"
+    ],
+    [
+      "dpoc",
+      "dd",
+      "asma"
+    ],
+    [
+      "dpoc",
+      "dd",
+      "disseccao-aorta"
+    ],
+    [
+      "dpoc",
+      "dd",
+      "disturbios-acido-base"
+    ],
+    [
+      "dpoc",
+      "dd",
+      "fibrilacao-atrial"
+    ],
+    [
+      "dpoc",
+      "dd",
+      "ic-aguda"
     ],
     [
       "dpoc",
@@ -3972,6 +5826,26 @@
       "dpoc",
       "dd",
       "pac"
+    ],
+    [
+      "dpoc",
+      "dd",
+      "pneumotorax"
+    ],
+    [
+      "dpoc",
+      "dd",
+      "sca-ssst"
+    ],
+    [
+      "dpoc",
+      "tratado_por",
+      "drug-amoxicilina"
+    ],
+    [
+      "dpoc",
+      "tratado_por",
+      "drug-amoxicilina-clavulanato"
     ],
     [
       "dpoc",
@@ -3994,9 +5868,49 @@
       "drug-prednisona"
     ],
     [
+      "dpoc",
+      "tratado_por",
+      "drug-salbutamol"
+    ],
+    [
+      "drc",
+      "dd",
+      "lra"
+    ],
+    [
+      "drc",
+      "tratado_por",
+      "drug-dapagliflozina"
+    ],
+    [
+      "drc",
+      "tratado_por",
+      "drug-furosemida"
+    ],
+    [
+      "drug-aas",
+      "contraindicado",
+      "hda"
+    ],
+    [
       "drug-aas",
       "contraindicado",
       "hdb"
+    ],
+    [
+      "drug-aas",
+      "interage",
+      "drug-acido-valproico"
+    ],
+    [
+      "drug-aas",
+      "interage",
+      "drug-apixabana"
+    ],
+    [
+      "drug-aas",
+      "interage",
+      "drug-cetoprofeno"
     ],
     [
       "drug-aas",
@@ -4005,8 +5919,43 @@
     ],
     [
       "drug-aas",
+      "interage",
+      "drug-enoxaparina"
+    ],
+    [
+      "drug-aas",
+      "interage",
+      "drug-rivaroxabana"
+    ],
+    [
+      "drug-aas",
+      "interage",
+      "drug-varfarina"
+    ],
+    [
+      "drug-aas",
       "trata",
       "anemia-falciforme"
+    ],
+    [
+      "drug-aas",
+      "trata",
+      "avc-hemorragico"
+    ],
+    [
+      "drug-aas",
+      "trata",
+      "avc-isquemico"
+    ],
+    [
+      "drug-aas",
+      "trata",
+      "fibrilacao-atrial"
+    ],
+    [
+      "drug-aas",
+      "trata",
+      "iamcsst"
     ],
     [
       "drug-aas",
@@ -4029,9 +5978,34 @@
       "hipertireoidismo"
     ],
     [
+      "drug-aciclovir",
+      "trata",
+      "meningite"
+    ],
+    [
+      "drug-acido-folico",
+      "interage",
+      "drug-clonazepam"
+    ],
+    [
+      "drug-acido-folico",
+      "interage",
+      "drug-fenitoina"
+    ],
+    [
       "drug-acido-folico",
       "interage",
       "drug-sulfametoxazol-trimetoprima"
+    ],
+    [
+      "drug-acido-folico",
+      "trata",
+      "gravidez-ectopica"
+    ],
+    [
+      "drug-acido-folico",
+      "trata",
+      "lra"
     ],
     [
       "drug-acido-tranexamico",
@@ -4066,6 +6040,11 @@
     [
       "drug-acido-tranexamico",
       "trata",
+      "emergencias-parto"
+    ],
+    [
+      "drug-acido-tranexamico",
+      "trata",
       "hdb"
     ],
     [
@@ -4086,6 +6065,11 @@
     [
       "drug-acido-tranexamico",
       "trata",
+      "politrauma-atls"
+    ],
+    [
+      "drug-acido-tranexamico",
+      "trata",
       "reversao-anticoagulacao"
     ],
     [
@@ -4101,12 +6085,37 @@
     [
       "drug-acido-valproico",
       "contraindicado",
+      "cefaleia"
+    ],
+    [
+      "drug-acido-valproico",
+      "contraindicado",
       "estado-mal-epileptico"
+    ],
+    [
+      "drug-acido-valproico",
+      "interage",
+      "drug-fenitoina"
     ],
     [
       "drug-acido-valproico",
       "trata",
       "cefaleia"
+    ],
+    [
+      "drug-acido-valproico",
+      "trata",
+      "estado-mal-epileptico"
+    ],
+    [
+      "drug-acido-valproico",
+      "trata",
+      "intoxicacao-exogena"
+    ],
+    [
+      "drug-acido-valproico",
+      "trata",
+      "lra"
     ],
     [
       "drug-adrenalina",
@@ -4126,6 +6135,26 @@
     [
       "drug-adrenalina",
       "trata",
+      "bradicardia"
+    ],
+    [
+      "drug-adrenalina",
+      "trata",
+      "choque"
+    ],
+    [
+      "drug-adrenalina",
+      "trata",
+      "hda"
+    ],
+    [
+      "drug-adrenalina",
+      "trata",
+      "hemoptise-macica"
+    ],
+    [
+      "drug-adrenalina",
+      "trata",
       "pcr-acls"
     ],
     [
@@ -4137,6 +6166,21 @@
       "drug-alteplase",
       "trata",
       "avc-isquemico"
+    ],
+    [
+      "drug-amiodarona",
+      "interage",
+      "drug-digoxina"
+    ],
+    [
+      "drug-amiodarona",
+      "interage",
+      "drug-sinvastatina"
+    ],
+    [
+      "drug-amiodarona",
+      "interage",
+      "drug-varfarina"
     ],
     [
       "drug-amiodarona",
@@ -4156,7 +6200,22 @@
     [
       "drug-amitriptilina",
       "trata",
+      "cefaleia"
+    ],
+    [
+      "drug-amitriptilina",
+      "trata",
       "depressao"
+    ],
+    [
+      "drug-amitriptilina",
+      "trata",
+      "vertigem"
+    ],
+    [
+      "drug-amoxicilina",
+      "contraindicado",
+      "anafilaxia"
     ],
     [
       "drug-amoxicilina",
@@ -4166,12 +6225,52 @@
     [
       "drug-amoxicilina",
       "trata",
+      "abortamento"
+    ],
+    [
+      "drug-amoxicilina",
+      "trata",
+      "acidentes-peconhentos"
+    ],
+    [
+      "drug-amoxicilina",
+      "trata",
       "celulite-erisipela"
     ],
     [
       "drug-amoxicilina",
       "trata",
+      "diverticulite"
+    ],
+    [
+      "drug-amoxicilina",
+      "trata",
+      "dor-pelvica-torcao"
+    ],
+    [
+      "drug-amoxicilina",
+      "trata",
+      "dpoc"
+    ],
+    [
+      "drug-amoxicilina",
+      "trata",
+      "endocardite-infecciosa"
+    ],
+    [
+      "drug-amoxicilina",
+      "trata",
+      "itu"
+    ],
+    [
+      "drug-amoxicilina",
+      "trata",
       "leptospirose"
+    ],
+    [
+      "drug-amoxicilina",
+      "trata",
+      "neutropenia-febril"
     ],
     [
       "drug-amoxicilina",
@@ -4186,12 +6285,57 @@
     [
       "drug-amoxicilina-clavulanato",
       "trata",
+      "abortamento"
+    ],
+    [
+      "drug-amoxicilina-clavulanato",
+      "trata",
+      "acidentes-peconhentos"
+    ],
+    [
+      "drug-amoxicilina-clavulanato",
+      "trata",
       "celulite-erisipela"
     ],
     [
       "drug-amoxicilina-clavulanato",
       "trata",
+      "diverticulite"
+    ],
+    [
+      "drug-amoxicilina-clavulanato",
+      "trata",
+      "dor-pelvica-torcao"
+    ],
+    [
+      "drug-amoxicilina-clavulanato",
+      "trata",
+      "dpoc"
+    ],
+    [
+      "drug-amoxicilina-clavulanato",
+      "trata",
       "leptospirose"
+    ],
+    [
+      "drug-amoxicilina-clavulanato",
+      "trata",
+      "neutropenia-febril"
+    ],
+    [
+      "drug-amoxicilina-clavulanato",
+      "trata",
+      "pac"
+    ],
+    [
+      "drug-anlodipino",
+      "contraindicado",
+      "choque"
+    ],
+    [
+      "drug-anlodipino",
+      "contraindicado",
+      "choque-cardiogenico"
     ],
     [
       "drug-anlodipino",
@@ -4210,8 +6354,38 @@
     ],
     [
       "drug-anlodipino",
+      "interage",
+      "drug-sinvastatina"
+    ],
+    [
+      "drug-anlodipino",
+      "trata",
+      "bradicardia"
+    ],
+    [
+      "drug-anlodipino",
+      "trata",
+      "has-cronica"
+    ],
+    [
+      "drug-anlodipino",
       "trata",
       "intoxicacao-exogena"
+    ],
+    [
+      "drug-apixabana",
+      "contraindicado",
+      "endocardite-infecciosa"
+    ],
+    [
+      "drug-apixabana",
+      "contraindicado",
+      "hdb"
+    ],
+    [
+      "drug-apixabana",
+      "interage",
+      "drug-fenitoina"
     ],
     [
       "drug-apixabana",
@@ -4245,6 +6419,21 @@
     ],
     [
       "drug-atenolol",
+      "contraindicado",
+      "bradicardia"
+    ],
+    [
+      "drug-atenolol",
+      "contraindicado",
+      "choque"
+    ],
+    [
+      "drug-atenolol",
+      "contraindicado",
+      "choque-cardiogenico"
+    ],
+    [
+      "drug-atenolol",
       "interage",
       "drug-cetoprofeno"
     ],
@@ -4261,7 +6450,52 @@
     [
       "drug-atenolol",
       "trata",
+      "bradicardia"
+    ],
+    [
+      "drug-atenolol",
+      "trata",
       "crise-hipertensiva"
+    ],
+    [
+      "drug-atenolol",
+      "trata",
+      "crise-tireotoxica"
+    ],
+    [
+      "drug-atenolol",
+      "trata",
+      "disseccao-aorta"
+    ],
+    [
+      "drug-atenolol",
+      "trata",
+      "has-cronica"
+    ],
+    [
+      "drug-atenolol",
+      "trata",
+      "hipertireoidismo"
+    ],
+    [
+      "drug-atenolol",
+      "trata",
+      "intoxicacao-exogena"
+    ],
+    [
+      "drug-atenolol",
+      "trata",
+      "miocardite-aguda"
+    ],
+    [
+      "drug-atenolol",
+      "trata",
+      "taquiarritmias"
+    ],
+    [
+      "drug-atorvastatina",
+      "trata",
+      "dislipidemia"
     ],
     [
       "drug-atorvastatina",
@@ -4279,14 +6513,39 @@
       "sca-ssst"
     ],
     [
+      "drug-atorvastatina",
+      "trata",
+      "sindromes-nefritica-nefrotica"
+    ],
+    [
       "drug-atropina",
       "trata",
       "acidentes-peconhentos"
     ],
     [
+      "drug-atropina",
+      "trata",
+      "intoxicacao-exogena"
+    ],
+    [
+      "drug-azitromicina",
+      "interage",
+      "drug-haloperidol"
+    ],
+    [
+      "drug-azitromicina",
+      "interage",
+      "drug-varfarina"
+    ],
+    [
       "drug-azitromicina",
       "trata",
       "anemia-falciforme"
+    ],
+    [
+      "drug-azitromicina",
+      "trata",
+      "dip"
     ],
     [
       "drug-azitromicina",
@@ -4306,6 +6565,16 @@
     [
       "drug-bicarbonato",
       "trata",
+      "cad-ehh"
+    ],
+    [
+      "drug-bicarbonato",
+      "trata",
+      "disturbios-acido-base"
+    ],
+    [
+      "drug-bicarbonato",
+      "trata",
       "disturbios-potassio"
     ],
     [
@@ -4321,7 +6590,77 @@
     [
       "drug-bicarbonato",
       "trata",
+      "rabdomiolise"
+    ],
+    [
+      "drug-bicarbonato",
+      "trata",
       "tentativa-suicidio"
+    ],
+    [
+      "drug-bromoprida",
+      "contraindicado",
+      "estado-mal-epileptico"
+    ],
+    [
+      "drug-bromoprida",
+      "trata",
+      "apendicite"
+    ],
+    [
+      "drug-bromoprida",
+      "trata",
+      "asma"
+    ],
+    [
+      "drug-bromoprida",
+      "trata",
+      "cefaleia"
+    ],
+    [
+      "drug-bromoprida",
+      "trata",
+      "itu"
+    ],
+    [
+      "drug-bromoprida",
+      "trata",
+      "pbe"
+    ],
+    [
+      "drug-bromoprida",
+      "trata",
+      "perfuracao-viscera-oca"
+    ],
+    [
+      "drug-bromoprida",
+      "trata",
+      "torcao-testicular"
+    ],
+    [
+      "drug-bromoprida",
+      "trata",
+      "vertigem"
+    ],
+    [
+      "drug-butilescopolamina",
+      "contraindicado",
+      "crise-miastenica"
+    ],
+    [
+      "drug-butilescopolamina",
+      "interage",
+      "drug-metoclopramida"
+    ],
+    [
+      "drug-butilescopolamina",
+      "trata",
+      "colica-renal"
+    ],
+    [
+      "drug-captopril",
+      "contraindicado",
+      "anafilaxia"
     ],
     [
       "drug-captopril",
@@ -4336,7 +6675,37 @@
     [
       "drug-captopril",
       "interage",
+      "drug-diclofenaco"
+    ],
+    [
+      "drug-captopril",
+      "interage",
+      "drug-espironolactona"
+    ],
+    [
+      "drug-captopril",
+      "interage",
       "drug-ibuprofeno"
+    ],
+    [
+      "drug-captopril",
+      "interage",
+      "drug-losartana"
+    ],
+    [
+      "drug-captopril",
+      "interage",
+      "drug-nimesulida"
+    ],
+    [
+      "drug-captopril",
+      "interage",
+      "drug-sulfametoxazol-trimetoprima"
+    ],
+    [
+      "drug-captopril",
+      "trata",
+      "crise-hipertensiva"
     ],
     [
       "drug-captopril",
@@ -4346,12 +6715,87 @@
     [
       "drug-captopril",
       "trata",
+      "miocardite-aguda"
+    ],
+    [
+      "drug-captopril",
+      "trata",
       "sca-ssst"
+    ],
+    [
+      "drug-captopril",
+      "trata",
+      "sindromes-nefritica-nefrotica"
+    ],
+    [
+      "drug-carvedilol",
+      "contraindicado",
+      "asma"
+    ],
+    [
+      "drug-carvedilol",
+      "contraindicado",
+      "bradicardia"
+    ],
+    [
+      "drug-carvedilol",
+      "interage",
+      "drug-fluoxetina"
+    ],
+    [
+      "drug-carvedilol",
+      "trata",
+      "bradicardia"
     ],
     [
       "drug-carvedilol",
       "trata",
       "crise-hipertensiva"
+    ],
+    [
+      "drug-carvedilol",
+      "trata",
+      "crise-tireotoxica"
+    ],
+    [
+      "drug-carvedilol",
+      "trata",
+      "disseccao-aorta"
+    ],
+    [
+      "drug-carvedilol",
+      "trata",
+      "has-cronica"
+    ],
+    [
+      "drug-carvedilol",
+      "trata",
+      "hipertireoidismo"
+    ],
+    [
+      "drug-carvedilol",
+      "trata",
+      "intoxicacao-exogena"
+    ],
+    [
+      "drug-carvedilol",
+      "trata",
+      "miocardite-aguda"
+    ],
+    [
+      "drug-carvedilol",
+      "trata",
+      "taquiarritmias"
+    ],
+    [
+      "drug-cefalexina",
+      "contraindicado",
+      "anafilaxia"
+    ],
+    [
+      "drug-cefalexina",
+      "interage",
+      "drug-metformina"
     ],
     [
       "drug-cefalexina",
@@ -4361,7 +6805,17 @@
     [
       "drug-cefalexina",
       "trata",
+      "artrite-septica"
+    ],
+    [
+      "drug-cefalexina",
+      "trata",
       "celulite-erisipela"
+    ],
+    [
+      "drug-cefalexina",
+      "trata",
+      "colecistite-colangite"
     ],
     [
       "drug-cefalexina",
@@ -4380,8 +6834,18 @@
     ],
     [
       "drug-ceftriaxona",
+      "interage",
+      "drug-cristaloides"
+    ],
+    [
+      "drug-ceftriaxona",
       "trata",
       "abortamento"
+    ],
+    [
+      "drug-ceftriaxona",
+      "trata",
+      "acidentes-peconhentos"
     ],
     [
       "drug-ceftriaxona",
@@ -4391,7 +6855,22 @@
     [
       "drug-ceftriaxona",
       "trata",
+      "apendicite"
+    ],
+    [
+      "drug-ceftriaxona",
+      "trata",
+      "artrite-septica"
+    ],
+    [
+      "drug-ceftriaxona",
+      "trata",
       "celulite-erisipela"
+    ],
+    [
+      "drug-ceftriaxona",
+      "trata",
+      "colecistite-colangite"
     ],
     [
       "drug-ceftriaxona",
@@ -4419,6 +6898,21 @@
       "leptospirose"
     ],
     [
+      "drug-ceftriaxona",
+      "trata",
+      "meningite"
+    ],
+    [
+      "drug-ceftriaxona",
+      "trata",
+      "pac"
+    ],
+    [
+      "drug-ceftriaxona",
+      "trata",
+      "pbe"
+    ],
+    [
       "drug-cetamina",
       "trata",
       "agitacao-psicomotora"
@@ -4429,9 +6923,39 @@
       "anemia-falciforme"
     ],
     [
+      "drug-cetamina",
+      "trata",
+      "choque"
+    ],
+    [
+      "drug-cetamina",
+      "trata",
+      "estado-mal-epileptico"
+    ],
+    [
+      "drug-cetirizina",
+      "trata",
+      "acidentes-peconhentos"
+    ],
+    [
+      "drug-cetirizina",
+      "trata",
+      "anafilaxia"
+    ],
+    [
+      "drug-cetirizina",
+      "trata",
+      "reacoes-transfusionais"
+    ],
+    [
       "drug-cetoprofeno",
       "contraindicado",
       "anafilaxia"
+    ],
+    [
+      "drug-cetoprofeno",
+      "contraindicado",
+      "hda"
     ],
     [
       "drug-cetoprofeno",
@@ -4465,8 +6989,28 @@
     ],
     [
       "drug-cetoprofeno",
+      "interage",
+      "drug-varfarina"
+    ],
+    [
+      "drug-cetoprofeno",
+      "trata",
+      "cefaleia"
+    ],
+    [
+      "drug-cetoprofeno",
       "trata",
       "colica-renal"
+    ],
+    [
+      "drug-ciprofloxacino",
+      "interage",
+      "drug-sulfato-ferroso"
+    ],
+    [
+      "drug-ciprofloxacino",
+      "interage",
+      "drug-varfarina"
     ],
     [
       "drug-ciprofloxacino",
@@ -4481,12 +7025,27 @@
     [
       "drug-ciprofloxacino",
       "trata",
+      "itu"
+    ],
+    [
+      "drug-ciprofloxacino",
+      "trata",
+      "meningite"
+    ],
+    [
+      "drug-ciprofloxacino",
+      "trata",
       "neutropenia-febril"
     ],
     [
       "drug-ciprofloxacino",
       "trata",
       "pac"
+    ],
+    [
+      "drug-ciprofloxacino",
+      "trata",
+      "pbe"
     ],
     [
       "drug-clindamicina",
@@ -4511,12 +7070,37 @@
     [
       "drug-clindamicina",
       "trata",
+      "endocardite-infecciosa"
+    ],
+    [
+      "drug-clindamicina",
+      "trata",
       "hipertireoidismo"
     ],
     [
       "drug-clindamicina",
       "trata",
       "infeccao-puerperal"
+    ],
+    [
+      "drug-clindamicina",
+      "trata",
+      "pac"
+    ],
+    [
+      "drug-clonazepam",
+      "contraindicado",
+      "crise-miastenica"
+    ],
+    [
+      "drug-clonazepam",
+      "interage",
+      "drug-fluoxetina"
+    ],
+    [
+      "drug-clonazepam",
+      "interage",
+      "drug-sertralina"
     ],
     [
       "drug-clonazepam",
@@ -4536,12 +7120,47 @@
     [
       "drug-clonazepam",
       "trata",
+      "intoxicacao-exogena"
+    ],
+    [
+      "drug-clonazepam",
+      "trata",
+      "pre-eclampsia"
+    ],
+    [
+      "drug-clonazepam",
+      "trata",
+      "snm-serotoninergica"
+    ],
+    [
+      "drug-clonazepam",
+      "trata",
       "trombose-venosa-cerebral"
+    ],
+    [
+      "drug-clopidogrel",
+      "contraindicado",
+      "hdb"
+    ],
+    [
+      "drug-clopidogrel",
+      "interage",
+      "drug-omeprazol"
     ],
     [
       "drug-clopidogrel",
       "interage",
       "drug-pantoprazol"
+    ],
+    [
+      "drug-clopidogrel",
+      "trata",
+      "avc-hemorragico"
+    ],
+    [
+      "drug-clopidogrel",
+      "trata",
+      "fibrilacao-atrial"
     ],
     [
       "drug-clopidogrel",
@@ -4561,12 +7180,47 @@
     [
       "drug-clortalidona",
       "contraindicado",
+      "disturbios-calcio"
+    ],
+    [
+      "drug-clortalidona",
+      "contraindicado",
+      "disturbios-potassio"
+    ],
+    [
+      "drug-clortalidona",
+      "contraindicado",
+      "disturbios-sodio"
+    ],
+    [
+      "drug-clortalidona",
+      "contraindicado",
+      "emergencias-oncologicas"
+    ],
+    [
+      "drug-clortalidona",
+      "contraindicado",
       "hipertireoidismo"
+    ],
+    [
+      "drug-clortalidona",
+      "contraindicado",
+      "insuficiencia-adrenal"
+    ],
+    [
+      "drug-clortalidona",
+      "interage",
+      "drug-digoxina"
     ],
     [
       "drug-clortalidona",
       "interage",
       "drug-enalapril"
+    ],
+    [
+      "drug-clortalidona",
+      "interage",
+      "drug-espironolactona"
     ],
     [
       "drug-clortalidona",
@@ -4594,6 +7248,11 @@
       "colica-renal"
     ],
     [
+      "drug-clortalidona",
+      "trata",
+      "has-cronica"
+    ],
+    [
       "drug-cristaloides",
       "trata",
       "abortamento"
@@ -4601,7 +7260,22 @@
     [
       "drug-cristaloides",
       "trata",
+      "abstinencia-alcoolica-dt"
+    ],
+    [
+      "drug-cristaloides",
+      "trata",
+      "dengue"
+    ],
+    [
+      "drug-cristaloides",
+      "trata",
       "emergencias-oncologicas"
+    ],
+    [
+      "drug-cristaloides",
+      "trata",
+      "hdb"
     ],
     [
       "drug-cristaloides",
@@ -4634,9 +7308,59 @@
       "rabdomiolise"
     ],
     [
+      "drug-cristaloides",
+      "trata",
+      "reacoes-transfusionais"
+    ],
+    [
+      "drug-dapagliflozina",
+      "contraindicado",
+      "cad-ehh"
+    ],
+    [
+      "drug-dapagliflozina",
+      "contraindicado",
+      "dm2"
+    ],
+    [
+      "drug-dapagliflozina",
+      "interage",
+      "drug-insulina-humana"
+    ],
+    [
+      "drug-dapagliflozina",
+      "trata",
+      "cad-ehh"
+    ],
+    [
       "drug-dapagliflozina",
       "trata",
       "dm2"
+    ],
+    [
+      "drug-dapagliflozina",
+      "trata",
+      "drc"
+    ],
+    [
+      "drug-desloratadina",
+      "trata",
+      "acidentes-peconhentos"
+    ],
+    [
+      "drug-desloratadina",
+      "trata",
+      "anafilaxia"
+    ],
+    [
+      "drug-desloratadina",
+      "trata",
+      "reacoes-transfusionais"
+    ],
+    [
+      "drug-dexametasona",
+      "trata",
+      "apendicite"
     ],
     [
       "drug-dexametasona",
@@ -4651,7 +7375,32 @@
     [
       "drug-dexametasona",
       "trata",
+      "hipertensao-intracraniana"
+    ],
+    [
+      "drug-dexametasona",
+      "trata",
+      "influenza-covid-graves"
+    ],
+    [
+      "drug-dexametasona",
+      "trata",
       "insuficiencia-adrenal"
+    ],
+    [
+      "drug-dexametasona",
+      "trata",
+      "itu"
+    ],
+    [
+      "drug-dexametasona",
+      "trata",
+      "neutropenia-febril"
+    ],
+    [
+      "drug-dexametasona",
+      "trata",
+      "perfuracao-viscera-oca"
     ],
     [
       "drug-dexametasona",
@@ -4659,9 +7408,29 @@
       "pre-eclampsia"
     ],
     [
+      "drug-dexametasona",
+      "trata",
+      "torcao-testicular"
+    ],
+    [
+      "drug-diazepam",
+      "contraindicado",
+      "crise-miastenica"
+    ],
+    [
       "drug-diazepam",
       "interage",
       "drug-fluconazol"
+    ],
+    [
+      "drug-diazepam",
+      "interage",
+      "drug-fluoxetina"
+    ],
+    [
+      "drug-diazepam",
+      "interage",
+      "drug-sertralina"
     ],
     [
       "drug-diazepam",
@@ -4676,7 +7445,27 @@
     [
       "drug-diazepam",
       "trata",
+      "crise-hipertensiva"
+    ],
+    [
+      "drug-diazepam",
+      "trata",
       "disturbios-temperatura"
+    ],
+    [
+      "drug-diazepam",
+      "trata",
+      "estado-mal-epileptico"
+    ],
+    [
+      "drug-diazepam",
+      "trata",
+      "intoxicacao-exogena"
+    ],
+    [
+      "drug-diazepam",
+      "trata",
+      "pre-eclampsia"
     ],
     [
       "drug-diazepam",
@@ -4690,6 +7479,16 @@
     ],
     [
       "drug-diclofenaco",
+      "contraindicado",
+      "hdb"
+    ],
+    [
+      "drug-diclofenaco",
+      "interage",
+      "drug-enalapril"
+    ],
+    [
+      "drug-diclofenaco",
       "interage",
       "drug-espironolactona"
     ],
@@ -4697,6 +7496,11 @@
       "drug-diclofenaco",
       "interage",
       "drug-hidroclorotiazida"
+    ],
+    [
+      "drug-diclofenaco",
+      "interage",
+      "drug-losartana"
     ],
     [
       "drug-diclofenaco",
@@ -4710,13 +7514,73 @@
     ],
     [
       "drug-digoxina",
+      "contraindicado",
+      "bradicardia"
+    ],
+    [
+      "drug-digoxina",
+      "contraindicado",
+      "fibrilacao-atrial"
+    ],
+    [
+      "drug-digoxina",
+      "contraindicado",
+      "taquiarritmias"
+    ],
+    [
+      "drug-digoxina",
+      "interage",
+      "drug-furosemida"
+    ],
+    [
+      "drug-digoxina",
+      "interage",
+      "drug-hidroclorotiazida"
+    ],
+    [
+      "drug-digoxina",
+      "trata",
+      "bradicardia"
+    ],
+    [
+      "drug-digoxina",
+      "trata",
+      "fibrilacao-atrial"
+    ],
+    [
+      "drug-digoxina",
       "trata",
       "intoxicacao-exogena"
     ],
     [
       "drug-dipirona",
+      "contraindicado",
+      "asma"
+    ],
+    [
+      "drug-dipirona",
+      "trata",
+      "acidentes-peconhentos"
+    ],
+    [
+      "drug-dipirona",
+      "trata",
+      "cefaleia"
+    ],
+    [
+      "drug-dipirona",
       "trata",
       "dip"
+    ],
+    [
+      "drug-dipirona",
+      "trata",
+      "dor-pelvica-torcao"
+    ],
+    [
+      "drug-dipirona",
+      "trata",
+      "pancreatite"
     ],
     [
       "drug-dipirona",
@@ -4736,12 +7600,27 @@
     [
       "drug-dobutamina",
       "trata",
+      "bradicardia"
+    ],
+    [
+      "drug-dobutamina",
+      "trata",
       "choque"
     ],
     [
       "drug-dobutamina",
       "trata",
+      "choque-cardiogenico"
+    ],
+    [
+      "drug-dobutamina",
+      "trata",
       "ic-aguda"
+    ],
+    [
+      "drug-dobutamina",
+      "trata",
+      "sepse"
     ],
     [
       "drug-dopamina",
@@ -4750,8 +7629,33 @@
     ],
     [
       "drug-enalapril",
+      "contraindicado",
+      "anafilaxia"
+    ],
+    [
+      "drug-enalapril",
+      "interage",
+      "drug-espironolactona"
+    ],
+    [
+      "drug-enalapril",
       "interage",
       "drug-ibuprofeno"
+    ],
+    [
+      "drug-enalapril",
+      "interage",
+      "drug-losartana"
+    ],
+    [
+      "drug-enalapril",
+      "interage",
+      "drug-nimesulida"
+    ],
+    [
+      "drug-enalapril",
+      "interage",
+      "drug-sulfametoxazol-trimetoprima"
     ],
     [
       "drug-enalapril",
@@ -4761,7 +7665,27 @@
     [
       "drug-enalapril",
       "trata",
+      "miocardite-aguda"
+    ],
+    [
+      "drug-enalapril",
+      "trata",
       "sca-ssst"
+    ],
+    [
+      "drug-enalapril",
+      "trata",
+      "sindromes-nefritica-nefrotica"
+    ],
+    [
+      "drug-enoxaparina",
+      "contraindicado",
+      "endocardite-infecciosa"
+    ],
+    [
+      "drug-enoxaparina",
+      "contraindicado",
+      "hdb"
     ],
     [
       "drug-enoxaparina",
@@ -4771,12 +7695,27 @@
     [
       "drug-enoxaparina",
       "trata",
+      "iamcsst"
+    ],
+    [
+      "drug-enoxaparina",
+      "trata",
       "isquemia-mesenterica"
     ],
     [
       "drug-enoxaparina",
       "trata",
+      "reversao-anticoagulacao"
+    ],
+    [
+      "drug-enoxaparina",
+      "trata",
       "sca-ssst"
+    ],
+    [
+      "drug-enoxaparina",
+      "trata",
+      "tep"
     ],
     [
       "drug-enoxaparina",
@@ -4790,13 +7729,48 @@
     ],
     [
       "drug-escitalopram",
+      "interage",
+      "drug-tramadol"
+    ],
+    [
+      "drug-escitalopram",
       "trata",
       "depressao"
     ],
     [
       "drug-espironolactona",
+      "contraindicado",
+      "disturbios-potassio"
+    ],
+    [
+      "drug-espironolactona",
+      "contraindicado",
+      "insuficiencia-adrenal"
+    ],
+    [
+      "drug-espironolactona",
+      "contraindicado",
+      "lra"
+    ],
+    [
+      "drug-espironolactona",
       "interage",
       "drug-ibuprofeno"
+    ],
+    [
+      "drug-espironolactona",
+      "interage",
+      "drug-losartana"
+    ],
+    [
+      "drug-espironolactona",
+      "interage",
+      "drug-nimesulida"
+    ],
+    [
+      "drug-espironolactona",
+      "trata",
+      "derrame-pleural"
     ],
     [
       "drug-espironolactona",
@@ -4807,6 +7781,16 @@
       "drug-espironolactona",
       "trata",
       "disturbios-sodio"
+    ],
+    [
+      "drug-espironolactona",
+      "trata",
+      "has-cronica"
+    ],
+    [
+      "drug-espironolactona",
+      "trata",
+      "ic-aguda"
     ],
     [
       "drug-espironolactona",
@@ -4829,9 +7813,34 @@
       "sindromes-nefritica-nefrotica"
     ],
     [
+      "drug-etomidato",
+      "trata",
+      "choque"
+    ],
+    [
+      "drug-fenitoina",
+      "interage",
+      "drug-fluconazol"
+    ],
+    [
+      "drug-fenitoina",
+      "interage",
+      "drug-montelucaste"
+    ],
+    [
+      "drug-fenitoina",
+      "interage",
+      "drug-rivaroxabana"
+    ],
+    [
       "drug-fenitoina",
       "trata",
       "abstinencia-alcoolica-dt"
+    ],
+    [
+      "drug-fenitoina",
+      "trata",
+      "cefaleia"
     ],
     [
       "drug-fenitoina",
@@ -4844,9 +7853,19 @@
       "pre-eclampsia"
     ],
     [
+      "drug-fentanil",
+      "trata",
+      "queimaduras"
+    ],
+    [
       "drug-fluconazol",
       "interage",
       "drug-glibenclamida"
+    ],
+    [
+      "drug-fluconazol",
+      "interage",
+      "drug-varfarina"
     ],
     [
       "drug-fluconazol",
@@ -4857,6 +7876,16 @@
       "drug-flumazenil",
       "trata",
       "intoxicacao-exogena"
+    ],
+    [
+      "drug-fluoxetina",
+      "interage",
+      "drug-morfina"
+    ],
+    [
+      "drug-fluoxetina",
+      "interage",
+      "drug-nifedipino"
     ],
     [
       "drug-fluoxetina",
@@ -4891,7 +7920,22 @@
     [
       "drug-furosemida",
       "trata",
+      "afogamento"
+    ],
+    [
+      "drug-furosemida",
+      "trata",
       "celulite-erisipela"
+    ],
+    [
+      "drug-furosemida",
+      "trata",
+      "crise-hipercalcemica"
+    ],
+    [
+      "drug-furosemida",
+      "trata",
+      "disturbios-magnesio-fosforo"
     ],
     [
       "drug-furosemida",
@@ -4901,7 +7945,22 @@
     [
       "drug-furosemida",
       "trata",
+      "disturbios-sodio"
+    ],
+    [
+      "drug-furosemida",
+      "trata",
+      "drc"
+    ],
+    [
+      "drug-furosemida",
+      "trata",
       "emergencias-oncologicas"
+    ],
+    [
+      "drug-furosemida",
+      "trata",
+      "has-cronica"
     ],
     [
       "drug-furosemida",
@@ -4912,6 +7971,31 @@
       "drug-furosemida",
       "trata",
       "infeccao-puerperal"
+    ],
+    [
+      "drug-furosemida",
+      "trata",
+      "insuficiencia-hepatica-aguda"
+    ],
+    [
+      "drug-furosemida",
+      "trata",
+      "itu"
+    ],
+    [
+      "drug-furosemida",
+      "trata",
+      "leptospirose"
+    ],
+    [
+      "drug-furosemida",
+      "trata",
+      "pneumotorax"
+    ],
+    [
+      "drug-furosemida",
+      "trata",
+      "politrauma-atls"
     ],
     [
       "drug-furosemida",
@@ -4930,13 +8014,78 @@
     ],
     [
       "drug-glibenclamida",
+      "contraindicado",
+      "cad-ehh"
+    ],
+    [
+      "drug-glibenclamida",
+      "contraindicado",
+      "crise-tireotoxica"
+    ],
+    [
+      "drug-glibenclamida",
+      "contraindicado",
+      "hipertireoidismo"
+    ],
+    [
+      "drug-glibenclamida",
+      "trata",
+      "cad-ehh"
+    ],
+    [
+      "drug-glibenclamida",
+      "trata",
+      "disturbios-sodio"
+    ],
+    [
+      "drug-glibenclamida",
+      "trata",
+      "dm2"
+    ],
+    [
+      "drug-glibenclamida",
       "trata",
       "hipoglicemia"
     ],
     [
       "drug-gliclazida",
+      "contraindicado",
+      "cad-ehh"
+    ],
+    [
+      "drug-gliclazida",
+      "contraindicado",
+      "crise-tireotoxica"
+    ],
+    [
+      "drug-gliclazida",
+      "contraindicado",
+      "hipertireoidismo"
+    ],
+    [
+      "drug-gliclazida",
+      "trata",
+      "cad-ehh"
+    ],
+    [
+      "drug-gliclazida",
+      "trata",
+      "disturbios-sodio"
+    ],
+    [
+      "drug-gliclazida",
+      "trata",
+      "dm2"
+    ],
+    [
+      "drug-gliclazida",
       "trata",
       "hipoglicemia"
+    ],
+    [
+      "drug-glicose",
+      "trata",
+      "intoxicacao-exogena"
     ],
     [
       "drug-glucagon",
@@ -4965,8 +8114,38 @@
     ],
     [
       "drug-haloperidol",
+      "interage",
+      "drug-ondansetrona"
+    ],
+    [
+      "drug-haloperidol",
+      "trata",
+      "abstinencia-alcoolica-dt"
+    ],
+    [
+      "drug-haloperidol",
       "trata",
       "agitacao-psicomotora"
+    ],
+    [
+      "drug-haloperidol",
+      "trata",
+      "crise-tireotoxica"
+    ],
+    [
+      "drug-haloperidol",
+      "trata",
+      "delirium"
+    ],
+    [
+      "drug-haloperidol",
+      "trata",
+      "hipertireoidismo"
+    ],
+    [
+      "drug-heparina",
+      "trata",
+      "avc-hemorragico"
     ],
     [
       "drug-heparina",
@@ -4986,7 +8165,7 @@
     [
       "drug-heparina",
       "trata",
-      "sca-ssst"
+      "reversao-anticoagulacao"
     ],
     [
       "drug-heparina",
@@ -4996,12 +8175,47 @@
     [
       "drug-heparina",
       "trata",
+      "trombose-venosa-cerebral"
+    ],
+    [
+      "drug-heparina",
+      "trata",
       "tvp"
+    ],
+    [
+      "drug-hidroclorotiazida",
+      "contraindicado",
+      "crise-tireotoxica"
+    ],
+    [
+      "drug-hidroclorotiazida",
+      "contraindicado",
+      "disturbios-potassio"
+    ],
+    [
+      "drug-hidroclorotiazida",
+      "contraindicado",
+      "disturbios-sodio"
+    ],
+    [
+      "drug-hidroclorotiazida",
+      "contraindicado",
+      "hipertireoidismo"
     ],
     [
       "drug-hidroclorotiazida",
       "interage",
       "drug-ibuprofeno"
+    ],
+    [
+      "drug-hidroclorotiazida",
+      "interage",
+      "drug-nimesulida"
+    ],
+    [
+      "drug-hidroclorotiazida",
+      "trata",
+      "derrame-pleural"
     ],
     [
       "drug-hidroclorotiazida",
@@ -5012,6 +8226,16 @@
       "drug-hidroclorotiazida",
       "trata",
       "disturbios-sodio"
+    ],
+    [
+      "drug-hidroclorotiazida",
+      "trata",
+      "has-cronica"
+    ],
+    [
+      "drug-hidroclorotiazida",
+      "trata",
+      "ic-aguda"
     ],
     [
       "drug-hidroclorotiazida",
@@ -5031,12 +8255,22 @@
     [
       "drug-hidrocortisona",
       "trata",
+      "coma-mixedematoso"
+    ],
+    [
+      "drug-hidrocortisona",
+      "trata",
       "crise-tireotoxica"
     ],
     [
       "drug-hidrocortisona",
       "trata",
       "insuficiencia-adrenal"
+    ],
+    [
+      "drug-hidrocortisona",
+      "trata",
+      "pac"
     ],
     [
       "drug-hidrocortisona",
@@ -5051,7 +8285,22 @@
     [
       "drug-ibuprofeno",
       "contraindicado",
+      "crise-tireotoxica"
+    ],
+    [
+      "drug-ibuprofeno",
+      "contraindicado",
+      "hda"
+    ],
+    [
+      "drug-ibuprofeno",
+      "contraindicado",
       "hdb"
+    ],
+    [
+      "drug-ibuprofeno",
+      "contraindicado",
+      "hipertireoidismo"
     ],
     [
       "drug-ibuprofeno",
@@ -5066,12 +8315,27 @@
     [
       "drug-ibuprofeno",
       "trata",
+      "cefaleia"
+    ],
+    [
+      "drug-ibuprofeno",
+      "trata",
       "pericardite-tamponamento"
     ],
     [
       "drug-insulina-humana",
       "contraindicado",
       "hipoglicemia"
+    ],
+    [
+      "drug-insulina-humana",
+      "trata",
+      "abstinencia-alcoolica-dt"
+    ],
+    [
+      "drug-insulina-humana",
+      "trata",
+      "anafilaxia"
     ],
     [
       "drug-insulina-humana",
@@ -5101,6 +8365,11 @@
     [
       "drug-insulina-humana",
       "trata",
+      "disseccao-aorta"
+    ],
+    [
+      "drug-insulina-humana",
+      "trata",
       "disturbios-acido-base"
     ],
     [
@@ -5117,6 +8386,11 @@
       "drug-insulina-humana",
       "trata",
       "dm2"
+    ],
+    [
+      "drug-insulina-humana",
+      "trata",
+      "has-cronica"
     ],
     [
       "drug-insulina-humana",
@@ -5141,6 +8415,16 @@
     [
       "drug-insulina-humana",
       "trata",
+      "pre-eclampsia"
+    ],
+    [
+      "drug-insulina-humana",
+      "trata",
+      "rabdomiolise"
+    ],
+    [
+      "drug-insulina-humana",
+      "trata",
       "sepse"
     ],
     [
@@ -5154,9 +8438,159 @@
       "tentativa-suicidio"
     ],
     [
+      "drug-levotiroxina",
+      "contraindicado",
+      "crise-tireotoxica"
+    ],
+    [
+      "drug-levotiroxina",
+      "contraindicado",
+      "hipertireoidismo"
+    ],
+    [
+      "drug-levotiroxina",
+      "contraindicado",
+      "iamcsst"
+    ],
+    [
+      "drug-levotiroxina",
+      "contraindicado",
+      "sca-ssst"
+    ],
+    [
+      "drug-levotiroxina",
+      "interage",
+      "drug-omeprazol"
+    ],
+    [
+      "drug-levotiroxina",
+      "interage",
+      "drug-pantoprazol"
+    ],
+    [
+      "drug-levotiroxina",
+      "interage",
+      "drug-sulfato-ferroso"
+    ],
+    [
+      "drug-levotiroxina",
+      "interage",
+      "drug-varfarina"
+    ],
+    [
+      "drug-levotiroxina",
+      "trata",
+      "coma-mixedematoso"
+    ],
+    [
+      "drug-levotiroxina",
+      "trata",
+      "hipotireoidismo"
+    ],
+    [
+      "drug-linezolida",
+      "interage",
+      "drug-sertralina"
+    ],
+    [
+      "drug-linezolida",
+      "trata",
+      "celulite-erisipela"
+    ],
+    [
+      "drug-linezolida",
+      "trata",
+      "sepse"
+    ],
+    [
+      "drug-loratadina",
+      "trata",
+      "acidentes-peconhentos"
+    ],
+    [
+      "drug-loratadina",
+      "trata",
+      "anafilaxia"
+    ],
+    [
+      "drug-loratadina",
+      "trata",
+      "reacoes-transfusionais"
+    ],
+    [
+      "drug-losartana",
+      "interage",
+      "drug-nimesulida"
+    ],
+    [
+      "drug-losartana",
+      "interage",
+      "drug-sulfametoxazol-trimetoprima"
+    ],
+    [
+      "drug-losartana",
+      "trata",
+      "has-cronica"
+    ],
+    [
+      "drug-losartana",
+      "trata",
+      "miocardite-aguda"
+    ],
+    [
+      "drug-losartana",
+      "trata",
+      "sindromes-nefritica-nefrotica"
+    ],
+    [
+      "drug-meropenem",
+      "trata",
+      "meningite"
+    ],
+    [
       "drug-meropenem",
       "trata",
       "neutropenia-febril"
+    ],
+    [
+      "drug-metformina",
+      "contraindicado",
+      "cad-ehh"
+    ],
+    [
+      "drug-metformina",
+      "contraindicado",
+      "disturbios-acido-base"
+    ],
+    [
+      "drug-metformina",
+      "trata",
+      "cad-ehh"
+    ],
+    [
+      "drug-metformina",
+      "trata",
+      "disturbios-sodio"
+    ],
+    [
+      "drug-metformina",
+      "trata",
+      "dm2"
+    ],
+    [
+      "drug-metoclopramida",
+      "contraindicado",
+      "estado-mal-epileptico"
+    ],
+    [
+      "drug-metoclopramida",
+      "trata",
+      "apendicite"
+    ],
+    [
+      "drug-metoclopramida",
+      "trata",
+      "asma"
     ],
     [
       "drug-metoclopramida",
@@ -5166,7 +8600,32 @@
     [
       "drug-metoclopramida",
       "trata",
+      "itu"
+    ],
+    [
+      "drug-metoclopramida",
+      "trata",
+      "pbe"
+    ],
+    [
+      "drug-metoclopramida",
+      "trata",
+      "perfuracao-viscera-oca"
+    ],
+    [
+      "drug-metoclopramida",
+      "trata",
+      "torcao-testicular"
+    ],
+    [
+      "drug-metoclopramida",
+      "trata",
       "vertigem"
+    ],
+    [
+      "drug-metronidazol",
+      "interage",
+      "drug-varfarina"
     ],
     [
       "drug-metronidazol",
@@ -5177,6 +8636,16 @@
       "drug-metronidazol",
       "trata",
       "apendicite"
+    ],
+    [
+      "drug-metronidazol",
+      "trata",
+      "colecistite-colangite"
+    ],
+    [
+      "drug-metronidazol",
+      "trata",
+      "derrame-pleural"
     ],
     [
       "drug-metronidazol",
@@ -5199,6 +8668,16 @@
       "neutropenia-febril"
     ],
     [
+      "drug-metronidazol",
+      "trata",
+      "perfuracao-viscera-oca"
+    ],
+    [
+      "drug-metronidazol",
+      "trata",
+      "tetano"
+    ],
+    [
       "drug-midazolam",
       "trata",
       "abstinencia-alcoolica-dt"
@@ -5216,12 +8695,57 @@
     [
       "drug-montelucaste",
       "trata",
+      "afogamento"
+    ],
+    [
+      "drug-montelucaste",
+      "trata",
+      "anemia-falciforme"
+    ],
+    [
+      "drug-montelucaste",
+      "trata",
+      "asma"
+    ],
+    [
+      "drug-montelucaste",
+      "trata",
+      "emergencias-oncologicas"
+    ],
+    [
+      "drug-montelucaste",
+      "trata",
+      "influenza-covid-graves"
+    ],
+    [
+      "drug-montelucaste",
+      "trata",
       "irpa-vni"
+    ],
+    [
+      "drug-montelucaste",
+      "trata",
+      "leptospirose"
     ],
     [
       "drug-morfina",
       "contraindicado",
       "apendicite"
+    ],
+    [
+      "drug-morfina",
+      "contraindicado",
+      "asma"
+    ],
+    [
+      "drug-morfina",
+      "contraindicado",
+      "depressao"
+    ],
+    [
+      "drug-morfina",
+      "interage",
+      "drug-sertralina"
     ],
     [
       "drug-morfina",
@@ -5232,6 +8756,16 @@
       "drug-morfina",
       "trata",
       "iamcsst"
+    ],
+    [
+      "drug-morfina",
+      "trata",
+      "ic-aguda"
+    ],
+    [
+      "drug-morfina",
+      "trata",
+      "queimaduras"
     ],
     [
       "drug-morfina",
@@ -5254,9 +8788,74 @@
       "tentativa-suicidio"
     ],
     [
+      "drug-nifedipino",
+      "contraindicado",
+      "choque"
+    ],
+    [
+      "drug-nifedipino",
+      "contraindicado",
+      "choque-cardiogenico"
+    ],
+    [
+      "drug-nifedipino",
+      "contraindicado",
+      "sca-ssst"
+    ],
+    [
+      "drug-nifedipino",
+      "interage",
+      "drug-sertralina"
+    ],
+    [
+      "drug-nifedipino",
+      "trata",
+      "has-cronica"
+    ],
+    [
+      "drug-nifedipino",
+      "trata",
+      "pre-eclampsia"
+    ],
+    [
+      "drug-nimesulida",
+      "contraindicado",
+      "hdb"
+    ],
+    [
+      "drug-nimesulida",
+      "trata",
+      "cefaleia"
+    ],
+    [
+      "drug-nitrofurantoina",
+      "contraindicado",
+      "emergencias-parto"
+    ],
+    [
+      "drug-nitrofurantoina",
+      "contraindicado",
+      "itu"
+    ],
+    [
       "drug-nitrofurantoina",
       "trata",
       "itu"
+    ],
+    [
+      "drug-nitroglicerina",
+      "trata",
+      "crise-hipertensiva"
+    ],
+    [
+      "drug-nitroglicerina",
+      "trata",
+      "ic-aguda"
+    ],
+    [
+      "drug-noradrenalina",
+      "trata",
+      "choque"
     ],
     [
       "drug-noradrenalina",
@@ -5266,7 +8865,17 @@
     [
       "drug-noradrenalina",
       "trata",
+      "hsa"
+    ],
+    [
+      "drug-noradrenalina",
+      "trata",
       "ic-aguda"
+    ],
+    [
+      "drug-noradrenalina",
+      "trata",
+      "insuficiencia-adrenal"
     ],
     [
       "drug-noradrenalina",
@@ -5274,9 +8883,79 @@
       "insuficiencia-hepatica-aguda"
     ],
     [
+      "drug-noradrenalina",
+      "trata",
+      "sepse"
+    ],
+    [
+      "drug-octreotida",
+      "trata",
+      "hda"
+    ],
+    [
       "drug-octreotida",
       "trata",
       "hipoglicemia"
+    ],
+    [
+      "drug-omeprazol",
+      "interage",
+      "drug-pantoprazol"
+    ],
+    [
+      "drug-omeprazol",
+      "interage",
+      "drug-varfarina"
+    ],
+    [
+      "drug-omeprazol",
+      "trata",
+      "hda"
+    ],
+    [
+      "drug-omeprazol",
+      "trata",
+      "perfuracao-viscera-oca"
+    ],
+    [
+      "drug-ondansetrona",
+      "interage",
+      "drug-tramadol"
+    ],
+    [
+      "drug-ondansetrona",
+      "trata",
+      "apendicite"
+    ],
+    [
+      "drug-ondansetrona",
+      "trata",
+      "asma"
+    ],
+    [
+      "drug-ondansetrona",
+      "trata",
+      "cefaleia"
+    ],
+    [
+      "drug-ondansetrona",
+      "trata",
+      "itu"
+    ],
+    [
+      "drug-ondansetrona",
+      "trata",
+      "pbe"
+    ],
+    [
+      "drug-ondansetrona",
+      "trata",
+      "perfuracao-viscera-oca"
+    ],
+    [
+      "drug-ondansetrona",
+      "trata",
+      "torcao-testicular"
     ],
     [
       "drug-ondansetrona",
@@ -5284,9 +8963,29 @@
       "vertigem"
     ],
     [
+      "drug-oseltamivir",
+      "trata",
+      "influenza-covid-graves"
+    ],
+    [
+      "drug-pantoprazol",
+      "trata",
+      "hda"
+    ],
+    [
+      "drug-pantoprazol",
+      "trata",
+      "perfuracao-viscera-oca"
+    ],
+    [
       "drug-paracetamol",
       "interage",
       "drug-varfarina"
+    ],
+    [
+      "drug-paracetamol",
+      "trata",
+      "acidentes-peconhentos"
     ],
     [
       "drug-paracetamol",
@@ -5301,7 +9000,42 @@
     [
       "drug-paracetamol",
       "trata",
+      "dor-pelvica-torcao"
+    ],
+    [
+      "drug-paracetamol",
+      "trata",
+      "insuficiencia-hepatica-aguda"
+    ],
+    [
+      "drug-paracetamol",
+      "trata",
+      "intoxicacao-exogena"
+    ],
+    [
+      "drug-paracetamol",
+      "trata",
+      "pancreatite"
+    ],
+    [
+      "drug-paracetamol",
+      "trata",
       "reacoes-transfusionais"
+    ],
+    [
+      "drug-paracetamol",
+      "trata",
+      "tentativa-suicidio"
+    ],
+    [
+      "drug-piperacilina-tazobactam",
+      "trata",
+      "apendicite"
+    ],
+    [
+      "drug-piperacilina-tazobactam",
+      "trata",
+      "colecistite-colangite"
     ],
     [
       "drug-piperacilina-tazobactam",
@@ -5331,7 +9065,22 @@
     [
       "drug-prednisona",
       "trata",
+      "crise-gotosa"
+    ],
+    [
+      "drug-prednisona",
+      "trata",
+      "crise-hipercalcemica"
+    ],
+    [
+      "drug-prednisona",
+      "trata",
       "dpoc"
+    ],
+    [
+      "drug-prednisona",
+      "trata",
+      "hemorragia-2a-metade"
     ],
     [
       "drug-prednisona",
@@ -5350,6 +9099,31 @@
     ],
     [
       "drug-propranolol",
+      "contraindicado",
+      "bradicardia"
+    ],
+    [
+      "drug-propranolol",
+      "contraindicado",
+      "choque"
+    ],
+    [
+      "drug-propranolol",
+      "contraindicado",
+      "choque-cardiogenico"
+    ],
+    [
+      "drug-propranolol",
+      "trata",
+      "bradicardia"
+    ],
+    [
+      "drug-propranolol",
+      "trata",
+      "cefaleia"
+    ],
+    [
+      "drug-propranolol",
       "trata",
       "crise-hipertensiva"
     ],
@@ -5357,6 +9131,21 @@
       "drug-propranolol",
       "trata",
       "crise-tireotoxica"
+    ],
+    [
+      "drug-propranolol",
+      "trata",
+      "disseccao-aorta"
+    ],
+    [
+      "drug-propranolol",
+      "trata",
+      "disturbios-temperatura"
+    ],
+    [
+      "drug-propranolol",
+      "trata",
+      "has-cronica"
     ],
     [
       "drug-propranolol",
@@ -5369,9 +9158,39 @@
       "hdb"
     ],
     [
+      "drug-propranolol",
+      "trata",
+      "hipertireoidismo"
+    ],
+    [
+      "drug-propranolol",
+      "trata",
+      "intoxicacao-exogena"
+    ],
+    [
+      "drug-propranolol",
+      "trata",
+      "miocardite-aguda"
+    ],
+    [
+      "drug-propranolol",
+      "trata",
+      "taquiarritmias"
+    ],
+    [
+      "drug-propranolol",
+      "trata",
+      "vertigem"
+    ],
+    [
       "drug-rivaroxabana",
       "contraindicado",
       "hdb"
+    ],
+    [
+      "drug-rivaroxabana",
+      "contraindicado",
+      "reversao-anticoagulacao"
     ],
     [
       "drug-rivaroxabana",
@@ -5399,6 +9218,21 @@
       "tvp"
     ],
     [
+      "drug-rocuronio",
+      "trata",
+      "trauma-gestacao"
+    ],
+    [
+      "drug-rosuvastatina",
+      "interage",
+      "drug-varfarina"
+    ],
+    [
+      "drug-rosuvastatina",
+      "trata",
+      "dislipidemia"
+    ],
+    [
       "drug-rosuvastatina",
       "trata",
       "dm2"
@@ -5414,6 +9248,11 @@
       "sca-ssst"
     ],
     [
+      "drug-rosuvastatina",
+      "trata",
+      "sindromes-nefritica-nefrotica"
+    ],
+    [
       "drug-salbutamol",
       "trata",
       "anemia-falciforme"
@@ -5421,12 +9260,32 @@
     [
       "drug-salbutamol",
       "trata",
+      "asma"
+    ],
+    [
+      "drug-salbutamol",
+      "trata",
       "disturbios-potassio"
+    ],
+    [
+      "drug-salbutamol",
+      "trata",
+      "dpoc"
+    ],
+    [
+      "drug-sertralina",
+      "contraindicado",
+      "snm-serotoninergica"
     ],
     [
       "drug-sertralina",
       "interage",
       "drug-tramadol"
+    ],
+    [
+      "drug-sertralina",
+      "interage",
+      "drug-varfarina"
     ],
     [
       "drug-sertralina",
@@ -5451,6 +9310,11 @@
     [
       "drug-sinvastatina",
       "trata",
+      "dislipidemia"
+    ],
+    [
+      "drug-sinvastatina",
+      "trata",
       "dm2"
     ],
     [
@@ -5464,9 +9328,44 @@
       "sca-ssst"
     ],
     [
+      "drug-sinvastatina",
+      "trata",
+      "sindromes-nefritica-nefrotica"
+    ],
+    [
+      "drug-succinilcolina",
+      "trata",
+      "trauma-gestacao"
+    ],
+    [
+      "drug-sulfametoxazol-trimetoprima",
+      "contraindicado",
+      "crise-tireotoxica"
+    ],
+    [
+      "drug-sulfametoxazol-trimetoprima",
+      "contraindicado",
+      "hipertireoidismo"
+    ],
+    [
+      "drug-sulfametoxazol-trimetoprima",
+      "interage",
+      "drug-varfarina"
+    ],
+    [
       "drug-sulfametoxazol-trimetoprima",
       "trata",
       "itu"
+    ],
+    [
+      "drug-sulfametoxazol-trimetoprima",
+      "trata",
+      "pac"
+    ],
+    [
+      "drug-sulfametoxazol-trimetoprima",
+      "trata",
+      "pbe"
     ],
     [
       "drug-sulfato-ferroso",
@@ -5482,6 +9381,36 @@
       "drug-sulfato-ferroso",
       "trata",
       "hdb"
+    ],
+    [
+      "drug-sulfato-ferroso",
+      "trata",
+      "intoxicacao-exogena"
+    ],
+    [
+      "drug-tenecteplase",
+      "trata",
+      "avc-isquemico"
+    ],
+    [
+      "drug-tramadol",
+      "contraindicado",
+      "estado-mal-epileptico"
+    ],
+    [
+      "drug-tramadol",
+      "contraindicado",
+      "intoxicacao-exogena"
+    ],
+    [
+      "drug-tramadol",
+      "interage",
+      "drug-varfarina"
+    ],
+    [
+      "drug-tramadol",
+      "trata",
+      "dor-pelvica-torcao"
     ],
     [
       "drug-vancomicina",
@@ -5515,6 +9444,11 @@
     ],
     [
       "drug-varfarina",
+      "contraindicado",
+      "hdb"
+    ],
+    [
+      "drug-varfarina",
       "trata",
       "avc-hemorragico"
     ],
@@ -5529,9 +9463,19 @@
       "insuficiencia-hepatica-aguda"
     ],
     [
+      "drug-varfarina",
+      "trata",
+      "reversao-anticoagulacao"
+    ],
+    [
       "drug-vasopressina",
       "trata",
       "choque"
+    ],
+    [
+      "drug-vasopressina",
+      "trata",
+      "sepse"
     ],
     [
       "emergencias-oncologicas",
@@ -5546,12 +9490,47 @@
     [
       "emergencias-oncologicas",
       "dd",
+      "derrame-pleural"
+    ],
+    [
+      "emergencias-oncologicas",
+      "dd",
+      "disturbios-calcio"
+    ],
+    [
+      "emergencias-oncologicas",
+      "dd",
       "disturbios-magnesio-fosforo"
     ],
     [
       "emergencias-oncologicas",
       "dd",
+      "guillain-barre"
+    ],
+    [
+      "emergencias-oncologicas",
+      "dd",
+      "has-cronica"
+    ],
+    [
+      "emergencias-oncologicas",
+      "dd",
+      "hipertensao-intracraniana"
+    ],
+    [
+      "emergencias-oncologicas",
+      "dd",
       "lra"
+    ],
+    [
+      "emergencias-oncologicas",
+      "dd",
+      "neutropenia-febril"
+    ],
+    [
+      "emergencias-oncologicas",
+      "dd",
+      "sepse"
     ],
     [
       "emergencias-oncologicas",
@@ -5574,9 +9553,34 @@
       "drug-furosemida"
     ],
     [
+      "emergencias-oncologicas",
+      "tratado_por",
+      "drug-montelucaste"
+    ],
+    [
+      "emergencias-parto",
+      "dd",
+      "apendicite"
+    ],
+    [
       "emergencias-parto",
       "dd",
       "bradicardia"
+    ],
+    [
+      "emergencias-parto",
+      "dd",
+      "cefaleia"
+    ],
+    [
+      "emergencias-parto",
+      "dd",
+      "colecistite-colangite"
+    ],
+    [
+      "emergencias-parto",
+      "dd",
+      "dengue"
     ],
     [
       "emergencias-parto",
@@ -5596,7 +9600,47 @@
     [
       "emergencias-parto",
       "dd",
+      "hipertireoidismo"
+    ],
+    [
+      "emergencias-parto",
+      "dd",
+      "pre-eclampsia"
+    ],
+    [
+      "emergencias-parto",
+      "dd",
       "trauma-gestacao"
+    ],
+    [
+      "emergencias-parto",
+      "dd",
+      "trombose-venosa-cerebral"
+    ],
+    [
+      "emergencias-parto",
+      "tratado_por",
+      "drug-acido-tranexamico"
+    ],
+    [
+      "endocardite-infecciosa",
+      "dd",
+      "hemoptise-macica"
+    ],
+    [
+      "endocardite-infecciosa",
+      "dd",
+      "leptospirose"
+    ],
+    [
+      "endocardite-infecciosa",
+      "tratado_por",
+      "drug-amoxicilina"
+    ],
+    [
+      "endocardite-infecciosa",
+      "tratado_por",
+      "drug-clindamicina"
     ],
     [
       "estado-mal-epileptico",
@@ -5611,6 +9655,26 @@
     [
       "estado-mal-epileptico",
       "dd",
+      "anafilaxia"
+    ],
+    [
+      "estado-mal-epileptico",
+      "dd",
+      "cefaleia"
+    ],
+    [
+      "estado-mal-epileptico",
+      "dd",
+      "coma-rebaixamento"
+    ],
+    [
+      "estado-mal-epileptico",
+      "dd",
+      "disturbios-calcio"
+    ],
+    [
+      "estado-mal-epileptico",
+      "dd",
       "pre-eclampsia"
     ],
     [
@@ -5621,7 +9685,22 @@
     [
       "estado-mal-epileptico",
       "tratado_por",
+      "drug-acido-valproico"
+    ],
+    [
+      "estado-mal-epileptico",
+      "tratado_por",
+      "drug-cetamina"
+    ],
+    [
+      "estado-mal-epileptico",
+      "tratado_por",
       "drug-clonazepam"
+    ],
+    [
+      "estado-mal-epileptico",
+      "tratado_por",
+      "drug-diazepam"
     ],
     [
       "estado-mal-epileptico",
@@ -5634,9 +9713,49 @@
       "drug-propofol"
     ],
     [
+      "fasciite-necrosante",
+      "dd",
+      "celulite-erisipela"
+    ],
+    [
+      "fibrilacao-atrial",
+      "dd",
+      "afogamento"
+    ],
+    [
+      "fibrilacao-atrial",
+      "dd",
+      "artrite-septica"
+    ],
+    [
+      "fibrilacao-atrial",
+      "dd",
+      "choque"
+    ],
+    [
+      "fibrilacao-atrial",
+      "dd",
+      "civd"
+    ],
+    [
+      "fibrilacao-atrial",
+      "dd",
+      "dpoc"
+    ],
+    [
       "fibrilacao-atrial",
       "dd",
       "taquiarritmias"
+    ],
+    [
+      "fibrilacao-atrial",
+      "dd",
+      "vertigem"
+    ],
+    [
+      "fibrilacao-atrial",
+      "tratado_por",
+      "drug-aas"
     ],
     [
       "fibrilacao-atrial",
@@ -5647,6 +9766,16 @@
       "fibrilacao-atrial",
       "tratado_por",
       "drug-apixabana"
+    ],
+    [
+      "fibrilacao-atrial",
+      "tratado_por",
+      "drug-clopidogrel"
+    ],
+    [
+      "fibrilacao-atrial",
+      "tratado_por",
+      "drug-digoxina"
     ],
     [
       "fibrilacao-atrial",
@@ -5676,6 +9805,16 @@
     [
       "gravidez-ectopica",
       "dd",
+      "colica-renal"
+    ],
+    [
+      "gravidez-ectopica",
+      "dd",
+      "dip"
+    ],
+    [
+      "gravidez-ectopica",
+      "dd",
       "dor-pelvica-torcao"
     ],
     [
@@ -5684,14 +9823,84 @@
       "hdb"
     ],
     [
+      "gravidez-ectopica",
+      "dd",
+      "reversao-anticoagulacao"
+    ],
+    [
+      "gravidez-ectopica",
+      "dd",
+      "sangramento-uterino-anormal"
+    ],
+    [
+      "gravidez-ectopica",
+      "tratado_por",
+      "drug-acido-folico"
+    ],
+    [
       "guillain-barre",
       "dd",
       "crise-miastenica"
     ],
     [
+      "guillain-barre",
+      "dd",
+      "disturbios-potassio"
+    ],
+    [
+      "guillain-barre",
+      "dd",
+      "emergencias-oncologicas"
+    ],
+    [
+      "has-cronica",
+      "dd",
+      "bradicardia"
+    ],
+    [
+      "has-cronica",
+      "dd",
+      "cefaleia"
+    ],
+    [
+      "has-cronica",
+      "dd",
+      "emergencias-oncologicas"
+    ],
+    [
+      "has-cronica",
+      "dd",
+      "hipertensao-intracraniana"
+    ],
+    [
+      "has-cronica",
+      "dd",
+      "intoxicacao-exogena"
+    ],
+    [
       "has-cronica",
       "dd",
       "microangiopatias-tromboticas"
+    ],
+    [
+      "has-cronica",
+      "dd",
+      "trombose-venosa-cerebral"
+    ],
+    [
+      "has-cronica",
+      "dd",
+      "vertigem"
+    ],
+    [
+      "has-cronica",
+      "tratado_por",
+      "drug-anlodipino"
+    ],
+    [
+      "has-cronica",
+      "tratado_por",
+      "drug-atenolol"
     ],
     [
       "has-cronica",
@@ -5701,12 +9910,77 @@
     [
       "has-cronica",
       "tratado_por",
+      "drug-carvedilol"
+    ],
+    [
+      "has-cronica",
+      "tratado_por",
+      "drug-clortalidona"
+    ],
+    [
+      "has-cronica",
+      "tratado_por",
       "drug-enalapril"
+    ],
+    [
+      "has-cronica",
+      "tratado_por",
+      "drug-espironolactona"
+    ],
+    [
+      "has-cronica",
+      "tratado_por",
+      "drug-furosemida"
+    ],
+    [
+      "has-cronica",
+      "tratado_por",
+      "drug-hidroclorotiazida"
+    ],
+    [
+      "has-cronica",
+      "tratado_por",
+      "drug-insulina-humana"
+    ],
+    [
+      "has-cronica",
+      "tratado_por",
+      "drug-losartana"
+    ],
+    [
+      "has-cronica",
+      "tratado_por",
+      "drug-nifedipino"
+    ],
+    [
+      "has-cronica",
+      "tratado_por",
+      "drug-propranolol"
     ],
     [
       "hda",
       "dd",
       "colecistite-colangite"
+    ],
+    [
+      "hda",
+      "dd",
+      "hdb"
+    ],
+    [
+      "hda",
+      "dd",
+      "hemoptise-macica"
+    ],
+    [
+      "hda",
+      "dd",
+      "pancreatite"
+    ],
+    [
+      "hda",
+      "tratado_por",
+      "drug-adrenalina"
     ],
     [
       "hda",
@@ -5721,12 +9995,32 @@
     [
       "hda",
       "tratado_por",
+      "drug-octreotida"
+    ],
+    [
+      "hda",
+      "tratado_por",
+      "drug-omeprazol"
+    ],
+    [
+      "hda",
+      "tratado_por",
+      "drug-pantoprazol"
+    ],
+    [
+      "hda",
+      "tratado_por",
       "drug-propranolol"
     ],
     [
       "hdb",
       "dd",
       "abortamento"
+    ],
+    [
+      "hdb",
+      "dd",
+      "diverticulite"
     ],
     [
       "hdb",
@@ -5741,7 +10035,22 @@
     [
       "hdb",
       "dd",
+      "hda"
+    ],
+    [
+      "hdb",
+      "dd",
       "hemorragia-2a-metade"
+    ],
+    [
+      "hdb",
+      "dd",
+      "queimaduras"
+    ],
+    [
+      "hdb",
+      "dd",
+      "reversao-anticoagulacao"
     ],
     [
       "hdb",
@@ -5761,6 +10070,11 @@
     [
       "hdb",
       "tratado_por",
+      "drug-cristaloides"
+    ],
+    [
+      "hdb",
+      "tratado_por",
       "drug-noradrenalina"
     ],
     [
@@ -5775,8 +10089,33 @@
     ],
     [
       "hemoptise-macica",
+      "dd",
+      "civd"
+    ],
+    [
+      "hemoptise-macica",
+      "dd",
+      "endocardite-infecciosa"
+    ],
+    [
+      "hemoptise-macica",
+      "dd",
+      "hda"
+    ],
+    [
+      "hemoptise-macica",
+      "dd",
+      "tep"
+    ],
+    [
+      "hemoptise-macica",
       "tratado_por",
       "drug-acido-tranexamico"
+    ],
+    [
+      "hemoptise-macica",
+      "tratado_por",
+      "drug-adrenalina"
     ],
     [
       "hemoptise-macica",
@@ -5791,6 +10130,11 @@
     [
       "hemorragia-2a-metade",
       "dd",
+      "bradicardia"
+    ],
+    [
+      "hemorragia-2a-metade",
+      "dd",
       "emergencias-parto"
     ],
     [
@@ -5800,8 +10144,18 @@
     ],
     [
       "hemorragia-2a-metade",
+      "dd",
+      "trauma-gestacao"
+    ],
+    [
+      "hemorragia-2a-metade",
       "tratado_por",
       "drug-cristaloides"
+    ],
+    [
+      "hemorragia-2a-metade",
+      "tratado_por",
+      "drug-prednisona"
     ],
     [
       "hemorragia-pos-parto",
@@ -5834,6 +10188,96 @@
       "drug-cristaloides"
     ],
     [
+      "hipertensao-intracraniana",
+      "dd",
+      "bradicardia"
+    ],
+    [
+      "hipertensao-intracraniana",
+      "dd",
+      "cefaleia"
+    ],
+    [
+      "hipertensao-intracraniana",
+      "dd",
+      "coma-rebaixamento"
+    ],
+    [
+      "hipertensao-intracraniana",
+      "dd",
+      "crise-hipertensiva"
+    ],
+    [
+      "hipertensao-intracraniana",
+      "dd",
+      "disturbios-sodio"
+    ],
+    [
+      "hipertensao-intracraniana",
+      "dd",
+      "dm2"
+    ],
+    [
+      "hipertensao-intracraniana",
+      "dd",
+      "emergencias-oncologicas"
+    ],
+    [
+      "hipertensao-intracraniana",
+      "dd",
+      "has-cronica"
+    ],
+    [
+      "hipertensao-intracraniana",
+      "dd",
+      "intoxicacao-exogena"
+    ],
+    [
+      "hipertensao-intracraniana",
+      "dd",
+      "trombose-venosa-cerebral"
+    ],
+    [
+      "hipertensao-intracraniana",
+      "tratado_por",
+      "drug-dexametasona"
+    ],
+    [
+      "hipertireoidismo",
+      "dd",
+      "abortamento"
+    ],
+    [
+      "hipertireoidismo",
+      "dd",
+      "cefaleia"
+    ],
+    [
+      "hipertireoidismo",
+      "dd",
+      "crise-hipercalcemica"
+    ],
+    [
+      "hipertireoidismo",
+      "dd",
+      "crise-tireotoxica"
+    ],
+    [
+      "hipertireoidismo",
+      "dd",
+      "dengue"
+    ],
+    [
+      "hipertireoidismo",
+      "dd",
+      "emergencias-parto"
+    ],
+    [
+      "hipertireoidismo",
+      "dd",
+      "hipotireoidismo"
+    ],
+    [
       "hipertireoidismo",
       "dd",
       "trauma-gestacao"
@@ -5846,7 +10290,97 @@
     [
       "hipertireoidismo",
       "tratado_por",
+      "drug-atenolol"
+    ],
+    [
+      "hipertireoidismo",
+      "tratado_por",
+      "drug-carvedilol"
+    ],
+    [
+      "hipertireoidismo",
+      "tratado_por",
       "drug-clindamicina"
+    ],
+    [
+      "hipertireoidismo",
+      "tratado_por",
+      "drug-haloperidol"
+    ],
+    [
+      "hipertireoidismo",
+      "tratado_por",
+      "drug-propranolol"
+    ],
+    [
+      "hipoglicemia",
+      "dd",
+      "abstinencia-alcoolica-dt"
+    ],
+    [
+      "hipoglicemia",
+      "dd",
+      "agitacao-psicomotora"
+    ],
+    [
+      "hipoglicemia",
+      "dd",
+      "avc-isquemico"
+    ],
+    [
+      "hipoglicemia",
+      "dd",
+      "cad-ehh"
+    ],
+    [
+      "hipoglicemia",
+      "dd",
+      "coma-mixedematoso"
+    ],
+    [
+      "hipoglicemia",
+      "dd",
+      "coma-rebaixamento"
+    ],
+    [
+      "hipoglicemia",
+      "dd",
+      "disturbios-potassio"
+    ],
+    [
+      "hipoglicemia",
+      "dd",
+      "disturbios-temperatura"
+    ],
+    [
+      "hipoglicemia",
+      "dd",
+      "insuficiencia-hepatica-aguda"
+    ],
+    [
+      "hipoglicemia",
+      "dd",
+      "pre-eclampsia"
+    ],
+    [
+      "hipoglicemia",
+      "dd",
+      "sincope"
+    ],
+    [
+      "hipoglicemia",
+      "dd",
+      "tce"
+    ],
+    [
+      "hipoglicemia",
+      "dd",
+      "tentativa-suicidio"
+    ],
+    [
+      "hipoglicemia",
+      "dd",
+      "vertigem"
     ],
     [
       "hipoglicemia",
@@ -5874,9 +10408,59 @@
       "drug-octreotida"
     ],
     [
+      "hipotireoidismo",
+      "dd",
+      "bradicardia"
+    ],
+    [
+      "hipotireoidismo",
+      "dd",
+      "depressao"
+    ],
+    [
+      "hipotireoidismo",
+      "dd",
+      "dislipidemia"
+    ],
+    [
+      "hipotireoidismo",
+      "dd",
+      "disturbios-sodio"
+    ],
+    [
+      "hipotireoidismo",
+      "dd",
+      "disturbios-temperatura"
+    ],
+    [
+      "hipotireoidismo",
+      "dd",
+      "hipertireoidismo"
+    ],
+    [
+      "hipotireoidismo",
+      "tratado_por",
+      "drug-levotiroxina"
+    ],
+    [
+      "hsa",
+      "dd",
+      "avc-hemorragico"
+    ],
+    [
       "hsa",
       "dd",
       "cefaleia"
+    ],
+    [
+      "hsa",
+      "dd",
+      "colica-renal"
+    ],
+    [
+      "hsa",
+      "dd",
+      "dor-pelvica-torcao"
     ],
     [
       "hsa",
@@ -5891,12 +10475,22 @@
     [
       "hsa",
       "dd",
+      "meningite"
+    ],
+    [
+      "hsa",
+      "dd",
       "perfuracao-viscera-oca"
     ],
     [
       "hsa",
       "dd",
       "sincope"
+    ],
+    [
+      "hsa",
+      "dd",
+      "tce"
     ],
     [
       "hsa",
@@ -5912,6 +10506,16 @@
       "hsa",
       "tratado_por",
       "drug-acido-tranexamico"
+    ],
+    [
+      "hsa",
+      "tratado_por",
+      "drug-noradrenalina"
+    ],
+    [
+      "iamcsst",
+      "dd",
+      "anafilaxia"
     ],
     [
       "iamcsst",
@@ -5931,7 +10535,47 @@
     [
       "iamcsst",
       "dd",
+      "crise-hipertensiva"
+    ],
+    [
+      "iamcsst",
+      "dd",
+      "disseccao-aorta"
+    ],
+    [
+      "iamcsst",
+      "dd",
+      "disturbios-potassio"
+    ],
+    [
+      "iamcsst",
+      "dd",
       "hsa"
+    ],
+    [
+      "iamcsst",
+      "dd",
+      "insuficiencia-adrenal"
+    ],
+    [
+      "iamcsst",
+      "dd",
+      "isquemia-mesenterica"
+    ],
+    [
+      "iamcsst",
+      "dd",
+      "miocardite-aguda"
+    ],
+    [
+      "iamcsst",
+      "dd",
+      "pac"
+    ],
+    [
+      "iamcsst",
+      "dd",
+      "pancreatite"
     ],
     [
       "iamcsst",
@@ -5941,7 +10585,32 @@
     [
       "iamcsst",
       "dd",
+      "pericardite-tamponamento"
+    ],
+    [
+      "iamcsst",
+      "dd",
+      "rabdomiolise"
+    ],
+    [
+      "iamcsst",
+      "dd",
+      "sca-ssst"
+    ],
+    [
+      "iamcsst",
+      "dd",
+      "taquiarritmias"
+    ],
+    [
+      "iamcsst",
+      "dd",
       "vertigem"
+    ],
+    [
+      "iamcsst",
+      "tratado_por",
+      "drug-aas"
     ],
     [
       "iamcsst",
@@ -5952,6 +10621,11 @@
       "iamcsst",
       "tratado_por",
       "drug-clopidogrel"
+    ],
+    [
+      "iamcsst",
+      "tratado_por",
+      "drug-enoxaparina"
     ],
     [
       "iamcsst",
@@ -5975,8 +10649,58 @@
     ],
     [
       "ic-aguda",
+      "dd",
+      "asma"
+    ],
+    [
+      "ic-aguda",
+      "dd",
+      "crise-hipertensiva"
+    ],
+    [
+      "ic-aguda",
+      "dd",
+      "disseccao-aorta"
+    ],
+    [
+      "ic-aguda",
+      "dd",
+      "dpoc"
+    ],
+    [
+      "ic-aguda",
+      "dd",
+      "irpa-vni"
+    ],
+    [
+      "ic-aguda",
+      "dd",
+      "pac"
+    ],
+    [
+      "ic-aguda",
+      "dd",
+      "pericardite-tamponamento"
+    ],
+    [
+      "ic-aguda",
+      "dd",
+      "pneumotorax"
+    ],
+    [
+      "ic-aguda",
+      "dd",
+      "sdra"
+    ],
+    [
+      "ic-aguda",
       "tratado_por",
       "drug-dobutamina"
+    ],
+    [
+      "ic-aguda",
+      "tratado_por",
+      "drug-espironolactona"
     ],
     [
       "ic-aguda",
@@ -5986,7 +10710,42 @@
     [
       "ic-aguda",
       "tratado_por",
+      "drug-hidroclorotiazida"
+    ],
+    [
+      "ic-aguda",
+      "tratado_por",
+      "drug-morfina"
+    ],
+    [
+      "ic-aguda",
+      "tratado_por",
+      "drug-nitroglicerina"
+    ],
+    [
+      "ic-aguda",
+      "tratado_por",
       "drug-noradrenalina"
+    ],
+    [
+      "infeccao-puerperal",
+      "dd",
+      "apendicite"
+    ],
+    [
+      "infeccao-puerperal",
+      "dd",
+      "dip"
+    ],
+    [
+      "infeccao-puerperal",
+      "dd",
+      "itu"
+    ],
+    [
+      "infeccao-puerperal",
+      "dd",
+      "pac"
     ],
     [
       "infeccao-puerperal",
@@ -6014,6 +10773,31 @@
       "drug-metronidazol"
     ],
     [
+      "influenza-covid-graves",
+      "dd",
+      "leptospirose"
+    ],
+    [
+      "influenza-covid-graves",
+      "dd",
+      "pac"
+    ],
+    [
+      "influenza-covid-graves",
+      "tratado_por",
+      "drug-dexametasona"
+    ],
+    [
+      "influenza-covid-graves",
+      "tratado_por",
+      "drug-montelucaste"
+    ],
+    [
+      "influenza-covid-graves",
+      "tratado_por",
+      "drug-oseltamivir"
+    ],
+    [
       "insuficiencia-adrenal",
       "dd",
       "apendicite"
@@ -6022,6 +10806,16 @@
       "insuficiencia-adrenal",
       "dd",
       "choque"
+    ],
+    [
+      "insuficiencia-adrenal",
+      "dd",
+      "iamcsst"
+    ],
+    [
+      "insuficiencia-adrenal",
+      "dd",
+      "tep"
     ],
     [
       "insuficiencia-adrenal",
@@ -6034,6 +10828,26 @@
       "drug-hidrocortisona"
     ],
     [
+      "insuficiencia-adrenal",
+      "tratado_por",
+      "drug-noradrenalina"
+    ],
+    [
+      "insuficiencia-hepatica-aguda",
+      "dd",
+      "avc-isquemico"
+    ],
+    [
+      "insuficiencia-hepatica-aguda",
+      "dd",
+      "coma-rebaixamento"
+    ],
+    [
+      "insuficiencia-hepatica-aguda",
+      "dd",
+      "hipoglicemia"
+    ],
+    [
       "insuficiencia-hepatica-aguda",
       "tratado_por",
       "drug-fenitoina"
@@ -6041,7 +10855,17 @@
     [
       "insuficiencia-hepatica-aguda",
       "tratado_por",
+      "drug-furosemida"
+    ],
+    [
+      "insuficiencia-hepatica-aguda",
+      "tratado_por",
       "drug-noradrenalina"
+    ],
+    [
+      "insuficiencia-hepatica-aguda",
+      "tratado_por",
+      "drug-paracetamol"
     ],
     [
       "insuficiencia-hepatica-aguda",
@@ -6056,7 +10880,32 @@
     [
       "intoxicacao-exogena",
       "dd",
+      "afogamento"
+    ],
+    [
+      "intoxicacao-exogena",
+      "dd",
+      "agitacao-psicomotora"
+    ],
+    [
+      "intoxicacao-exogena",
+      "dd",
+      "bradicardia"
+    ],
+    [
+      "intoxicacao-exogena",
+      "dd",
       "cad-ehh"
+    ],
+    [
+      "intoxicacao-exogena",
+      "dd",
+      "choque-hemorragico"
+    ],
+    [
+      "intoxicacao-exogena",
+      "dd",
+      "coma-mixedematoso"
     ],
     [
       "intoxicacao-exogena",
@@ -6071,7 +10920,17 @@
     [
       "intoxicacao-exogena",
       "dd",
+      "crise-tireotoxica"
+    ],
+    [
+      "intoxicacao-exogena",
+      "dd",
       "depressao"
+    ],
+    [
+      "intoxicacao-exogena",
+      "dd",
+      "disturbios-acido-base"
     ],
     [
       "intoxicacao-exogena",
@@ -6081,7 +10940,52 @@
     [
       "intoxicacao-exogena",
       "dd",
+      "has-cronica"
+    ],
+    [
+      "intoxicacao-exogena",
+      "dd",
+      "hipertensao-intracraniana"
+    ],
+    [
+      "intoxicacao-exogena",
+      "dd",
+      "queimaduras"
+    ],
+    [
+      "intoxicacao-exogena",
+      "dd",
+      "sincope"
+    ],
+    [
+      "intoxicacao-exogena",
+      "dd",
+      "snm-serotoninergica"
+    ],
+    [
+      "intoxicacao-exogena",
+      "dd",
+      "taquiarritmias"
+    ],
+    [
+      "intoxicacao-exogena",
+      "dd",
+      "tce"
+    ],
+    [
+      "intoxicacao-exogena",
+      "dd",
       "tentativa-suicidio"
+    ],
+    [
+      "intoxicacao-exogena",
+      "dd",
+      "tetano"
+    ],
+    [
+      "intoxicacao-exogena",
+      "tratado_por",
+      "drug-acido-valproico"
     ],
     [
       "intoxicacao-exogena",
@@ -6096,7 +11000,32 @@
     [
       "intoxicacao-exogena",
       "tratado_por",
+      "drug-atenolol"
+    ],
+    [
+      "intoxicacao-exogena",
+      "tratado_por",
+      "drug-atropina"
+    ],
+    [
+      "intoxicacao-exogena",
+      "tratado_por",
       "drug-bicarbonato"
+    ],
+    [
+      "intoxicacao-exogena",
+      "tratado_por",
+      "drug-carvedilol"
+    ],
+    [
+      "intoxicacao-exogena",
+      "tratado_por",
+      "drug-clonazepam"
+    ],
+    [
+      "intoxicacao-exogena",
+      "tratado_por",
+      "drug-diazepam"
     ],
     [
       "intoxicacao-exogena",
@@ -6116,6 +11045,11 @@
     [
       "intoxicacao-exogena",
       "tratado_por",
+      "drug-glicose"
+    ],
+    [
+      "intoxicacao-exogena",
+      "tratado_por",
       "drug-glucagon"
     ],
     [
@@ -6131,7 +11065,22 @@
     [
       "intoxicacao-exogena",
       "tratado_por",
+      "drug-paracetamol"
+    ],
+    [
+      "intoxicacao-exogena",
+      "tratado_por",
+      "drug-propranolol"
+    ],
+    [
+      "intoxicacao-exogena",
+      "tratado_por",
       "drug-sertralina"
+    ],
+    [
+      "intoxicacao-exogena",
+      "tratado_por",
+      "drug-sulfato-ferroso"
     ],
     [
       "irpa-vni",
@@ -6146,12 +11095,57 @@
     [
       "irpa-vni",
       "dd",
+      "bradicardia"
+    ],
+    [
+      "irpa-vni",
+      "dd",
       "choque"
     ],
     [
       "irpa-vni",
       "dd",
+      "depressao"
+    ],
+    [
+      "irpa-vni",
+      "dd",
+      "derrame-pleural"
+    ],
+    [
+      "irpa-vni",
+      "dd",
       "dpoc"
+    ],
+    [
+      "irpa-vni",
+      "dd",
+      "ic-aguda"
+    ],
+    [
+      "irpa-vni",
+      "dd",
+      "pac"
+    ],
+    [
+      "irpa-vni",
+      "dd",
+      "pneumotorax"
+    ],
+    [
+      "irpa-vni",
+      "dd",
+      "sdra"
+    ],
+    [
+      "irpa-vni",
+      "dd",
+      "sincope"
+    ],
+    [
+      "irpa-vni",
+      "dd",
+      "tep"
     ],
     [
       "irpa-vni",
@@ -6170,6 +11164,26 @@
     ],
     [
       "isquemia-mesenterica",
+      "dd",
+      "iamcsst"
+    ],
+    [
+      "isquemia-mesenterica",
+      "dd",
+      "obstrucao-intestinal"
+    ],
+    [
+      "isquemia-mesenterica",
+      "dd",
+      "pancreatite"
+    ],
+    [
+      "isquemia-mesenterica",
+      "dd",
+      "perfuracao-viscera-oca"
+    ],
+    [
+      "isquemia-mesenterica",
       "tratado_por",
       "drug-enoxaparina"
     ],
@@ -6180,8 +11194,63 @@
     ],
     [
       "itu",
+      "dd",
+      "apendicite"
+    ],
+    [
+      "itu",
+      "dd",
+      "choque-hemorragico"
+    ],
+    [
+      "itu",
+      "dd",
+      "colecistite-colangite"
+    ],
+    [
+      "itu",
+      "dd",
+      "colica-renal"
+    ],
+    [
+      "itu",
+      "dd",
+      "dip"
+    ],
+    [
+      "itu",
+      "dd",
+      "diverticulite"
+    ],
+    [
+      "itu",
+      "dd",
+      "dor-pelvica-torcao"
+    ],
+    [
+      "itu",
+      "dd",
+      "infeccao-puerperal"
+    ],
+    [
+      "itu",
+      "dd",
+      "leptospirose"
+    ],
+    [
+      "itu",
+      "tratado_por",
+      "drug-amoxicilina"
+    ],
+    [
+      "itu",
       "tratado_por",
       "drug-azitromicina"
+    ],
+    [
+      "itu",
+      "tratado_por",
+      "drug-bromoprida"
     ],
     [
       "itu",
@@ -6196,12 +11265,37 @@
     [
       "itu",
       "tratado_por",
+      "drug-ciprofloxacino"
+    ],
+    [
+      "itu",
+      "tratado_por",
+      "drug-dexametasona"
+    ],
+    [
+      "itu",
+      "tratado_por",
       "drug-fluconazol"
     ],
     [
       "itu",
       "tratado_por",
+      "drug-furosemida"
+    ],
+    [
+      "itu",
+      "tratado_por",
+      "drug-metoclopramida"
+    ],
+    [
+      "itu",
+      "tratado_por",
       "drug-nitrofurantoina"
+    ],
+    [
+      "itu",
+      "tratado_por",
+      "drug-ondansetrona"
     ],
     [
       "itu",
@@ -6221,7 +11315,37 @@
     [
       "leptospirose",
       "dd",
+      "choque-toxico"
+    ],
+    [
+      "leptospirose",
+      "dd",
+      "colecistite-colangite"
+    ],
+    [
+      "leptospirose",
+      "dd",
       "crise-gotosa"
+    ],
+    [
+      "leptospirose",
+      "dd",
+      "dengue"
+    ],
+    [
+      "leptospirose",
+      "dd",
+      "endocardite-infecciosa"
+    ],
+    [
+      "leptospirose",
+      "dd",
+      "influenza-covid-graves"
+    ],
+    [
+      "leptospirose",
+      "dd",
+      "itu"
     ],
     [
       "leptospirose",
@@ -6232,6 +11356,11 @@
       "leptospirose",
       "dd",
       "microangiopatias-tromboticas"
+    ],
+    [
+      "leptospirose",
+      "dd",
+      "pac"
     ],
     [
       "leptospirose",
@@ -6259,9 +11388,44 @@
       "drug-cristaloides"
     ],
     [
+      "leptospirose",
+      "tratado_por",
+      "drug-furosemida"
+    ],
+    [
+      "leptospirose",
+      "tratado_por",
+      "drug-montelucaste"
+    ],
+    [
+      "lesoes-eletricidade",
+      "dd",
+      "choque-hemorragico"
+    ],
+    [
+      "lesoes-eletricidade",
+      "dd",
+      "pcr-acls"
+    ],
+    [
+      "lesoes-eletricidade",
+      "dd",
+      "queimaduras"
+    ],
+    [
       "lesoes-eletricidade",
       "tratado_por",
       "drug-cristaloides"
+    ],
+    [
+      "lra",
+      "dd",
+      "crise-hipertensiva"
+    ],
+    [
+      "lra",
+      "dd",
+      "drc"
     ],
     [
       "lra",
@@ -6271,7 +11435,32 @@
     [
       "lra",
       "dd",
+      "rabdomiolise"
+    ],
+    [
+      "lra",
+      "dd",
       "sindromes-nefritica-nefrotica"
+    ],
+    [
+      "lra",
+      "dd",
+      "trauma-gestacao"
+    ],
+    [
+      "lra",
+      "tratado_por",
+      "drug-acido-folico"
+    ],
+    [
+      "lra",
+      "tratado_por",
+      "drug-acido-valproico"
+    ],
+    [
+      "malaria",
+      "dd",
+      "dengue"
     ],
     [
       "malaria",
@@ -6280,8 +11469,78 @@
     ],
     [
       "meningite",
+      "dd",
+      "abstinencia-alcoolica-dt"
+    ],
+    [
+      "meningite",
+      "dd",
+      "anemia-falciforme"
+    ],
+    [
+      "meningite",
+      "dd",
+      "cefaleia"
+    ],
+    [
+      "meningite",
+      "dd",
+      "disturbios-temperatura"
+    ],
+    [
+      "meningite",
+      "dd",
+      "hsa"
+    ],
+    [
+      "meningite",
+      "dd",
+      "pre-eclampsia"
+    ],
+    [
+      "meningite",
+      "dd",
+      "tetano"
+    ],
+    [
+      "meningite",
+      "dd",
+      "trombose-venosa-cerebral"
+    ],
+    [
+      "meningite",
+      "dd",
+      "vertigem"
+    ],
+    [
+      "meningite",
+      "tratado_por",
+      "drug-aciclovir"
+    ],
+    [
+      "meningite",
+      "tratado_por",
+      "drug-ceftriaxona"
+    ],
+    [
+      "meningite",
+      "tratado_por",
+      "drug-ciprofloxacino"
+    ],
+    [
+      "meningite",
+      "tratado_por",
+      "drug-meropenem"
+    ],
+    [
+      "meningite",
       "tratado_por",
       "drug-vancomicina"
+    ],
+    [
+      "microangiopatias-tromboticas",
+      "dd",
+      "civd"
     ],
     [
       "microangiopatias-tromboticas",
@@ -6296,7 +11555,47 @@
     [
       "microangiopatias-tromboticas",
       "dd",
+      "pre-eclampsia"
+    ],
+    [
+      "microangiopatias-tromboticas",
+      "dd",
       "sindromes-nefritica-nefrotica"
+    ],
+    [
+      "miocardite-aguda",
+      "dd",
+      "iamcsst"
+    ],
+    [
+      "miocardite-aguda",
+      "dd",
+      "pericardite-tamponamento"
+    ],
+    [
+      "miocardite-aguda",
+      "dd",
+      "sca-ssst"
+    ],
+    [
+      "miocardite-aguda",
+      "tratado_por",
+      "drug-atenolol"
+    ],
+    [
+      "miocardite-aguda",
+      "tratado_por",
+      "drug-captopril"
+    ],
+    [
+      "miocardite-aguda",
+      "tratado_por",
+      "drug-carvedilol"
+    ],
+    [
+      "miocardite-aguda",
+      "tratado_por",
+      "drug-enalapril"
     ],
     [
       "miocardite-aguda",
@@ -6309,9 +11608,39 @@
       "drug-hidroclorotiazida"
     ],
     [
+      "miocardite-aguda",
+      "tratado_por",
+      "drug-losartana"
+    ],
+    [
+      "miocardite-aguda",
+      "tratado_por",
+      "drug-propranolol"
+    ],
+    [
+      "neutropenia-febril",
+      "dd",
+      "emergencias-oncologicas"
+    ],
+    [
+      "neutropenia-febril",
+      "tratado_por",
+      "drug-amoxicilina"
+    ],
+    [
+      "neutropenia-febril",
+      "tratado_por",
+      "drug-amoxicilina-clavulanato"
+    ],
+    [
       "neutropenia-febril",
       "tratado_por",
       "drug-ciprofloxacino"
+    ],
+    [
+      "neutropenia-febril",
+      "tratado_por",
+      "drug-dexametasona"
     ],
     [
       "neutropenia-febril",
@@ -6341,7 +11670,27 @@
     [
       "obstrucao-intestinal",
       "dd",
+      "isquemia-mesenterica"
+    ],
+    [
+      "obstrucao-intestinal",
+      "dd",
+      "pancreatite"
+    ],
+    [
+      "obstrucao-intestinal",
+      "dd",
       "perfuracao-viscera-oca"
+    ],
+    [
+      "obstrucao-intestinal",
+      "dd",
+      "retencao-urinaria-aguda"
+    ],
+    [
+      "pac",
+      "dd",
+      "anemia-falciforme"
     ],
     [
       "pac",
@@ -6350,8 +11699,68 @@
     ],
     [
       "pac",
+      "dd",
+      "iamcsst"
+    ],
+    [
+      "pac",
+      "dd",
+      "ic-aguda"
+    ],
+    [
+      "pac",
+      "dd",
+      "infeccao-puerperal"
+    ],
+    [
+      "pac",
+      "dd",
+      "influenza-covid-graves"
+    ],
+    [
+      "pac",
+      "dd",
+      "irpa-vni"
+    ],
+    [
+      "pac",
+      "dd",
+      "leptospirose"
+    ],
+    [
+      "pac",
+      "dd",
+      "pneumotorax"
+    ],
+    [
+      "pac",
+      "dd",
+      "sca-ssst"
+    ],
+    [
+      "pac",
+      "dd",
+      "sdra"
+    ],
+    [
+      "pac",
+      "dd",
+      "tep"
+    ],
+    [
+      "pac",
+      "dd",
+      "tuberculose"
+    ],
+    [
+      "pac",
       "tratado_por",
       "drug-amoxicilina"
+    ],
+    [
+      "pac",
+      "tratado_por",
+      "drug-amoxicilina-clavulanato"
     ],
     [
       "pac",
@@ -6366,7 +11775,67 @@
     [
       "pac",
       "tratado_por",
+      "drug-ceftriaxona"
+    ],
+    [
+      "pac",
+      "tratado_por",
       "drug-ciprofloxacino"
+    ],
+    [
+      "pac",
+      "tratado_por",
+      "drug-clindamicina"
+    ],
+    [
+      "pac",
+      "tratado_por",
+      "drug-hidrocortisona"
+    ],
+    [
+      "pac",
+      "tratado_por",
+      "drug-sulfametoxazol-trimetoprima"
+    ],
+    [
+      "pancreatite",
+      "dd",
+      "colecistite-colangite"
+    ],
+    [
+      "pancreatite",
+      "dd",
+      "derrame-pleural"
+    ],
+    [
+      "pancreatite",
+      "dd",
+      "hda"
+    ],
+    [
+      "pancreatite",
+      "dd",
+      "iamcsst"
+    ],
+    [
+      "pancreatite",
+      "dd",
+      "isquemia-mesenterica"
+    ],
+    [
+      "pancreatite",
+      "dd",
+      "obstrucao-intestinal"
+    ],
+    [
+      "pancreatite",
+      "dd",
+      "perfuracao-viscera-oca"
+    ],
+    [
+      "pancreatite",
+      "dd",
+      "sca-ssst"
     ],
     [
       "pancreatite",
@@ -6374,9 +11843,69 @@
       "sepse"
     ],
     [
+      "pancreatite",
+      "tratado_por",
+      "drug-dipirona"
+    ],
+    [
+      "pancreatite",
+      "tratado_por",
+      "drug-paracetamol"
+    ],
+    [
+      "pbe",
+      "dd",
+      "tuberculose"
+    ],
+    [
+      "pbe",
+      "tratado_por",
+      "drug-bromoprida"
+    ],
+    [
+      "pbe",
+      "tratado_por",
+      "drug-ceftriaxona"
+    ],
+    [
+      "pbe",
+      "tratado_por",
+      "drug-ciprofloxacino"
+    ],
+    [
+      "pbe",
+      "tratado_por",
+      "drug-metoclopramida"
+    ],
+    [
+      "pbe",
+      "tratado_por",
+      "drug-ondansetrona"
+    ],
+    [
       "pbe",
       "tratado_por",
       "drug-piperacilina-tazobactam"
+    ],
+    [
+      "pbe",
+      "tratado_por",
+      "drug-sulfametoxazol-trimetoprima"
+    ],
+    [
+      "pcr-acls",
+      "dd",
+      "afogamento"
+    ],
+    [
+      "pcr-acls",
+      "dd",
+      "lesoes-eletricidade"
+    ],
+    [
+      "pcr-acls",
+      "dd",
+      "sincope"
     ],
     [
       "pcr-acls",
@@ -6391,6 +11920,11 @@
     [
       "perfuracao-viscera-oca",
       "dd",
+      "colecistite-colangite"
+    ],
+    [
+      "perfuracao-viscera-oca",
+      "dd",
       "hsa"
     ],
     [
@@ -6401,7 +11935,97 @@
     [
       "perfuracao-viscera-oca",
       "dd",
+      "isquemia-mesenterica"
+    ],
+    [
+      "perfuracao-viscera-oca",
+      "dd",
       "obstrucao-intestinal"
+    ],
+    [
+      "perfuracao-viscera-oca",
+      "dd",
+      "pancreatite"
+    ],
+    [
+      "perfuracao-viscera-oca",
+      "tratado_por",
+      "drug-bromoprida"
+    ],
+    [
+      "perfuracao-viscera-oca",
+      "tratado_por",
+      "drug-dexametasona"
+    ],
+    [
+      "perfuracao-viscera-oca",
+      "tratado_por",
+      "drug-metoclopramida"
+    ],
+    [
+      "perfuracao-viscera-oca",
+      "tratado_por",
+      "drug-metronidazol"
+    ],
+    [
+      "perfuracao-viscera-oca",
+      "tratado_por",
+      "drug-omeprazol"
+    ],
+    [
+      "perfuracao-viscera-oca",
+      "tratado_por",
+      "drug-ondansetrona"
+    ],
+    [
+      "perfuracao-viscera-oca",
+      "tratado_por",
+      "drug-pantoprazol"
+    ],
+    [
+      "pericardite-tamponamento",
+      "dd",
+      "choque-hemorragico"
+    ],
+    [
+      "pericardite-tamponamento",
+      "dd",
+      "disseccao-aorta"
+    ],
+    [
+      "pericardite-tamponamento",
+      "dd",
+      "iamcsst"
+    ],
+    [
+      "pericardite-tamponamento",
+      "dd",
+      "ic-aguda"
+    ],
+    [
+      "pericardite-tamponamento",
+      "dd",
+      "miocardite-aguda"
+    ],
+    [
+      "pericardite-tamponamento",
+      "dd",
+      "pneumotorax"
+    ],
+    [
+      "pericardite-tamponamento",
+      "dd",
+      "politrauma-atls"
+    ],
+    [
+      "pericardite-tamponamento",
+      "dd",
+      "sca-ssst"
+    ],
+    [
+      "pericardite-tamponamento",
+      "dd",
+      "tep"
     ],
     [
       "pericardite-tamponamento",
@@ -6429,9 +12053,89 @@
       "choque-cardiogenico"
     ],
     [
+      "pneumotorax",
+      "dd",
+      "derrame-pleural"
+    ],
+    [
+      "pneumotorax",
+      "dd",
+      "disseccao-aorta"
+    ],
+    [
+      "pneumotorax",
+      "dd",
+      "dpoc"
+    ],
+    [
+      "pneumotorax",
+      "dd",
+      "ic-aguda"
+    ],
+    [
+      "pneumotorax",
+      "dd",
+      "irpa-vni"
+    ],
+    [
+      "pneumotorax",
+      "dd",
+      "pac"
+    ],
+    [
+      "pneumotorax",
+      "dd",
+      "pericardite-tamponamento"
+    ],
+    [
+      "pneumotorax",
+      "dd",
+      "politrauma-atls"
+    ],
+    [
+      "pneumotorax",
+      "dd",
+      "tep"
+    ],
+    [
+      "pneumotorax",
+      "tratado_por",
+      "drug-furosemida"
+    ],
+    [
       "politrauma-atls",
       "dd",
       "choque"
+    ],
+    [
+      "politrauma-atls",
+      "dd",
+      "choque-hemorragico"
+    ],
+    [
+      "politrauma-atls",
+      "dd",
+      "pericardite-tamponamento"
+    ],
+    [
+      "politrauma-atls",
+      "dd",
+      "pneumotorax"
+    ],
+    [
+      "politrauma-atls",
+      "dd",
+      "sepse"
+    ],
+    [
+      "politrauma-atls",
+      "tratado_por",
+      "drug-acido-tranexamico"
+    ],
+    [
+      "politrauma-atls",
+      "tratado_por",
+      "drug-furosemida"
     ],
     [
       "pre-eclampsia",
@@ -6441,7 +12145,32 @@
     [
       "pre-eclampsia",
       "dd",
+      "acidentes-peconhentos"
+    ],
+    [
+      "pre-eclampsia",
+      "dd",
       "civd"
+    ],
+    [
+      "pre-eclampsia",
+      "dd",
+      "crise-hipertensiva"
+    ],
+    [
+      "pre-eclampsia",
+      "dd",
+      "disturbios-calcio"
+    ],
+    [
+      "pre-eclampsia",
+      "dd",
+      "disturbios-sodio"
+    ],
+    [
+      "pre-eclampsia",
+      "dd",
+      "emergencias-parto"
     ],
     [
       "pre-eclampsia",
@@ -6456,12 +12185,42 @@
     [
       "pre-eclampsia",
       "dd",
+      "hipoglicemia"
+    ],
+    [
+      "pre-eclampsia",
+      "dd",
+      "meningite"
+    ],
+    [
+      "pre-eclampsia",
+      "dd",
+      "microangiopatias-tromboticas"
+    ],
+    [
+      "pre-eclampsia",
+      "dd",
+      "trombose-venosa-cerebral"
+    ],
+    [
+      "pre-eclampsia",
+      "dd",
       "tvp"
     ],
     [
       "pre-eclampsia",
       "tratado_por",
+      "drug-clonazepam"
+    ],
+    [
+      "pre-eclampsia",
+      "tratado_por",
       "drug-dexametasona"
+    ],
+    [
+      "pre-eclampsia",
+      "tratado_por",
+      "drug-diazepam"
     ],
     [
       "pre-eclampsia",
@@ -6481,6 +12240,16 @@
     [
       "pre-eclampsia",
       "tratado_por",
+      "drug-insulina-humana"
+    ],
+    [
+      "pre-eclampsia",
+      "tratado_por",
+      "drug-nifedipino"
+    ],
+    [
+      "pre-eclampsia",
+      "tratado_por",
       "drug-sertralina"
     ],
     [
@@ -6495,6 +12264,31 @@
     ],
     [
       "queimaduras",
+      "dd",
+      "coma-rebaixamento"
+    ],
+    [
+      "queimaduras",
+      "dd",
+      "hdb"
+    ],
+    [
+      "queimaduras",
+      "dd",
+      "intoxicacao-exogena"
+    ],
+    [
+      "queimaduras",
+      "dd",
+      "lesoes-eletricidade"
+    ],
+    [
+      "queimaduras",
+      "dd",
+      "sepse"
+    ],
+    [
+      "queimaduras",
       "tratado_por",
       "drug-cristaloides"
     ],
@@ -6506,7 +12300,17 @@
     [
       "queimaduras",
       "tratado_por",
+      "drug-fentanil"
+    ],
+    [
+      "queimaduras",
+      "tratado_por",
       "drug-furosemida"
+    ],
+    [
+      "queimaduras",
+      "tratado_por",
+      "drug-morfina"
     ],
     [
       "rabdomiolise",
@@ -6515,13 +12319,73 @@
     ],
     [
       "rabdomiolise",
+      "dd",
+      "disturbios-potassio"
+    ],
+    [
+      "rabdomiolise",
+      "dd",
+      "iamcsst"
+    ],
+    [
+      "rabdomiolise",
+      "dd",
+      "lra"
+    ],
+    [
+      "rabdomiolise",
+      "dd",
+      "snm-serotoninergica"
+    ],
+    [
+      "rabdomiolise",
+      "tratado_por",
+      "drug-bicarbonato"
+    ],
+    [
+      "rabdomiolise",
+      "tratado_por",
+      "drug-cristaloides"
+    ],
+    [
+      "rabdomiolise",
+      "tratado_por",
+      "drug-insulina-humana"
+    ],
+    [
+      "reacoes-transfusionais",
+      "dd",
+      "anafilaxia"
+    ],
+    [
+      "reacoes-transfusionais",
+      "dd",
+      "choque"
+    ],
+    [
+      "reacoes-transfusionais",
+      "dd",
+      "sdra"
+    ],
+    [
+      "reacoes-transfusionais",
+      "tratado_por",
+      "drug-adrenalina"
+    ],
+    [
+      "reacoes-transfusionais",
+      "tratado_por",
+      "drug-cetirizina"
+    ],
+    [
+      "reacoes-transfusionais",
       "tratado_por",
       "drug-cristaloides"
     ],
     [
       "reacoes-transfusionais",
       "tratado_por",
-      "drug-adrenalina"
+      "drug-desloratadina"
     ],
     [
       "reacoes-transfusionais",
@@ -6541,12 +12405,32 @@
     [
       "reacoes-transfusionais",
       "tratado_por",
+      "drug-loratadina"
+    ],
+    [
+      "reacoes-transfusionais",
+      "tratado_por",
       "drug-paracetamol"
+    ],
+    [
+      "retencao-urinaria-aguda",
+      "dd",
+      "obstrucao-intestinal"
     ],
     [
       "reversao-anticoagulacao",
       "dd",
       "civd"
+    ],
+    [
+      "reversao-anticoagulacao",
+      "dd",
+      "gravidez-ectopica"
+    ],
+    [
+      "reversao-anticoagulacao",
+      "dd",
+      "hdb"
     ],
     [
       "reversao-anticoagulacao",
@@ -6561,12 +12445,37 @@
     [
       "reversao-anticoagulacao",
       "tratado_por",
+      "drug-enoxaparina"
+    ],
+    [
+      "reversao-anticoagulacao",
+      "tratado_por",
+      "drug-heparina"
+    ],
+    [
+      "reversao-anticoagulacao",
+      "tratado_por",
       "drug-rivaroxabana"
+    ],
+    [
+      "reversao-anticoagulacao",
+      "tratado_por",
+      "drug-varfarina"
     ],
     [
       "sangramento-uterino-anormal",
       "dd",
       "choque-hemorragico"
+    ],
+    [
+      "sangramento-uterino-anormal",
+      "dd",
+      "dip"
+    ],
+    [
+      "sangramento-uterino-anormal",
+      "dd",
+      "gravidez-ectopica"
     ],
     [
       "sangramento-uterino-anormal",
@@ -6577,6 +12486,51 @@
       "sangramento-uterino-anormal",
       "tratado_por",
       "drug-acido-tranexamico"
+    ],
+    [
+      "sca-ssst",
+      "dd",
+      "crise-hipertensiva"
+    ],
+    [
+      "sca-ssst",
+      "dd",
+      "disseccao-aorta"
+    ],
+    [
+      "sca-ssst",
+      "dd",
+      "dpoc"
+    ],
+    [
+      "sca-ssst",
+      "dd",
+      "iamcsst"
+    ],
+    [
+      "sca-ssst",
+      "dd",
+      "miocardite-aguda"
+    ],
+    [
+      "sca-ssst",
+      "dd",
+      "pac"
+    ],
+    [
+      "sca-ssst",
+      "dd",
+      "pancreatite"
+    ],
+    [
+      "sca-ssst",
+      "dd",
+      "pericardite-tamponamento"
+    ],
+    [
+      "sca-ssst",
+      "dd",
+      "tep"
     ],
     [
       "sca-ssst",
@@ -6616,11 +12570,6 @@
     [
       "sca-ssst",
       "tratado_por",
-      "drug-heparina"
-    ],
-    [
-      "sca-ssst",
-      "tratado_por",
       "drug-morfina"
     ],
     [
@@ -6639,6 +12588,46 @@
       "choque"
     ],
     [
+      "sdra",
+      "dd",
+      "ic-aguda"
+    ],
+    [
+      "sdra",
+      "dd",
+      "irpa-vni"
+    ],
+    [
+      "sdra",
+      "dd",
+      "pac"
+    ],
+    [
+      "sdra",
+      "dd",
+      "reacoes-transfusionais"
+    ],
+    [
+      "sepse",
+      "dd",
+      "choque"
+    ],
+    [
+      "sepse",
+      "dd",
+      "choque-hemorragico"
+    ],
+    [
+      "sepse",
+      "dd",
+      "choque-toxico"
+    ],
+    [
+      "sepse",
+      "dd",
+      "emergencias-oncologicas"
+    ],
+    [
       "sepse",
       "dd",
       "infeccao-puerperal"
@@ -6647,6 +12636,31 @@
       "sepse",
       "dd",
       "pancreatite"
+    ],
+    [
+      "sepse",
+      "dd",
+      "politrauma-atls"
+    ],
+    [
+      "sepse",
+      "dd",
+      "queimaduras"
+    ],
+    [
+      "sepse",
+      "dd",
+      "snm-serotoninergica"
+    ],
+    [
+      "sepse",
+      "dd",
+      "tep"
+    ],
+    [
+      "sepse",
+      "tratado_por",
+      "drug-dobutamina"
     ],
     [
       "sepse",
@@ -6661,7 +12675,42 @@
     [
       "sepse",
       "tratado_por",
+      "drug-linezolida"
+    ],
+    [
+      "sepse",
+      "tratado_por",
+      "drug-noradrenalina"
+    ],
+    [
+      "sepse",
+      "tratado_por",
       "drug-vancomicina"
+    ],
+    [
+      "sepse",
+      "tratado_por",
+      "drug-vasopressina"
+    ],
+    [
+      "sincope",
+      "dd",
+      "afogamento"
+    ],
+    [
+      "sincope",
+      "dd",
+      "anafilaxia"
+    ],
+    [
+      "sincope",
+      "dd",
+      "avc-isquemico"
+    ],
+    [
+      "sincope",
+      "dd",
+      "cefaleia"
     ],
     [
       "sincope",
@@ -6676,7 +12725,47 @@
     [
       "sincope",
       "dd",
+      "hipoglicemia"
+    ],
+    [
+      "sincope",
+      "dd",
       "hsa"
+    ],
+    [
+      "sincope",
+      "dd",
+      "intoxicacao-exogena"
+    ],
+    [
+      "sincope",
+      "dd",
+      "irpa-vni"
+    ],
+    [
+      "sincope",
+      "dd",
+      "pcr-acls"
+    ],
+    [
+      "sincope",
+      "dd",
+      "tce"
+    ],
+    [
+      "sincope",
+      "dd",
+      "trombose-venosa-cerebral"
+    ],
+    [
+      "sindromes-nefritica-nefrotica",
+      "dd",
+      "derrame-pleural"
+    ],
+    [
+      "sindromes-nefritica-nefrotica",
+      "dd",
+      "dislipidemia"
     ],
     [
       "sindromes-nefritica-nefrotica",
@@ -6687,6 +12776,21 @@
       "sindromes-nefritica-nefrotica",
       "dd",
       "microangiopatias-tromboticas"
+    ],
+    [
+      "sindromes-nefritica-nefrotica",
+      "tratado_por",
+      "drug-atorvastatina"
+    ],
+    [
+      "sindromes-nefritica-nefrotica",
+      "tratado_por",
+      "drug-captopril"
+    ],
+    [
+      "sindromes-nefritica-nefrotica",
+      "tratado_por",
+      "drug-enalapril"
     ],
     [
       "sindromes-nefritica-nefrotica",
@@ -6704,9 +12808,54 @@
       "drug-hidroclorotiazida"
     ],
     [
+      "sindromes-nefritica-nefrotica",
+      "tratado_por",
+      "drug-losartana"
+    ],
+    [
+      "sindromes-nefritica-nefrotica",
+      "tratado_por",
+      "drug-rosuvastatina"
+    ],
+    [
+      "sindromes-nefritica-nefrotica",
+      "tratado_por",
+      "drug-sinvastatina"
+    ],
+    [
+      "snm-serotoninergica",
+      "dd",
+      "crise-tireotoxica"
+    ],
+    [
       "snm-serotoninergica",
       "dd",
       "disturbios-temperatura"
+    ],
+    [
+      "snm-serotoninergica",
+      "dd",
+      "intoxicacao-exogena"
+    ],
+    [
+      "snm-serotoninergica",
+      "dd",
+      "rabdomiolise"
+    ],
+    [
+      "snm-serotoninergica",
+      "dd",
+      "sepse"
+    ],
+    [
+      "snm-serotoninergica",
+      "dd",
+      "tentativa-suicidio"
+    ],
+    [
+      "snm-serotoninergica",
+      "tratado_por",
+      "drug-clonazepam"
     ],
     [
       "snm-serotoninergica",
@@ -6716,7 +12865,37 @@
     [
       "taquiarritmias",
       "dd",
+      "choque-hemorragico"
+    ],
+    [
+      "taquiarritmias",
+      "dd",
+      "disturbios-magnesio-fosforo"
+    ],
+    [
+      "taquiarritmias",
+      "dd",
       "fibrilacao-atrial"
+    ],
+    [
+      "taquiarritmias",
+      "dd",
+      "iamcsst"
+    ],
+    [
+      "taquiarritmias",
+      "dd",
+      "intoxicacao-exogena"
+    ],
+    [
+      "taquiarritmias",
+      "tratado_por",
+      "drug-atenolol"
+    ],
+    [
+      "taquiarritmias",
+      "tratado_por",
+      "drug-carvedilol"
     ],
     [
       "taquiarritmias",
@@ -6724,14 +12903,84 @@
       "drug-insulina-humana"
     ],
     [
+      "taquiarritmias",
+      "tratado_por",
+      "drug-propranolol"
+    ],
+    [
+      "tce",
+      "dd",
+      "agitacao-psicomotora"
+    ],
+    [
+      "tce",
+      "dd",
+      "avc-hemorragico"
+    ],
+    [
+      "tce",
+      "dd",
+      "avc-isquemico"
+    ],
+    [
       "tce",
       "dd",
       "choque-hemorragico"
     ],
     [
+      "tce",
+      "dd",
+      "coma-rebaixamento"
+    ],
+    [
+      "tce",
+      "dd",
+      "disturbios-temperatura"
+    ],
+    [
+      "tce",
+      "dd",
+      "hipoglicemia"
+    ],
+    [
+      "tce",
+      "dd",
+      "hsa"
+    ],
+    [
+      "tce",
+      "dd",
+      "intoxicacao-exogena"
+    ],
+    [
+      "tce",
+      "dd",
+      "sincope"
+    ],
+    [
+      "tce",
+      "dd",
+      "tentativa-suicidio"
+    ],
+    [
+      "tentativa-suicidio",
+      "dd",
+      "hipoglicemia"
+    ],
+    [
       "tentativa-suicidio",
       "dd",
       "intoxicacao-exogena"
+    ],
+    [
+      "tentativa-suicidio",
+      "dd",
+      "snm-serotoninergica"
+    ],
+    [
+      "tentativa-suicidio",
+      "dd",
+      "tce"
     ],
     [
       "tentativa-suicidio",
@@ -6749,9 +12998,99 @@
       "drug-naloxona"
     ],
     [
+      "tentativa-suicidio",
+      "tratado_por",
+      "drug-paracetamol"
+    ],
+    [
+      "tep",
+      "dd",
+      "anafilaxia"
+    ],
+    [
+      "tep",
+      "dd",
+      "asma"
+    ],
+    [
+      "tep",
+      "dd",
+      "choque"
+    ],
+    [
+      "tep",
+      "dd",
+      "choque-cardiogenico"
+    ],
+    [
+      "tep",
+      "dd",
+      "derrame-pleural"
+    ],
+    [
+      "tep",
+      "dd",
+      "disseccao-aorta"
+    ],
+    [
+      "tep",
+      "dd",
+      "disturbios-acido-base"
+    ],
+    [
+      "tep",
+      "dd",
+      "hemoptise-macica"
+    ],
+    [
+      "tep",
+      "dd",
+      "insuficiencia-adrenal"
+    ],
+    [
+      "tep",
+      "dd",
+      "irpa-vni"
+    ],
+    [
+      "tep",
+      "dd",
+      "pac"
+    ],
+    [
+      "tep",
+      "dd",
+      "pericardite-tamponamento"
+    ],
+    [
+      "tep",
+      "dd",
+      "pneumotorax"
+    ],
+    [
+      "tep",
+      "dd",
+      "sca-ssst"
+    ],
+    [
+      "tep",
+      "dd",
+      "sepse"
+    ],
+    [
+      "tep",
+      "dd",
+      "vertigem"
+    ],
+    [
       "tep",
       "tratado_por",
       "drug-apixabana"
+    ],
+    [
+      "tep",
+      "tratado_por",
+      "drug-enoxaparina"
     ],
     [
       "tep",
@@ -6764,9 +13103,69 @@
       "drug-rivaroxabana"
     ],
     [
+      "tetano",
+      "dd",
+      "acidentes-peconhentos"
+    ],
+    [
+      "tetano",
+      "dd",
+      "disturbios-calcio"
+    ],
+    [
+      "tetano",
+      "dd",
+      "intoxicacao-exogena"
+    ],
+    [
+      "tetano",
+      "dd",
+      "meningite"
+    ],
+    [
+      "tetano",
+      "tratado_por",
+      "drug-metronidazol"
+    ],
+    [
       "torcao-testicular",
       "dd",
       "choque-hemorragico"
+    ],
+    [
+      "torcao-testicular",
+      "dd",
+      "colica-renal"
+    ],
+    [
+      "torcao-testicular",
+      "tratado_por",
+      "drug-bromoprida"
+    ],
+    [
+      "torcao-testicular",
+      "tratado_por",
+      "drug-dexametasona"
+    ],
+    [
+      "torcao-testicular",
+      "tratado_por",
+      "drug-metoclopramida"
+    ],
+    [
+      "torcao-testicular",
+      "tratado_por",
+      "drug-ondansetrona"
+    ],
+    [
+      "trauma-gestacao",
+      "dd",
+      "choque-hemorragico"
+    ],
+    [
+      "trauma-gestacao",
+      "dd",
+      "civd"
     ],
     [
       "trauma-gestacao",
@@ -6786,12 +13185,47 @@
     [
       "trauma-gestacao",
       "dd",
+      "hemorragia-2a-metade"
+    ],
+    [
+      "trauma-gestacao",
+      "dd",
       "hipertireoidismo"
+    ],
+    [
+      "trauma-gestacao",
+      "dd",
+      "lra"
     ],
     [
       "trauma-gestacao",
       "tratado_por",
       "drug-acido-tranexamico"
+    ],
+    [
+      "trauma-gestacao",
+      "tratado_por",
+      "drug-rocuronio"
+    ],
+    [
+      "trauma-gestacao",
+      "tratado_por",
+      "drug-succinilcolina"
+    ],
+    [
+      "trombose-venosa-cerebral",
+      "dd",
+      "artrite-septica"
+    ],
+    [
+      "trombose-venosa-cerebral",
+      "dd",
+      "avc-hemorragico"
+    ],
+    [
+      "trombose-venosa-cerebral",
+      "dd",
+      "avc-isquemico"
     ],
     [
       "trombose-venosa-cerebral",
@@ -6801,7 +13235,42 @@
     [
       "trombose-venosa-cerebral",
       "dd",
+      "civd"
+    ],
+    [
+      "trombose-venosa-cerebral",
+      "dd",
+      "emergencias-parto"
+    ],
+    [
+      "trombose-venosa-cerebral",
+      "dd",
+      "has-cronica"
+    ],
+    [
+      "trombose-venosa-cerebral",
+      "dd",
+      "hipertensao-intracraniana"
+    ],
+    [
+      "trombose-venosa-cerebral",
+      "dd",
       "hsa"
+    ],
+    [
+      "trombose-venosa-cerebral",
+      "dd",
+      "meningite"
+    ],
+    [
+      "trombose-venosa-cerebral",
+      "dd",
+      "pre-eclampsia"
+    ],
+    [
+      "trombose-venosa-cerebral",
+      "dd",
+      "sincope"
     ],
     [
       "trombose-venosa-cerebral",
@@ -6814,9 +13283,54 @@
       "drug-enoxaparina"
     ],
     [
+      "trombose-venosa-cerebral",
+      "tratado_por",
+      "drug-heparina"
+    ],
+    [
+      "tuberculose",
+      "dd",
+      "pac"
+    ],
+    [
+      "tuberculose",
+      "dd",
+      "pbe"
+    ],
+    [
       "tvp",
       "dd",
       "anemia-falciforme"
+    ],
+    [
+      "tvp",
+      "dd",
+      "artrite-septica"
+    ],
+    [
+      "tvp",
+      "dd",
+      "avc-hemorragico"
+    ],
+    [
+      "tvp",
+      "dd",
+      "cefaleia"
+    ],
+    [
+      "tvp",
+      "dd",
+      "celulite-erisipela"
+    ],
+    [
+      "tvp",
+      "dd",
+      "civd"
+    ],
+    [
+      "tvp",
+      "dd",
+      "dor-pelvica-torcao"
     ],
     [
       "tvp",
@@ -6856,7 +13370,32 @@
     [
       "vertigem",
       "dd",
+      "cad-ehh"
+    ],
+    [
+      "vertigem",
+      "dd",
       "cefaleia"
+    ],
+    [
+      "vertigem",
+      "dd",
+      "dm2"
+    ],
+    [
+      "vertigem",
+      "dd",
+      "fibrilacao-atrial"
+    ],
+    [
+      "vertigem",
+      "dd",
+      "has-cronica"
+    ],
+    [
+      "vertigem",
+      "dd",
+      "hipoglicemia"
     ],
     [
       "vertigem",
@@ -6866,7 +13405,27 @@
     [
       "vertigem",
       "dd",
+      "meningite"
+    ],
+    [
+      "vertigem",
+      "dd",
       "sca-ssst"
+    ],
+    [
+      "vertigem",
+      "dd",
+      "tep"
+    ],
+    [
+      "vertigem",
+      "tratado_por",
+      "drug-amitriptilina"
+    ],
+    [
+      "vertigem",
+      "tratado_por",
+      "drug-bromoprida"
     ],
     [
       "vertigem",
@@ -6887,6 +13446,11 @@
       "vertigem",
       "tratado_por",
       "drug-prednisona"
+    ],
+    [
+      "vertigem",
+      "tratado_por",
+      "drug-propranolol"
     ]
   ],
   "meta": {

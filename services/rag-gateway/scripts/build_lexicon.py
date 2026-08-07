@@ -131,6 +131,31 @@ def _section(blk: str, field: str) -> str:
     return rest[: stop.start()] if stop else rest
 
 
+_PARENTESE_FINAL = re.compile(r"^(.+?)\s*\([^)]*\)\s*$")
+
+
+def _base_sem_parenteses(nome: str) -> str | None:
+    """"Tromboembolismo pulmonar (TEP)" → "Tromboembolismo pulmonar".
+
+    O nome canônico traz a sigla entre parênteses, mas ninguém digita o parêntese: a
+    query real é "tromboembolismo pulmonar de alto risco". Sem esta variante a entidade
+    simplesmente não é detectada — e o efeito não é erro, é confiança de recuperação
+    mais baixa ou recusa (#38).
+
+    Medido em 2026-08-06: 22 das 226 entidades tinham a lacuna, entre elas TEP, TVP,
+    PCR, TCE, AVC hemorrágico e pneumonia adquirida na comunidade — justamente as
+    formas que um clínico digita.
+
+    Devolve None quando não há parêntese, ou quando a base ficaria com menos de 3
+    caracteres (o índice de detecção descarta surfaces curtas, então seria ruído).
+    """
+    m = _PARENTESE_FINAL.match(nome.strip())
+    if not m:
+        return None
+    base = m.group(1).strip()
+    return base if len(base) >= 3 else None
+
+
 def extract_doencas(ts: str) -> list[dict]:
     out = []
     for blk in _blocks(ts):
@@ -143,6 +168,10 @@ def extract_doencas(ts: str) -> list[dict]:
         eid = mid.group(1)
         if eid and eid not in surfaces:
             surfaces.append(eid)
+        # "Tromboembolismo pulmonar (TEP)" também precisa casar sem o parêntese (#38)
+        base = _base_sem_parenteses(mnome.group(1))
+        if base and base not in surfaces:
+            surfaces.append(base)
         sm = _SINONIMOS.search(blk)
         if sm:
             surfaces += _STR_ITEMS.findall(sm.group(1))
@@ -171,6 +200,10 @@ def extract_bulario(ts: str) -> list[dict]:
         mp = _PRINCIPIO.search(blk)
         if mp:
             surfaces.append(mp.group(1))
+        # mesma lacuna do lado dos fármacos, ex.: "Brometo de escopolamina (…)" (#38)
+        base = _base_sem_parenteses(mnome.group(1))
+        if base and base not in surfaces:
+            surfaces.append(base)
         sm = _SINONIMOS.search(blk)
         if sm:
             surfaces += _STR_ITEMS.findall(sm.group(1))

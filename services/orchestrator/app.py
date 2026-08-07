@@ -593,7 +593,7 @@ def _pack_citations(pack: dict) -> list[dict]:
 
 
 def _provenance_ia(pack: dict | None, gemma_model: str | None,
-                   meissa_status: str | None) -> dict:
+                   meissa_status: str) -> dict:
     """Quem produziu esta resposta — modelo, versão, runtime, quando.
 
     Risco CFM alto: o destino é prontuário eletrônico. A pergunta que uma auditoria faz
@@ -613,8 +613,11 @@ def _provenance_ia(pack: dict | None, gemma_model: str | None,
         "ts": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "shim": MODEL_ID,  # apelido do endpoint, NÃO um modelo
         "gemma": {"model": gemma_model, "url": GEMMA_URL, "fonte": "eco do upstream"},
-        "meissa": {"model": MEISSA_MODEL, "url": MEISSA_URL,
-                   "fonte": "id pedido", "status": meissa_status or "off"},
+        # model só quando a perna participou: num registro de auditoria, presença do
+        # modelo tem de significar participação. Em forced_choice o Meissa é desligado
+        # de propósito, e declarar um modelo ali sugeriria que ele opinou.
+        "meissa": {"model": MEISSA_MODEL if meissa_status == "ok" else None,
+                   "url": MEISSA_URL, "fonte": "id pedido", "status": meissa_status},
         "rag": (pack or {}).get("provenance"),
     }
 
@@ -629,6 +632,10 @@ def _attach_provenance(payload: dict, *, pack: dict | None, parecer: str | None,
     # Recusa e modo consulta NÃO devem vazar chunks espúrios (medido: "Sirius Black"
     # puxava stent SIRIUS / Sirius red com conf≈0). Provenance limpa ou vazia.
     # Mesmo para graph_triples: sem chunks/abstain → lista vazia (nunca inventar).
+    # Derivado UMA vez: antes simvera.meissa e provenance.meissa.status tinham cada um
+    # a sua derivação, e podiam discordar. Registro de auditoria que se contradiz é o
+    # que aparece quando alguém acrescenta um chamador novo.
+    _meissa = meissa_status or ("ok" if parecer else "off")
     if consultation or abstained or not pack:
         cites: list[dict] = []
         triples: list[dict] = []
@@ -643,7 +650,7 @@ def _attach_provenance(payload: dict, *, pack: dict | None, parecer: str | None,
         # Semântica deliberada: "ok" agora quer dizer "a perna do Meissa concluiu", não
         # "o parecer influenciou esta resposta" — numa recusa por RAG fora do ar o
         # parecer existe e não é usado, e ainda assim é isso que a telemetria precisa ver.
-        "meissa": meissa_status or ("ok" if parecer else "off"),
+        "meissa": _meissa,
         "meissa_s": meissa_s,
         "latency_s": round(time.time() - t0, 3),
         "citations": cites,
@@ -653,7 +660,7 @@ def _attach_provenance(payload: dict, *, pack: dict | None, parecer: str | None,
         "supporting_chunks": None if (consultation or abstained) else (pack or {}).get("supporting_chunks"),
         "abstained": abstained,
         # Identidade de quem produziu — exigência CFM, ver _provenance_ia (#50).
-        "provenance": _provenance_ia(pack, gemma_model, meissa_status),
+        "provenance": _provenance_ia(pack, gemma_model, _meissa),
     }
     return payload
 

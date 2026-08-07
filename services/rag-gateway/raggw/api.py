@@ -192,7 +192,11 @@ def create_app(*, db_path=None, embedder: Embedder | None = None,
             "embedder": embedder_kind,
             "reranker": reranker_kind,
             "vector_store": vector_store_kind,
-            "lexicon_typed_edges": len(graph_lexicon.typed_edges) if graph_lexicon else 0,
+            # `is not None` e não truthiness: se Lexicon um dia ganhar __len__, um léxico
+            # carregado e vazio reportaria 0 — indistinguível de "sem léxico", num campo
+            # cujo propósito é justamente distinguir os dois.
+            "lexicon_typed_edges": (len(graph_lexicon.typed_edges)
+                                    if graph_lexicon is not None else None),
         }
     embedder_info = embedder.info() if hasattr(embedder, "info") else {}
 

@@ -163,6 +163,21 @@ def _base_sem_parenteses(nome: str) -> str | None:
     return base
 
 
+def _variantes_de_todas(surfaces: list[str]) -> None:
+    """Aplica a variante sem parêntese a TODA surface, não só ao nome canônico.
+
+    O #38 cobriu o nome; sinônimo tem a forma idêntica e ficou de fora (#49). Medido em
+    2026-08-07: um único sinônimo tinha a lacuna no léxico atual
+    (`brometo de escopolamina (butilbrometo de hioscina)`), e **zero** bases de uma
+    palavra — o risco de surface curta e genérica casando texto não relacionado, que era
+    a pergunta a responder antes de mexer, não existe nestes dados.
+
+    Itera sobre uma cópia: `_acrescenta_variante_sem_parenteses` escreve na lista.
+    """
+    for s in list(surfaces):
+        _acrescenta_variante_sem_parenteses(surfaces, s)
+
+
 def _acrescenta_variante_sem_parenteses(surfaces: list[str], nome: str) -> None:
     """Anexa a forma sem parêntese se ela ainda não existir em nenhuma grafia.
 
@@ -198,8 +213,9 @@ def extract_doencas(ts: str) -> list[dict]:
         cm = _CID.search(blk)
         if cm:
             surfaces += _STR_ITEMS.findall(cm.group(1))
-        # Por último, para o dedup enxergar sinônimos e CID (#38).
-        _acrescenta_variante_sem_parenteses(surfaces, mnome.group(1))
+        # Por último, para o dedup enxergar sinônimos e CID (#38); aplicado a todas as
+        # surfaces, não só ao nome, porque sinônimo tem a mesma forma (#49).
+        _variantes_de_todas(surfaces)
         out.append({
             "id": eid,
             "label": _clean(mnome.group(1)),
@@ -225,8 +241,8 @@ def extract_bulario(ts: str) -> list[dict]:
         sm = _SINONIMOS.search(blk)
         if sm:
             surfaces += _STR_ITEMS.findall(sm.group(1))
-        # Mesma lacuna do lado dos fármacos, ex.: "Brometo de escopolamina (…)" (#38).
-        _acrescenta_variante_sem_parenteses(surfaces, mnome.group(1))
+        # Mesma lacuna do lado dos fármacos, ex.: "Brometo de escopolamina (…)" (#38/#49).
+        _variantes_de_todas(surfaces)
         out.append({
             "id": f"drug-{mid.group(1)}",
             "label": _clean(mnome.group(1)),

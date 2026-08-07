@@ -54,7 +54,15 @@ class BgeReranker:
     def rerank(self, query: str, texts: list[str]) -> list[float]:
         if not texts:
             return []
-        scores = self._load().compute_score([[query, t] for t in texts], normalize=True)
+        # _load() FORA da trava: threading.Lock não é reentrante e _load() já a usa.
+        modelo = self._load()
+        # O tokenizer fast é Rust `tokenizers` com RwLock interno, e compute_score muta
+        # estado compartilhado (enable_truncation). Duas threads do FastAPI no mesmo
+        # singleton levantam "Already borrowed" → 500 → recusa clínica espúria (#33).
+        # Serializa o rerank entre requests concorrentes; se throughput passar a doer,
+        # a saída é uma cópia do modelo por thread, não remover a trava.
+        with self._lock:
+            scores = modelo.compute_score([[query, t] for t in texts], normalize=True)
         if isinstance(scores, (int, float)):
             scores = [scores]
         return [float(s) for s in scores]
@@ -86,10 +94,12 @@ class OnnxReranker:
         if not texts:
             return []
         import math
-        model, tok = self._load()
-        enc = tok([query] * len(texts), texts, padding=True, truncation=True,
-                  max_length=512, return_tensors="np")
-        logits = model(**enc).logits  # (N, 1)
+        model, tok = self._load()  # fora da trava: _load() já a usa (#33)
+        # Mesma corrida do BgeReranker: tokenizer fast compartilhado entre threads.
+        with self._lock:
+            enc = tok([query] * len(texts), texts, padding=True, truncation=True,
+                      max_length=512, return_tensors="np")
+            logits = model(**enc).logits  # (N, 1)
         return [1.0 / (1.0 + math.exp(-float(z))) for z in logits.reshape(-1)]  # sigmoid
 
 

@@ -52,7 +52,6 @@
       "surfaces": [
         "Síndrome coronariana aguda SEM supra (AI/IAMSSST)",
         "sca-ssst",
-        "Síndrome coronariana aguda SEM supra",
         "SCA",
         "angina instável",
         "IAMSSST",
@@ -61,7 +60,8 @@
         "infarto",
         "GRACE",
         "I20.0",
-        "I21.4"
+        "I21.4",
+        "Síndrome coronariana aguda SEM supra"
       ]
     },
     {
@@ -71,7 +71,6 @@
       "surfaces": [
         "IAM com supra de ST (IAMCSST)",
         "iamcsst",
-        "IAM com supra de ST",
         "IAM",
         "STEMI",
         "infarto",
@@ -79,7 +78,8 @@
         "supra de ST",
         "reperfusão",
         "trombólise",
-        "I21.3"
+        "I21.3",
+        "IAM com supra de ST"
       ]
     },
     {
@@ -106,14 +106,14 @@
       "surfaces": [
         "Tromboembolismo pulmonar (TEP)",
         "tep",
-        "Tromboembolismo pulmonar",
         "TEP",
         "embolia pulmonar",
         "TEV",
         "Wells",
         "D-dímero",
         "PESI",
-        "I26.9"
+        "I26.9",
+        "Tromboembolismo pulmonar"
       ]
     },
     {
@@ -123,7 +123,6 @@
       "surfaces": [
         "Cetoacidose diabética e estado hiperosmolar (CAD/EHH)",
         "cad-ehh",
-        "Cetoacidose diabética e estado hiperosmolar",
         "CAD",
         "EHH",
         "cetoacidose",
@@ -131,7 +130,8 @@
         "diabetes",
         "estado hiperosmolar",
         "E14.1",
-        "E14.0"
+        "E14.0",
+        "Cetoacidose diabética e estado hiperosmolar"
       ]
     },
     {
@@ -221,7 +221,6 @@
       "surfaces": [
         "Taquiarritmias (TSV e TV)",
         "taquiarritmias",
-        "Taquiarritmias",
         "taquicardia",
         "TSV",
         "TPSV",
@@ -272,13 +271,13 @@
       "surfaces": [
         "AVC hemorrágico (hemorragia intracerebral)",
         "avc-hemorragico",
-        "AVC hemorrágico",
         "AVCh",
         "hemorragia intracerebral",
         "HIP",
         "derrame hemorrágico",
         "hematoma intraparenquimatoso",
-        "I61.9"
+        "I61.9",
+        "AVC hemorrágico"
       ]
     },
     {
@@ -352,14 +351,14 @@
       "surfaces": [
         "Distúrbios do potássio (hiper/hipocalemia)",
         "disturbios-potassio",
-        "Distúrbios do potássio",
         "hipercalemia",
         "hipocalemia",
         "potássio",
         "arritmia",
         "BRASH",
         "E87.5",
-        "E87.6"
+        "E87.6",
+        "Distúrbios do potássio"
       ]
     },
     {
@@ -369,7 +368,6 @@
       "surfaces": [
         "Distúrbios do sódio (hipo/hipernatremia)",
         "disturbios-sodio",
-        "Distúrbios do sódio",
         "hiponatremia",
         "hipernatremia",
         "sódio",
@@ -377,7 +375,8 @@
         "salina hipertônica",
         "desmielinização",
         "E87.0",
-        "E87.1"
+        "E87.1",
+        "Distúrbios do sódio"
       ]
     },
     {
@@ -387,13 +386,13 @@
       "surfaces": [
         "Crise tireotóxica (tempestade tireoidiana)",
         "crise-tireotoxica",
-        "Crise tireotóxica",
         "tempestade tireoidiana",
         "tireotoxicose",
         "hipertireoidismo",
         "Burch-Wartofsky",
         "Graves",
-        "E05.5"
+        "E05.5",
+        "Crise tireotóxica"
       ]
     },
     {
@@ -418,14 +417,14 @@
       "surfaces": [
         "Pneumonia adquirida na comunidade (PAC)",
         "pac",
-        "Pneumonia adquirida na comunidade",
         "PAC",
         "pneumonia",
         "CURB-65",
         "PSI",
         "pneumococo",
         "consolidação",
-        "J18.9"
+        "J18.9",
+        "Pneumonia adquirida na comunidade"
       ]
     },
     {
@@ -514,7 +513,6 @@
       "surfaces": [
         "Trombose venosa profunda (TVP)",
         "tvp",
-        "Trombose venosa profunda",
         "TVP",
         "trombose",
         "TEV",
@@ -522,7 +520,8 @@
         "D-dímero",
         "doppler",
         "anticoagulação",
-        "I80.2"
+        "I80.2",
+        "Trombose venosa profunda"
       ]
     },
     {
@@ -563,7 +562,6 @@
       "surfaces": [
         "Colecistite e colangite (emergências biliares)",
         "colecistite-colangite",
-        "Colecistite e colangite",
         "colecistite",
         "colangite",
         "Murphy",
@@ -572,7 +570,8 @@
         "CPRE",
         "vesícula",
         "K81.0",
-        "K83.0"
+        "K83.0",
+        "Colecistite e colangite"
       ]
     },
     {
@@ -815,14 +814,14 @@
       "surfaces": [
         "Hemorragia da 2ª metade da gestação (DPP e placenta prévia)",
         "hemorragia-2a-metade",
-        "Hemorragia da 2ª metade da gestação",
         "DPP",
         "descolamento prematuro de placenta",
         "placenta prévia",
         "sangramento obstétrico",
         "vasa prévia",
         "O44.1",
-        "O45.9"
+        "O45.9",
+        "Hemorragia da 2ª metade da gestação"
       ]
     },
     {
@@ -910,14 +909,14 @@
       "surfaces": [
         "Doença inflamatória pélvica (DIP)",
         "dip",
-        "Doença inflamatória pélvica",
         "DIP",
         "DIPA",
         "salpingite",
         "abscesso tubo-ovariano",
         "clamídia",
         "gonococo",
-        "N73.9"
+        "N73.9",
+        "Doença inflamatória pélvica"
       ]
     },
     {
@@ -927,14 +926,14 @@
       "surfaces": [
         "Sangramento uterino anormal (não gestante)",
         "sangramento-uterino-anormal",
-        "Sangramento uterino anormal",
         "SUA",
         "PALM-COEIN",
         "menorragia",
         "metrorragia",
         "ácido tranexâmico",
         "N93.9",
-        "N92.1"
+        "N92.1",
+        "Sangramento uterino anormal"
       ]
     },
     {
@@ -958,7 +957,6 @@
       "surfaces": [
         "Parada cardiorrespiratória (RCP / ACLS)",
         "pcr-acls",
-        "Parada cardiorrespiratória",
         "PCR",
         "parada cardíaca",
         "RCP",
@@ -971,7 +969,8 @@
         "desfibrilação",
         "adrenalina",
         "5H5T",
-        "I46.9"
+        "I46.9",
+        "Parada cardiorrespiratória"
       ]
     },
     {
@@ -1056,7 +1055,6 @@
       "surfaces": [
         "Traumatismo cranioencefálico (TCE)",
         "tce",
-        "Traumatismo cranioencefálico",
         "TCE",
         "trauma de crânio",
         "traumatismo craniano",
@@ -1065,7 +1063,8 @@
         "lesão axonal difusa",
         "Glasgow",
         "PIC",
-        "S06.9"
+        "S06.9",
+        "Traumatismo cranioencefálico"
       ]
     },
     {
@@ -1162,7 +1161,6 @@
       "surfaces": [
         "Síndrome do desconforto respiratório agudo (SDRA)",
         "sdra",
-        "Síndrome do desconforto respiratório agudo",
         "ards",
         "síndrome do desconforto respiratório agudo",
         "lesão pulmonar aguda",
@@ -1177,7 +1175,6 @@
       "surfaces": [
         "Insuficiência respiratória aguda (abordagem e VNI)",
         "irpa-vni",
-        "Insuficiência respiratória aguda",
         "insuficiência respiratória aguda",
         "irpa",
         "iresp",
@@ -1253,14 +1250,14 @@
       "surfaces": [
         "Distúrbios da temperatura (hipotermia e golpe de calor)",
         "disturbios-temperatura",
-        "Distúrbios da temperatura",
         "hipotermia acidental",
         "golpe de calor",
         "heat stroke",
         "intermação",
         "síndrome hipertérmica",
         "T68",
-        "T67.0"
+        "T67.0",
+        "Distúrbios da temperatura"
       ]
     },
     {
@@ -1270,12 +1267,12 @@
       "surfaces": [
         "Lesões por eletricidade (choque elétrico)",
         "lesoes-eletricidade",
-        "Lesões por eletricidade",
         "choque elétrico",
         "queimadura elétrica",
         "eletrocussão",
         "lesão por raio",
-        "T75.4"
+        "T75.4",
+        "Lesões por eletricidade"
       ]
     },
     {
@@ -1380,12 +1377,12 @@
       "surfaces": [
         "Perfuração de víscera oca (abdome agudo perfurativo)",
         "perfuracao-viscera-oca",
-        "Perfuração de víscera oca",
         "abdome agudo perfurativo",
         "pneumoperitônio",
         "úlcera péptica perfurada",
         "víscera perfurada",
-        "K63.1"
+        "K63.1",
+        "Perfuração de víscera oca"
       ]
     },
     {
@@ -1457,10 +1454,10 @@
       "surfaces": [
         "Distúrbios do cálcio (hiper e hipocalcemia)",
         "disturbios-calcio",
-        "Distúrbios do cálcio",
         "Hipocalcemia",
         "Hipercalcemia",
-        "E83.5"
+        "E83.5",
+        "Distúrbios do cálcio"
       ]
     },
     {
@@ -1595,7 +1592,6 @@
       "surfaces": [
         "Coagulação intravascular disseminada (CIVD)",
         "civd",
-        "Coagulação intravascular disseminada",
         "CIVD",
         "CID",
         "coagulopatia de consumo",
@@ -1610,7 +1606,6 @@
       "surfaces": [
         "Microangiopatias trombóticas (PTT / SHU)",
         "microangiopatias-tromboticas",
-        "Microangiopatias trombóticas",
         "PTT",
         "SHU",
         "púrpura trombocitopênica trombótica",
@@ -1619,7 +1614,8 @@
         "MAT",
         "ADAMTS13",
         "M31.1",
-        "D59.3"
+        "D59.3",
+        "Microangiopatias trombóticas"
       ]
     },
     {
@@ -1897,7 +1893,6 @@
       "surfaces": [
         "Dipirona (metamizol)",
         "metamizol",
-        "Dipirona",
         "dipirona",
         "novalgina",
         "analgésico",
@@ -1912,7 +1907,6 @@
       "surfaces": [
         "Paracetamol (acetaminofeno)",
         "acetaminofeno",
-        "Paracetamol",
         "paracetamol",
         "tylenol",
         "analgésico",
@@ -1968,7 +1962,6 @@
       "surfaces": [
         "Anlodipino (besilato)",
         "besilato de anlodipino",
-        "Anlodipino",
         "anlodipino",
         "amlodipino",
         "norvasc",
@@ -1984,7 +1977,6 @@
       "surfaces": [
         "Enalapril (maleato)",
         "maleato de enalapril",
-        "Enalapril",
         "enalapril",
         "renitec",
         "eupressin",
@@ -2026,7 +2018,6 @@
       "surfaces": [
         "Ácido acetilsalicílico (AAS)",
         "ácido acetilsalicílico",
-        "Ácido acetilsalicílico",
         "AAS",
         "aspirina",
         "acido acetilsalicilico",
@@ -2042,7 +2033,6 @@
       "surfaces": [
         "Metformina (cloridrato)",
         "cloridrato de metformina",
-        "Metformina",
         "metformina",
         "glifage",
         "glucoformin",
@@ -2087,7 +2077,6 @@
       "surfaces": [
         "Levotiroxina (sódica)",
         "levotiroxina sódica",
-        "Levotiroxina",
         "levotiroxina",
         "puran t4",
         "synthroid",
@@ -2129,7 +2118,6 @@
       "surfaces": [
         "Atorvastatina (cálcica)",
         "atorvastatina cálcica",
-        "Atorvastatina",
         "atorvastatina",
         "lipitor",
         "citalor",
@@ -2144,7 +2132,6 @@
       "surfaces": [
         "Rosuvastatina (cálcica)",
         "rosuvastatina cálcica",
-        "Rosuvastatina",
         "rosuvastatina",
         "crestor",
         "estatina",
@@ -2158,7 +2145,6 @@
       "surfaces": [
         "Pantoprazol (sódico)",
         "pantoprazol sódico",
-        "Pantoprazol",
         "pantoprazol",
         "pantozol",
         "IBP",
@@ -2215,7 +2201,6 @@
       "surfaces": [
         "Sertralina (cloridrato)",
         "cloridrato de sertralina",
-        "Sertralina",
         "sertralina",
         "zoloft",
         "tolrest",
@@ -2232,7 +2217,6 @@
       "surfaces": [
         "Fluoxetina (cloridrato)",
         "cloridrato de fluoxetina",
-        "Fluoxetina",
         "fluoxetina",
         "prozac",
         "daforin",
@@ -2301,7 +2285,6 @@
       "surfaces": [
         "Propranolol (cloridrato)",
         "cloridrato de propranolol",
-        "Propranolol",
         "propranolol",
         "inderal",
         "betabloqueador",
@@ -2381,7 +2364,6 @@
       "surfaces": [
         "Metoclopramida (cloridrato)",
         "cloridrato de metoclopramida",
-        "Metoclopramida",
         "metoclopramida",
         "plasil",
         "antiemético",
@@ -2425,7 +2407,6 @@
       "surfaces": [
         "Salbutamol (sulfato)",
         "sulfato de salbutamol",
-        "Salbutamol",
         "salbutamol",
         "albuterol",
         "aerolin",
@@ -2442,7 +2423,6 @@
       "surfaces": [
         "Clopidogrel (bissulfato)",
         "bissulfato de clopidogrel",
-        "Clopidogrel",
         "clopidogrel",
         "plavix",
         "iscover",
@@ -2457,7 +2437,6 @@
       "surfaces": [
         "Varfarina (sódica)",
         "varfarina sódica",
-        "Varfarina",
         "varfarina",
         "warfarin",
         "marevan",
@@ -2473,7 +2452,6 @@
       "surfaces": [
         "Ondansetrona (cloridrato)",
         "cloridrato de ondansetrona",
-        "Ondansetrona",
         "ondansetrona",
         "zofran",
         "vonau",
@@ -2503,7 +2481,6 @@
       "surfaces": [
         "Escitalopram (oxalato)",
         "oxalato de escitalopram",
-        "Escitalopram",
         "escitalopram",
         "lexapro",
         "reconter",
@@ -2519,7 +2496,6 @@
       "surfaces": [
         "Amitriptilina (cloridrato)",
         "cloridrato de amitriptilina",
-        "Amitriptilina",
         "amitriptilina",
         "tryptanol",
         "amytril",
@@ -2630,7 +2606,6 @@
       "surfaces": [
         "Enoxaparina (sódica)",
         "enoxaparina sódica",
-        "Enoxaparina",
         "enoxaparina",
         "clexane",
         "heparina de baixo peso molecular",
@@ -2660,7 +2635,6 @@
       "surfaces": [
         "Insulina humana (NPH e Regular)",
         "insulina humana",
-        "Insulina humana",
         "insulina",
         "nph",
         "regular",
@@ -2714,7 +2688,6 @@
       "surfaces": [
         "Tramadol (cloridrato)",
         "cloridrato de tramadol",
-        "Tramadol",
         "tramadol",
         "tramal",
         "opioide fraco"
@@ -2820,7 +2793,6 @@
       "surfaces": [
         "Ceftriaxona (sódica)",
         "ceftriaxona sódica",
-        "Ceftriaxona",
         "ceftriaxona",
         "rocefin",
         "cefalosporina",
@@ -2879,7 +2851,6 @@
       "surfaces": [
         "Ácido valproico (valproato de sódio / divalproato)",
         "ácido valproico",
-        "Ácido valproico",
         "acido valproico",
         "valproato",
         "valproato de sodio",
@@ -2896,7 +2867,6 @@
       "surfaces": [
         "Butilescopolamina (brometo)",
         "brometo de escopolamina (butilbrometo de hioscina)",
-        "Butilescopolamina",
         "butilescopolamina",
         "hioscina",
         "butilbrometo de hioscina",
@@ -2923,7 +2893,6 @@
       "surfaces": [
         "Morfina (sulfato)",
         "sulfato de morfina",
-        "Morfina",
         "morfina",
         "dimorf"
       ]

@@ -6,6 +6,7 @@
       "kind": "disease",
       "surfaces": [
         "Sepse e choque séptico",
+        "sepse",
         "choque séptico",
         "SOFA",
         "qSOFA",
@@ -20,6 +21,7 @@
       "kind": "disease",
       "surfaces": [
         "Intoxicação exógena — abordagem inicial",
+        "intoxicacao-exogena",
         "intoxicação",
         "envenenamento",
         "overdose",
@@ -34,6 +36,7 @@
       "kind": "disease",
       "surfaces": [
         "Anafilaxia",
+        "anafilaxia",
         "choque anafilático",
         "reação alérgica",
         "adrenalina",
@@ -48,6 +51,7 @@
       "kind": "disease",
       "surfaces": [
         "Síndrome coronariana aguda SEM supra (AI/IAMSSST)",
+        "sca-ssst",
         "SCA",
         "angina instável",
         "IAMSSST",
@@ -65,6 +69,7 @@
       "kind": "disease",
       "surfaces": [
         "IAM com supra de ST (IAMCSST)",
+        "iamcsst",
         "IAM",
         "STEMI",
         "infarto",
@@ -81,6 +86,7 @@
       "kind": "disease",
       "surfaces": [
         "AVC isquêmico agudo",
+        "avc-isquemico",
         "AVCi",
         "AVC",
         "derrame",
@@ -97,6 +103,7 @@
       "kind": "disease",
       "surfaces": [
         "Tromboembolismo pulmonar (TEP)",
+        "tep",
         "TEP",
         "embolia pulmonar",
         "TEV",
@@ -112,6 +119,7 @@
       "kind": "disease",
       "surfaces": [
         "Cetoacidose diabética e estado hiperosmolar (CAD/EHH)",
+        "cad-ehh",
         "CAD",
         "EHH",
         "cetoacidose",
@@ -128,6 +136,7 @@
       "kind": "disease",
       "surfaces": [
         "Choque",
+        "choque",
         "hipoperfusão",
         "distributivo",
         "cardiogênico",
@@ -145,6 +154,7 @@
       "kind": "disease",
       "surfaces": [
         "Emergência e urgência hipertensiva",
+        "crise-hipertensiva",
         "crise hipertensiva",
         "emergência hipertensiva",
         "urgência hipertensiva",
@@ -175,6 +185,7 @@
       "kind": "disease",
       "surfaces": [
         "DPOC — exacerbação",
+        "dpoc",
         "DPOC",
         "enfisema",
         "bronquite crônica",
@@ -190,6 +201,7 @@
       "kind": "disease",
       "surfaces": [
         "Fibrilação atrial",
+        "fibrilacao-atrial",
         "arritmia",
         "CHA2DS2-VASc",
         "cardioversão",
@@ -204,6 +216,7 @@
       "kind": "disease",
       "surfaces": [
         "Taquiarritmias (TSV e TV)",
+        "taquiarritmias",
         "taquicardia",
         "TSV",
         "TPSV",
@@ -236,6 +249,7 @@
       "kind": "disease",
       "surfaces": [
         "Insuficiência cardíaca aguda / EAP",
+        "ic-aguda",
         "ICA",
         "edema agudo de pulmão",
         "EAP",
@@ -252,6 +266,7 @@
       "kind": "disease",
       "surfaces": [
         "AVC hemorrágico (hemorragia intracerebral)",
+        "avc-hemorragico",
         "AVCh",
         "hemorragia intracerebral",
         "HIP",
@@ -266,6 +281,7 @@
       "kind": "disease",
       "surfaces": [
         "Hemorragia subaracnóidea",
+        "hsa",
         "HSA",
         "aneurisma",
         "cefaleia thunderclap",
@@ -281,6 +297,7 @@
       "kind": "disease",
       "surfaces": [
         "Estado de mal epiléptico",
+        "estado-mal-epileptico",
         "EME",
         "crise convulsiva",
         "status epilepticus",
@@ -328,6 +345,7 @@
       "kind": "disease",
       "surfaces": [
         "Distúrbios do potássio (hiper/hipocalemia)",
+        "disturbios-potassio",
         "hipercalemia",
         "hipocalemia",
         "potássio",
@@ -343,6 +361,7 @@
       "kind": "disease",
       "surfaces": [
         "Distúrbios do sódio (hipo/hipernatremia)",
+        "disturbios-sodio",
         "hiponatremia",
         "hipernatremia",
         "sódio",
@@ -359,6 +378,7 @@
       "kind": "disease",
       "surfaces": [
         "Crise tireotóxica (tempestade tireoidiana)",
+        "crise-tireotoxica",
         "tempestade tireoidiana",
         "tireotoxicose",
         "hipertireoidismo",
@@ -373,6 +393,7 @@
       "kind": "disease",
       "surfaces": [
         "Insuficiência adrenal / crise adrenal",
+        "insuficiencia-adrenal",
         "crise adrenal",
         "Addison",
         "hidrocortisona",
@@ -387,6 +408,7 @@
       "kind": "disease",
       "surfaces": [
         "Pneumonia adquirida na comunidade (PAC)",
+        "pac",
         "PAC",
         "pneumonia",
         "CURB-65",
@@ -402,6 +424,7 @@
       "kind": "disease",
       "surfaces": [
         "Hemorragia digestiva alta",
+        "hda",
         "HDA",
         "hematêmese",
         "melena",
@@ -448,6 +471,7 @@
       "kind": "disease",
       "surfaces": [
         "Dissecção aguda de aorta",
+        "disseccao-aorta",
         "dissecção de aorta",
         "síndrome aórtica aguda",
         "Stanford",
@@ -462,6 +486,7 @@
       "kind": "disease",
       "surfaces": [
         "Pericardite aguda e tamponamento",
+        "pericardite-tamponamento",
         "pericardite",
         "tamponamento cardíaco",
         "derrame pericárdico",
@@ -478,6 +503,7 @@
       "kind": "disease",
       "surfaces": [
         "Trombose venosa profunda (TVP)",
+        "tvp",
         "TVP",
         "trombose",
         "TEV",
@@ -494,6 +520,7 @@
       "kind": "disease",
       "surfaces": [
         "Pneumotórax",
+        "pneumotorax",
         "pneumotórax",
         "pneumotórax hipertensivo",
         "colapso pulmonar",
@@ -508,6 +535,7 @@
       "kind": "disease",
       "surfaces": [
         "Derrame pleural",
+        "derrame-pleural",
         "derrame pleural",
         "toracocentese",
         "Light",
@@ -523,6 +551,7 @@
       "kind": "disease",
       "surfaces": [
         "Colecistite e colangite (emergências biliares)",
+        "colecistite-colangite",
         "colecistite",
         "colangite",
         "Murphy",
@@ -555,6 +584,7 @@
       "kind": "disease",
       "surfaces": [
         "Lesão renal aguda",
+        "lra",
         "LRA",
         "IRA",
         "KDIGO",
@@ -571,6 +601,7 @@
       "kind": "disease",
       "surfaces": [
         "Hemorragia digestiva baixa",
+        "hdb",
         "HDB",
         "hematoquezia",
         "diverticular",
@@ -586,6 +617,7 @@
       "kind": "disease",
       "surfaces": [
         "ITU e pielonefrite",
+        "itu",
         "cistite",
         "pielonefrite",
         "infecção urinária",
@@ -601,6 +633,7 @@
       "kind": "disease",
       "surfaces": [
         "Celulite e erisipela",
+        "celulite-erisipela",
         "erisipela",
         "fasceíte necrotizante",
         "infecção de pele",
@@ -616,6 +649,7 @@
       "kind": "disease",
       "surfaces": [
         "Leptospirose",
+        "leptospirose",
         "Weil",
         "espiroqueta",
         "leptospira",
@@ -629,6 +663,7 @@
       "kind": "disease",
       "surfaces": [
         "Síncope",
+        "sincope",
         "desmaio",
         "síncope vasovagal",
         "Canadian Syncope",
@@ -642,6 +677,7 @@
       "kind": "disease",
       "surfaces": [
         "Cefaleia",
+        "cefaleia",
         "enxaqueca",
         "migrânea",
         "thunderclap",
@@ -657,6 +693,7 @@
       "kind": "disease",
       "surfaces": [
         "Vertigem e tontura",
+        "vertigem",
         "tontura",
         "HINTS",
         "VPPB",
@@ -673,6 +710,7 @@
       "kind": "disease",
       "surfaces": [
         "Doença falciforme — crises agudas",
+        "anemia-falciforme",
         "anemia falciforme",
         "crise vaso-oclusiva",
         "síndrome torácica aguda",
@@ -688,6 +726,7 @@
       "kind": "disease",
       "surfaces": [
         "Neutropenia febril",
+        "neutropenia-febril",
         "MASCC",
         "CISNE",
         "febre neutropênica",
@@ -701,6 +740,7 @@
       "kind": "disease",
       "surfaces": [
         "Emergências oncológicas",
+        "emergencias-oncologicas",
         "lise tumoral",
         "compressão medular",
         "veia cava superior",
@@ -714,6 +754,7 @@
       "kind": "disease",
       "surfaces": [
         "Acidentes peçonhentos",
+        "acidentes-peconhentos",
         "ofidismo",
         "escorpião",
         "aranha",
@@ -730,6 +771,7 @@
       "kind": "disease",
       "surfaces": [
         "Gravidez ectópica",
+        "gravidez-ectopica",
         "ectópica",
         "prenhez tubária",
         "β-hCG",
@@ -743,6 +785,7 @@
       "kind": "disease",
       "surfaces": [
         "Abortamento e sangramento do 1º trimestre",
+        "abortamento",
         "aborto",
         "ameaça de abortamento",
         "abortamento incompleto",
@@ -759,6 +802,7 @@
       "kind": "disease",
       "surfaces": [
         "Hemorragia da 2ª metade da gestação (DPP e placenta prévia)",
+        "hemorragia-2a-metade",
         "DPP",
         "descolamento prematuro de placenta",
         "placenta prévia",
@@ -774,6 +818,7 @@
       "kind": "disease",
       "surfaces": [
         "Hemorragia pós-parto",
+        "hemorragia-pos-parto",
         "HPP",
         "atonia uterina",
         "4 T",
@@ -789,6 +834,7 @@
       "kind": "disease",
       "surfaces": [
         "Pré-eclâmpsia, eclâmpsia e síndrome HELLP",
+        "pre-eclampsia",
         "pré-eclâmpsia",
         "eclâmpsia",
         "HELLP",
@@ -805,6 +851,7 @@
       "kind": "disease",
       "surfaces": [
         "Emergências do trabalho de parto",
+        "emergencias-parto",
         "parto",
         "distócia de ombro",
         "prolapso de cordão",
@@ -819,6 +866,7 @@
       "kind": "disease",
       "surfaces": [
         "Infecção puerperal e sepse obstétrica",
+        "infeccao-puerperal",
         "endometrite puerperal",
         "febre puerperal",
         "sepse obstétrica",
@@ -832,6 +880,7 @@
       "kind": "disease",
       "surfaces": [
         "Dor pélvica aguda: torção anexial e cisto ovariano roto",
+        "dor-pelvica-torcao",
         "torção ovariana",
         "torção anexial",
         "cisto ovariano roto",
@@ -847,6 +896,7 @@
       "kind": "disease",
       "surfaces": [
         "Doença inflamatória pélvica (DIP)",
+        "dip",
         "DIP",
         "DIPA",
         "salpingite",
@@ -862,6 +912,7 @@
       "kind": "disease",
       "surfaces": [
         "Sangramento uterino anormal (não gestante)",
+        "sangramento-uterino-anormal",
         "SUA",
         "PALM-COEIN",
         "menorragia",
@@ -877,6 +928,7 @@
       "kind": "disease",
       "surfaces": [
         "Trauma na gestação",
+        "trauma-gestacao",
         "trauma na gestante",
         "cesárea perimortem",
         "Kleihauer-Betke",
@@ -890,6 +942,7 @@
       "kind": "disease",
       "surfaces": [
         "Parada cardiorrespiratória (RCP / ACLS)",
+        "pcr-acls",
         "PCR",
         "parada cardíaca",
         "RCP",
@@ -911,6 +964,7 @@
       "kind": "disease",
       "surfaces": [
         "Endocardite infecciosa",
+        "endocardite-infecciosa",
         "endocardite",
         "vegetação",
         "Duke",
@@ -930,6 +984,7 @@
       "kind": "disease",
       "surfaces": [
         "Miocardite aguda",
+        "miocardite-aguda",
         "miocardite",
         "miopericardite",
         "troponina",
@@ -946,6 +1001,7 @@
       "kind": "disease",
       "surfaces": [
         "Choque cardiogênico",
+        "choque-cardiogenico",
         "choque cardiogênico",
         "SCAI",
         "estágios SCAI",
@@ -964,6 +1020,7 @@
       "kind": "disease",
       "surfaces": [
         "Coma / rebaixamento do nível de consciência",
+        "coma-rebaixamento",
         "coma",
         "rebaixamento",
         "torpor",
@@ -982,6 +1039,7 @@
       "kind": "disease",
       "surfaces": [
         "Traumatismo cranioencefálico (TCE)",
+        "tce",
         "TCE",
         "trauma de crânio",
         "traumatismo craniano",
@@ -999,6 +1057,7 @@
       "kind": "disease",
       "surfaces": [
         "Hipertensão intracraniana",
+        "hipertensao-intracraniana",
         "HIC",
         "hipertensão intracraniana",
         "PIC",
@@ -1016,6 +1075,7 @@
       "kind": "disease",
       "surfaces": [
         "Síndrome de Guillain-Barré",
+        "guillain-barre",
         "Guillain-Barré",
         "SGB",
         "polirradiculoneurite",
@@ -1033,6 +1093,7 @@
       "kind": "disease",
       "surfaces": [
         "Crise miastênica",
+        "crise-miastenica",
         "crise miastênica",
         "miastenia gravis",
         "anti-AChR",
@@ -1065,6 +1126,7 @@
       "kind": "disease",
       "surfaces": [
         "Trombose venosa cerebral",
+        "trombose-venosa-cerebral",
         "trombose venosa cerebral",
         "TVC",
         "trombose de seio venoso",
@@ -1096,6 +1158,7 @@
       "kind": "disease",
       "surfaces": [
         "Insuficiência respiratória aguda (abordagem e VNI)",
+        "irpa-vni",
         "insuficiência respiratória aguda",
         "irpa",
         "iresp",
@@ -1114,6 +1177,7 @@
       "kind": "disease",
       "surfaces": [
         "Hemoptise maciça",
+        "hemoptise-macica",
         "hemoptise",
         "hemoptise maciça",
         "hemoptise ameaçadora à vida",
@@ -1128,6 +1192,7 @@
       "kind": "disease",
       "surfaces": [
         "Politrauma — abordagem ATLS",
+        "politrauma-atls",
         "politrauma",
         "politraumatizado",
         "atls",
@@ -1143,6 +1208,7 @@
       "kind": "disease",
       "surfaces": [
         "Queimaduras",
+        "queimaduras",
         "queimadura",
         "paciente queimado",
         "grande queimado",
@@ -1167,6 +1233,7 @@
       "kind": "disease",
       "surfaces": [
         "Distúrbios da temperatura (hipotermia e golpe de calor)",
+        "disturbios-temperatura",
         "hipotermia acidental",
         "golpe de calor",
         "heat stroke",
@@ -1182,6 +1249,7 @@
       "kind": "disease",
       "surfaces": [
         "Lesões por eletricidade (choque elétrico)",
+        "lesoes-eletricidade",
         "choque elétrico",
         "queimadura elétrica",
         "eletrocussão",
@@ -1195,6 +1263,7 @@
       "kind": "disease",
       "surfaces": [
         "Agitação psicomotora e contenção segura",
+        "agitacao-psicomotora",
         "agitação",
         "paciente agitado",
         "contenção física",
@@ -1209,6 +1278,7 @@
       "kind": "disease",
       "surfaces": [
         "Síndrome de abstinência alcoólica e delirium tremens",
+        "abstinencia-alcoolica-dt",
         "SAA",
         "delirium tremens",
         "abstinência de álcool",
@@ -1223,6 +1293,7 @@
       "kind": "disease",
       "surfaces": [
         "Síndrome neuroléptica maligna e síndrome serotoninérgica",
+        "snm-serotoninergica",
         "SNM",
         "síndrome neuroléptica maligna",
         "síndrome serotoninérgica",
@@ -1236,6 +1307,7 @@
       "kind": "disease",
       "surfaces": [
         "Tentativa de suicídio e autointoxicação — abordagem na emergência",
+        "tentativa-suicidio",
         "tentativa de autoextermínio",
         "autointoxicação",
         "overdose intencional",
@@ -1248,6 +1320,7 @@
       "kind": "disease",
       "surfaces": [
         "Obstrução intestinal",
+        "obstrucao-intestinal",
         "abdome agudo obstrutivo",
         "íleo",
         "suboclusão",
@@ -1261,6 +1334,7 @@
       "kind": "disease",
       "surfaces": [
         "Isquemia mesentérica aguda",
+        "isquemia-mesenterica",
         "abdome agudo vascular",
         "isquemia intestinal aguda",
         "infarto mesentérico",
@@ -1284,6 +1358,7 @@
       "kind": "disease",
       "surfaces": [
         "Perfuração de víscera oca (abdome agudo perfurativo)",
+        "perfuracao-viscera-oca",
         "abdome agudo perfurativo",
         "pneumoperitônio",
         "úlcera péptica perfurada",
@@ -1297,6 +1372,7 @@
       "kind": "disease",
       "surfaces": [
         "Insuficiência hepática aguda e encefalopatia hepática",
+        "insuficiencia-hepatica-aguda",
         "Hepatite fulminante",
         "Falência hepática aguda",
         "IHA",
@@ -1310,6 +1386,7 @@
       "kind": "disease",
       "surfaces": [
         "Peritonite bacteriana espontânea (PBE)",
+        "pbe",
         "Peritonite bacteriana espontânea",
         "Ascite neutrocítica infectada",
         "K65.0"
@@ -1321,6 +1398,7 @@
       "kind": "disease",
       "surfaces": [
         "Coma mixedematoso",
+        "coma-mixedematoso",
         "Crise mixedematosa",
         "Hipotireoidismo descompensado grave",
         "E03.5"
@@ -1332,6 +1410,7 @@
       "kind": "disease",
       "surfaces": [
         "Rabdomiólise",
+        "rabdomiolise",
         "Síndrome de lise muscular",
         "Mioglobinúria",
         "M62.8"
@@ -1343,6 +1422,7 @@
       "kind": "disease",
       "surfaces": [
         "Crise hipercalcêmica",
+        "crise-hipercalcemica",
         "Hipercalcemia grave",
         "Hipercalcemia sintomática",
         "E83.5"
@@ -1354,6 +1434,7 @@
       "kind": "disease",
       "surfaces": [
         "Distúrbios do cálcio (hiper e hipocalcemia)",
+        "disturbios-calcio",
         "Hipocalcemia",
         "Hipercalcemia",
         "E83.5"
@@ -1365,6 +1446,7 @@
       "kind": "disease",
       "surfaces": [
         "Distúrbios do magnésio e do fósforo",
+        "disturbios-magnesio-fosforo",
         "Hipomagnesemia",
         "Hipermagnesemia",
         "Hipofosfatemia",
@@ -1379,6 +1461,7 @@
       "kind": "disease",
       "surfaces": [
         "Distúrbios do equilíbrio ácido-base",
+        "disturbios-acido-base",
         "Acidose metabólica",
         "Alcalose metabólica",
         "Acidose respiratória",
@@ -1395,6 +1478,7 @@
       "kind": "disease",
       "surfaces": [
         "Cólica nefrética / litíase urinária",
+        "colica-renal",
         "cólica renal",
         "litíase renal",
         "nefrolitíase",
@@ -1411,6 +1495,7 @@
       "kind": "disease",
       "surfaces": [
         "Retenção urinária aguda",
+        "retencao-urinaria-aguda",
         "RUA",
         "bexigoma",
         "globo vesical",
@@ -1425,6 +1510,7 @@
       "kind": "disease",
       "surfaces": [
         "Torção testicular",
+        "torcao-testicular",
         "torção do cordão espermático",
         "escroto agudo",
         "dor testicular aguda",
@@ -1438,6 +1524,7 @@
       "kind": "disease",
       "surfaces": [
         "Artrite séptica",
+        "artrite-septica",
         "artrite infecciosa",
         "artrite bacteriana",
         "monoartrite aguda",
@@ -1452,6 +1539,7 @@
       "kind": "disease",
       "surfaces": [
         "Crise gotosa aguda",
+        "crise-gotosa",
         "gota",
         "artrite gotosa",
         "podagra",
@@ -1466,6 +1554,7 @@
       "kind": "disease",
       "surfaces": [
         "Síndromes nefrítica e nefrótica",
+        "sindromes-nefritica-nefrotica",
         "glomerulonefrite",
         "síndrome nefrítica",
         "síndrome nefrótica",
@@ -1482,6 +1571,7 @@
       "kind": "disease",
       "surfaces": [
         "Coagulação intravascular disseminada (CIVD)",
+        "civd",
         "CIVD",
         "CID",
         "coagulopatia de consumo",
@@ -1495,6 +1585,7 @@
       "kind": "disease",
       "surfaces": [
         "Microangiopatias trombóticas (PTT / SHU)",
+        "microangiopatias-tromboticas",
         "PTT",
         "SHU",
         "púrpura trombocitopênica trombótica",
@@ -1512,6 +1603,7 @@
       "kind": "disease",
       "surfaces": [
         "Reações transfusionais agudas",
+        "reacoes-transfusionais",
         "reação transfusional",
         "reação hemolítica aguda",
         "TRALI",
@@ -1527,6 +1619,7 @@
       "kind": "disease",
       "surfaces": [
         "Reversão de anticoagulantes / sangramento maior",
+        "reversao-anticoagulacao",
         "reversão de anticoagulação",
         "sangramento maior",
         "varfarina",
@@ -1544,6 +1637,7 @@
       "kind": "disease",
       "surfaces": [
         "Diabetes mellitus tipo 2",
+        "dm2",
         "DM2",
         "diabetes tipo 2",
         "hiperglicemia crônica",
@@ -1557,6 +1651,7 @@
       "kind": "disease",
       "surfaces": [
         "Hipertensão arterial sistêmica",
+        "has-cronica",
         "HAS",
         "hipertensão",
         "pressão alta",
@@ -1599,6 +1694,7 @@
       "kind": "disease",
       "surfaces": [
         "Doença renal crônica",
+        "drc",
         "DRC",
         "insuficiência renal crônica",
         "IRC",
@@ -1629,6 +1725,7 @@
       "kind": "disease",
       "surfaces": [
         "Transtorno depressivo",
+        "depressao",
         "depressão",
         "transtorno depressivo",
         "humor deprimido",
@@ -1644,6 +1741,7 @@
       "kind": "disease",
       "surfaces": [
         "Anemia ferropriva",
+        "anemia-ferropriva",
         "anemia ferropriva",
         "deficiência de ferro",
         "ferropenia",
@@ -1672,6 +1770,7 @@
       "kind": "disease",
       "surfaces": [
         "Fasciíte necrosante e infecções graves de partes moles",
+        "fasciite-necrosante",
         "fasciíte necrosante",
         "fasceíte",
         "infecção necrosante de partes moles",
@@ -1686,6 +1785,7 @@
       "kind": "disease",
       "surfaces": [
         "Malária",
+        "malaria",
         "malária",
         "plasmodium",
         "falciparum",
@@ -1701,6 +1801,7 @@
       "kind": "disease",
       "surfaces": [
         "Tétano",
+        "tetano",
         "tétano",
         "Clostridium tetani",
         "trismo",
@@ -1716,6 +1817,7 @@
       "kind": "disease",
       "surfaces": [
         "Influenza e COVID-19 graves",
+        "influenza-covid-graves",
         "influenza",
         "gripe",
         "H1N1",
@@ -1734,6 +1836,7 @@
       "kind": "disease",
       "surfaces": [
         "Síndrome do choque tóxico",
+        "choque-toxico",
         "choque tóxico",
         "TSS",
         "síndrome do choque tóxico",
@@ -1749,6 +1852,7 @@
       "kind": "disease",
       "surfaces": [
         "Choque hemorrágico",
+        "choque-hemorragico",
         "hemorragia maciça",
         "transfusão maciça",
         "trauma",
@@ -3145,6 +3249,11 @@
     [
       "abstinencia-alcoolica-dt",
       "dd",
+      "crise-tireotoxica"
+    ],
+    [
+      "abstinencia-alcoolica-dt",
+      "dd",
       "delirium"
     ],
     [
@@ -3161,6 +3270,11 @@
       "abstinencia-alcoolica-dt",
       "dd",
       "meningite"
+    ],
+    [
+      "abstinencia-alcoolica-dt",
+      "dd",
+      "sepse"
     ],
     [
       "abstinencia-alcoolica-dt",
@@ -3231,6 +3345,11 @@
       "acidentes-peconhentos",
       "dd",
       "rabdomiolise"
+    ],
+    [
+      "acidentes-peconhentos",
+      "dd",
+      "sepse"
     ],
     [
       "acidentes-peconhentos",
@@ -3370,6 +3489,11 @@
     [
       "agitacao-psicomotora",
       "dd",
+      "sepse"
+    ],
+    [
+      "agitacao-psicomotora",
+      "dd",
       "tce"
     ],
     [
@@ -3481,6 +3605,11 @@
       "anemia-falciforme",
       "dd",
       "pac"
+    ],
+    [
+      "anemia-falciforme",
+      "dd",
+      "sepse"
     ],
     [
       "anemia-falciforme",
@@ -3866,6 +3995,11 @@
       "avc-isquemico",
       "tratado_por",
       "drug-alteplase"
+    ],
+    [
+      "avc-isquemico",
+      "tratado_por",
+      "drug-clopidogrel"
     ],
     [
       "avc-isquemico",
@@ -4604,6 +4738,11 @@
     ],
     [
       "colecistite-colangite",
+      "dd",
+      "sepse"
+    ],
+    [
+      "colecistite-colangite",
       "tratado_por",
       "drug-cefalexina"
     ],
@@ -4646,6 +4785,11 @@
       "colica-renal",
       "dd",
       "hsa"
+    ],
+    [
+      "colica-renal",
+      "dd",
+      "isquemia-mesenterica"
     ],
     [
       "colica-renal",
@@ -4705,7 +4849,17 @@
     [
       "coma-mixedematoso",
       "dd",
+      "insuficiencia-adrenal"
+    ],
+    [
+      "coma-mixedematoso",
+      "dd",
       "intoxicacao-exogena"
+    ],
+    [
+      "coma-mixedematoso",
+      "dd",
+      "sepse"
     ],
     [
       "coma-mixedematoso",
@@ -4920,6 +5074,11 @@
     [
       "crise-tireotoxica",
       "dd",
+      "abstinencia-alcoolica-dt"
+    ],
+    [
+      "crise-tireotoxica",
+      "dd",
       "cefaleia"
     ],
     [
@@ -4946,6 +5105,11 @@
       "crise-tireotoxica",
       "dd",
       "intoxicacao-exogena"
+    ],
+    [
+      "crise-tireotoxica",
+      "dd",
+      "sepse"
     ],
     [
       "crise-tireotoxica",
@@ -5041,6 +5205,11 @@
       "dengue",
       "dd",
       "malaria"
+    ],
+    [
+      "dengue",
+      "dd",
+      "sepse"
     ],
     [
       "dengue",
@@ -5330,6 +5499,11 @@
     [
       "disturbios-acido-base",
       "dd",
+      "sepse"
+    ],
+    [
+      "disturbios-acido-base",
+      "dd",
       "tep"
     ],
     [
@@ -5371,6 +5545,11 @@
       "disturbios-calcio",
       "dd",
       "estado-mal-epileptico"
+    ],
+    [
+      "disturbios-calcio",
+      "dd",
+      "ic-aguda"
     ],
     [
       "disturbios-calcio",
@@ -5591,6 +5770,11 @@
       "disturbios-temperatura",
       "dd",
       "meningite"
+    ],
+    [
+      "disturbios-temperatura",
+      "dd",
+      "sepse"
     ],
     [
       "disturbios-temperatura",
@@ -6649,6 +6833,11 @@
     ],
     [
       "drug-butilescopolamina",
+      "contraindicado",
+      "taquiarritmias"
+    ],
+    [
+      "drug-butilescopolamina",
       "interage",
       "drug-metoclopramida"
     ],
@@ -6913,6 +7102,11 @@
       "pbe"
     ],
     [
+      "drug-ceftriaxona",
+      "trata",
+      "sepse"
+    ],
+    [
       "drug-cetamina",
       "trata",
       "agitacao-psicomotora"
@@ -7156,6 +7350,11 @@
       "drug-clopidogrel",
       "trata",
       "avc-hemorragico"
+    ],
+    [
+      "drug-clopidogrel",
+      "trata",
+      "avc-isquemico"
     ],
     [
       "drug-clopidogrel",
@@ -8455,6 +8654,11 @@
     [
       "drug-levotiroxina",
       "contraindicado",
+      "insuficiencia-adrenal"
+    ],
+    [
+      "drug-levotiroxina",
+      "contraindicado",
       "sca-ssst"
     ],
     [
@@ -9254,6 +9458,11 @@
     ],
     [
       "drug-salbutamol",
+      "contraindicado",
+      "taquiarritmias"
+    ],
+    [
+      "drug-salbutamol",
       "trata",
       "anemia-falciforme"
     ],
@@ -9631,6 +9840,11 @@
       "endocardite-infecciosa",
       "dd",
       "leptospirose"
+    ],
+    [
+      "endocardite-infecciosa",
+      "dd",
+      "sepse"
     ],
     [
       "endocardite-infecciosa",
@@ -10355,12 +10569,22 @@
     [
       "hipoglicemia",
       "dd",
+      "insuficiencia-adrenal"
+    ],
+    [
+      "hipoglicemia",
+      "dd",
       "insuficiencia-hepatica-aguda"
     ],
     [
       "hipoglicemia",
       "dd",
       "pre-eclampsia"
+    ],
+    [
+      "hipoglicemia",
+      "dd",
+      "sepse"
     ],
     [
       "hipoglicemia",
@@ -10665,6 +10889,11 @@
     [
       "ic-aguda",
       "dd",
+      "disturbios-calcio"
+    ],
+    [
+      "ic-aguda",
+      "dd",
       "dpoc"
     ],
     [
@@ -10810,7 +11039,22 @@
     [
       "insuficiencia-adrenal",
       "dd",
+      "coma-mixedematoso"
+    ],
+    [
+      "insuficiencia-adrenal",
+      "dd",
+      "hipoglicemia"
+    ],
+    [
+      "insuficiencia-adrenal",
+      "dd",
       "iamcsst"
+    ],
+    [
+      "insuficiencia-adrenal",
+      "dd",
+      "sepse"
     ],
     [
       "insuficiencia-adrenal",
@@ -10846,6 +11090,11 @@
       "insuficiencia-hepatica-aguda",
       "dd",
       "hipoglicemia"
+    ],
+    [
+      "insuficiencia-hepatica-aguda",
+      "dd",
+      "sepse"
     ],
     [
       "insuficiencia-hepatica-aguda",
@@ -11160,6 +11409,11 @@
     [
       "isquemia-mesenterica",
       "dd",
+      "colica-renal"
+    ],
+    [
+      "isquemia-mesenterica",
+      "dd",
       "hsa"
     ],
     [
@@ -11236,6 +11490,11 @@
       "itu",
       "dd",
       "leptospirose"
+    ],
+    [
+      "itu",
+      "dd",
+      "sindromes-nefritica-nefrotica"
     ],
     [
       "itu",
@@ -11364,6 +11623,11 @@
     ],
     [
       "leptospirose",
+      "dd",
+      "sepse"
+    ],
+    [
+      "leptospirose",
       "tratado_por",
       "drug-amoxicilina"
     ],
@@ -11440,6 +11704,11 @@
     [
       "lra",
       "dd",
+      "sepse"
+    ],
+    [
+      "lra",
+      "dd",
       "sindromes-nefritica-nefrotica"
     ],
     [
@@ -11466,6 +11735,11 @@
       "malaria",
       "dd",
       "leptospirose"
+    ],
+    [
+      "malaria",
+      "dd",
+      "sepse"
     ],
     [
       "meningite",
@@ -11560,6 +11834,11 @@
     [
       "microangiopatias-tromboticas",
       "dd",
+      "sepse"
+    ],
+    [
+      "microangiopatias-tromboticas",
+      "dd",
       "sindromes-nefritica-nefrotica"
     ],
     [
@@ -11576,6 +11855,11 @@
       "miocardite-aguda",
       "dd",
       "sca-ssst"
+    ],
+    [
+      "miocardite-aguda",
+      "dd",
+      "sepse"
     ],
     [
       "miocardite-aguda",
@@ -12530,6 +12814,16 @@
     [
       "sca-ssst",
       "dd",
+      "sepse"
+    ],
+    [
+      "sca-ssst",
+      "dd",
+      "taquiarritmias"
+    ],
+    [
+      "sca-ssst",
+      "dd",
       "tep"
     ],
     [
@@ -12610,6 +12904,26 @@
     [
       "sepse",
       "dd",
+      "abstinencia-alcoolica-dt"
+    ],
+    [
+      "sepse",
+      "dd",
+      "acidentes-peconhentos"
+    ],
+    [
+      "sepse",
+      "dd",
+      "agitacao-psicomotora"
+    ],
+    [
+      "sepse",
+      "dd",
+      "anemia-falciforme"
+    ],
+    [
+      "sepse",
+      "dd",
       "choque"
     ],
     [
@@ -12625,12 +12939,87 @@
     [
       "sepse",
       "dd",
+      "colecistite-colangite"
+    ],
+    [
+      "sepse",
+      "dd",
+      "coma-mixedematoso"
+    ],
+    [
+      "sepse",
+      "dd",
+      "crise-tireotoxica"
+    ],
+    [
+      "sepse",
+      "dd",
+      "dengue"
+    ],
+    [
+      "sepse",
+      "dd",
+      "disturbios-acido-base"
+    ],
+    [
+      "sepse",
+      "dd",
+      "disturbios-temperatura"
+    ],
+    [
+      "sepse",
+      "dd",
       "emergencias-oncologicas"
     ],
     [
       "sepse",
       "dd",
+      "endocardite-infecciosa"
+    ],
+    [
+      "sepse",
+      "dd",
+      "hipoglicemia"
+    ],
+    [
+      "sepse",
+      "dd",
       "infeccao-puerperal"
+    ],
+    [
+      "sepse",
+      "dd",
+      "insuficiencia-adrenal"
+    ],
+    [
+      "sepse",
+      "dd",
+      "insuficiencia-hepatica-aguda"
+    ],
+    [
+      "sepse",
+      "dd",
+      "leptospirose"
+    ],
+    [
+      "sepse",
+      "dd",
+      "lra"
+    ],
+    [
+      "sepse",
+      "dd",
+      "malaria"
+    ],
+    [
+      "sepse",
+      "dd",
+      "microangiopatias-tromboticas"
+    ],
+    [
+      "sepse",
+      "dd",
+      "miocardite-aguda"
     ],
     [
       "sepse",
@@ -12650,12 +13039,27 @@
     [
       "sepse",
       "dd",
+      "sca-ssst"
+    ],
+    [
+      "sepse",
+      "dd",
       "snm-serotoninergica"
     ],
     [
       "sepse",
       "dd",
+      "tentativa-suicidio"
+    ],
+    [
+      "sepse",
+      "dd",
       "tep"
+    ],
+    [
+      "sepse",
+      "tratado_por",
+      "drug-ceftriaxona"
     ],
     [
       "sepse",
@@ -12766,6 +13170,11 @@
       "sindromes-nefritica-nefrotica",
       "dd",
       "dislipidemia"
+    ],
+    [
+      "sindromes-nefritica-nefrotica",
+      "dd",
+      "itu"
     ],
     [
       "sindromes-nefritica-nefrotica",
@@ -12889,6 +13298,11 @@
     ],
     [
       "taquiarritmias",
+      "dd",
+      "sca-ssst"
+    ],
+    [
+      "taquiarritmias",
       "tratado_por",
       "drug-atenolol"
     ],
@@ -12971,6 +13385,11 @@
       "tentativa-suicidio",
       "dd",
       "intoxicacao-exogena"
+    ],
+    [
+      "tentativa-suicidio",
+      "dd",
+      "sepse"
     ],
     [
       "tentativa-suicidio",

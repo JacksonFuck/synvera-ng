@@ -335,6 +335,14 @@ TYPED_PREDICATES = frozenset({
 # k-hop tipado no pack: nunca acima de 2 (budget de latência do orquestrador, #10).
 MAX_GRAPH_HOPS = 2
 DEFAULT_GRAPH_MAX_TRIPLES = 12
+# Prioridade no top-N: conduta (trata) antes de dd genérico (#31).
+_PRED_PACK_RANK = {
+    "trata": 0,
+    "tratado_por": 0,
+    "interage": 1,
+    "contraindicado": 1,
+    "dd": 2,
+}
 
 
 def production_typed_edges(conn: sqlite3.Connection | None) -> list[tuple[str, str, str]]:
@@ -403,7 +411,13 @@ def candidate_typed_edges(
                 next_frontier.add(b)
             if b in frontier:
                 next_frontier.add(a)
-        hop_edges.sort(key=lambda e: (e[0], e[1], e[2]))
+        # pred rank + afinidade às seeds originais, depois chave estável
+        hop_edges.sort(key=lambda e: (
+            _PRED_PACK_RANK.get(e[1], 9),
+            0 if (e[0] in seeds and e[2] in seeds) else 1,
+            0 if (e[0] in seeds or e[2] in seeds) else 1,
+            e[0], e[1], e[2],
+        ))
         for a, rel, b in hop_edges:
             collected.append((hop, a, rel, b))
         next_frontier -= reached
@@ -411,7 +425,7 @@ def candidate_typed_edges(
         frontier = next_frontier
         if not frontier:
             break
-    # hop asc, depois chave lexicográfica (já ordenado por hop e dentro do hop)
+    # hop asc; dentro do hop já ordenado por pred/seeds
     return [(a, rel, b) for _, a, rel, b in collected]
 
 

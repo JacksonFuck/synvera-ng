@@ -85,6 +85,31 @@ def test_candidate_edges_hard_cap_max_hops_two():
     assert "drug-d" in nodes2 or "doenca-c" in nodes2
 
 
+def test_candidate_edges_prioritize_trata_over_dd():
+    """Cap top-N não deve ser engolido só por dd lexicográfico (#31)."""
+    lex = Lexicon(
+        entities=[
+            _ent("sepse", "Sepse", "disease", ["sepse"]),
+            _ent("drug-nora", "Nora", "drug", ["noradrenalina"]),
+            _ent("asma", "Asma", "disease", ["asma"]),
+            _ent("tep", "TEP", "disease", ["tep"]),
+        ],
+        typed_edges=[
+            ("sepse", "dd", "asma"),
+            ("sepse", "dd", "tep"),
+            ("asma", "dd", "sepse"),
+            ("tep", "dd", "sepse"),
+            ("drug-nora", "trata", "sepse"),
+            ("sepse", "tratado_por", "drug-nora"),
+        ],
+    )
+    edges = candidate_typed_edges(lex, {"sepse", "drug-nora"}, max_hops=1)
+    # trata/tratado_por devem vir antes de dd
+    first_preds = [rel for _, rel, _ in edges[:2]]
+    assert "trata" in first_preds or "tratado_por" in first_preds
+    assert edges[0][1] != "dd" or "trata" in {e[1] for e in edges[:3]}
+
+
 def test_candidate_edges_deterministic_order():
     lex = _lex_chain()
     seeds = {"doenca-a"}

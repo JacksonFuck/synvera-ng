@@ -57,3 +57,16 @@ def test_extract_typed_includes_nora_trata_sepse():
     edges = {(a, rel, b) for a, rel, b in payload["typed_edges"]}
     assert ("drug-noradrenalina", "trata", "sepse") in edges
     assert ("sepse", "tratado_por", "drug-noradrenalina") in edges
+
+
+def test_disease_id_is_surface():
+    doencas = Path(__file__).resolve().parents[1] / "clinical_data" / "doencas.ts"
+    bulario = Path(__file__).resolve().parents[1] / "clinical_data" / "bulario.ts"
+    if not doencas.exists() or not bulario.exists():
+        pytest.skip("clinical_data not present")
+    payload = bl.build(doencas, bulario)
+    by_id = {e["id"]: e for e in payload["entities"]}
+    assert "sepse" in by_id
+    surfs = [bl.normalize(s) for s in by_id["sepse"]["surfaces"]]
+    assert "sepse" in surfs
+

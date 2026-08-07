@@ -138,6 +138,11 @@ def extract_doencas(ts: str) -> list[dict]:
         if not (mid and mnome):
             continue
         surfaces = [mnome.group(1)]
+        # id canônico como surface (ex. sepse) — senão "sepse" na query não detecta
+        # a entidade cujo nome é "Sepse e choque séptico" (#31)
+        eid = mid.group(1)
+        if eid and eid not in surfaces:
+            surfaces.append(eid)
         sm = _SINONIMOS.search(blk)
         if sm:
             surfaces += _STR_ITEMS.findall(sm.group(1))
@@ -145,7 +150,7 @@ def extract_doencas(ts: str) -> list[dict]:
         if cm:
             surfaces += _STR_ITEMS.findall(cm.group(1))
         out.append({
-            "id": mid.group(1),
+            "id": eid,
             "label": _clean(mnome.group(1)),
             "kind": "disease",
             "surfaces": [_clean(s) for s in surfaces],

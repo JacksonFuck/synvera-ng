@@ -175,6 +175,11 @@ def _ensure_graph_schema(conn: sqlite3.Connection) -> None:
             weight REAL NOT NULL DEFAULT 0,
             PRIMARY KEY (a, b, rel)
         );
+        CREATE TABLE IF NOT EXISTS graph_chunk_entities (
+            chunk_id  INTEGER NOT NULL,
+            entity_id TEXT NOT NULL,
+            PRIMARY KEY (chunk_id, entity_id)
+        );
         """
     )
 
@@ -215,6 +220,12 @@ def promote_candidate(
         "INSERT OR REPLACE INTO graph_edges (a, b, rel, weight) VALUES (?,?,?,?)",
         (src, tgt, pred, 5.0),
     )
+    # âncora chunk↔entidade para provenance no pack (#21)
+    for eid in (src, tgt):
+        conn.execute(
+            "INSERT OR IGNORE INTO graph_chunk_entities (chunk_id, entity_id) VALUES (?,?)",
+            (meta["chunk_id"], eid),
+        )
     conn.execute(
         "UPDATE openie_candidates SET status='promoted', "
         "citation_label=?, page_start=?, page_end=?, document_id=?, "

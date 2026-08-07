@@ -6,6 +6,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from pack_metrics import (  # noqa: E402
+    openie_candidate_stats,
     score_pack_against_gold,
     summarize_pack_scores,
     validate_pack_triples,
@@ -95,3 +96,34 @@ def test_summarize_pack_scores_rates_and_invariant():
         rows + [{"status": "hit", "n_triples": 1, "wall_s": 1.0, "invariant_ok": False}]
     )
     assert bad["invariant_ok"] is False
+
+
+def test_openie_candidate_stats_empty_conn():
+    class _Boom:
+        def execute(self, *a, **k):
+            raise RuntimeError("no table")
+
+    st = openie_candidate_stats(_Boom())
+    assert st["table_present"] is False
+    assert st["total"] == 0
+
+
+def test_openie_candidate_stats_counts():
+    class _FakeConn:
+        def execute(self, sql, params=None):
+            class R:
+                def fetchall(self_inner):
+                    return [
+                        {"status": "pending", "n": 3},
+                        {"status": "promoted", "n": 2},
+                        {"status": "rejected", "n": 1},
+                    ]
+            return R()
+
+    st = openie_candidate_stats(_FakeConn())
+    assert st["table_present"] is True
+    assert st["pending"] == 3
+    assert st["promoted"] == 2
+    assert st["rejected"] == 1
+    assert st["total"] == 6
+    assert st["promote_rate"] == 2 / 3

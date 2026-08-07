@@ -56,7 +56,25 @@ Não precisam de RAG no ar: validam scoring e o invariante de citation.
 | `gold_triples.json` | arestas (source, predicate, target) esperadas no léxico |
 | `gold_multihop.json` | queries com `expect_entities` / `expect_rels` |
 
+## OpenIE (#21)
+
+Contagens offline do store de candidatos (se o DB existir):
+
+| campo | significado |
+|-------|-------------|
+| `openie_pending` | candidatos à espera de gate manual |
+| `openie_promoted` | promovidos → `graph_edges` tipadas / pack |
+| `openie_rejected` | rejeitados (não entram no pack) |
+| `openie_promote_rate` | promoted / (promoted+rejected) |
+
+Pending/rejected **nunca** devem aparecer em `graph_triples` do evidence-pack.
+Só `promoted` (aresta de produção + citation) entra no pack.
+
+Extração offline: `services/rag-gateway/scripts/openie_extract.py` (Gemma local).
+Gate: `promote_candidate` / `reject_candidate` no módulo de candidatos.
+
 ## Política
 
 Indexação LLM (se houver): **somente** Gemma-4 local (`SIMVERA_GEMMA_URL`, tipicamente `:8081`).
 Fase 1 de arestas tipadas é determinística (TS / surfaces).
+OpenIE: candidatos offline + gate **manual**; zero auto-merge.

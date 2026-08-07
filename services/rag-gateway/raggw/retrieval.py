@@ -337,25 +337,52 @@ MAX_GRAPH_HOPS = 2
 DEFAULT_GRAPH_MAX_TRIPLES = 12
 
 
+def production_typed_edges(conn: sqlite3.Connection | None) -> list[tuple[str, str, str]]:
+    """Arestas tipadas de produção no SQLite (léxico inject + OpenIE promovido).
+
+    Pending/rejected OpenIE **não** vivem em graph_edges — só promoted (#21).
+    """
+    if conn is None:
+        return []
+    try:
+        rows = conn.execute(
+            "SELECT a, rel, b FROM graph_edges WHERE rel != 'cooc'"
+        ).fetchall()
+    except sqlite3.Error:
+        return []
+    out: list[tuple[str, str, str]] = []
+    for r in rows:
+        a = r["a"] if hasattr(r, "keys") else r[0]
+        rel = r["rel"] if hasattr(r, "keys") else r[1]
+        b = r["b"] if hasattr(r, "keys") else r[2]
+        if rel in TYPED_PREDICATES:
+            out.append((str(a), str(rel), str(b)))
+    return out
+
+
 def candidate_typed_edges(
     lexicon: Lexicon,
     seeds: set[str],
     *,
     max_hops: int = MAX_GRAPH_HOPS,
+    extra_edges: list[tuple[str, str, str]] | None = None,
 ) -> list[tuple[str, str, str]]:
     """Arestas tipadas em até k hops a partir das seeds (k ≤ 2).
 
     Ordem determinística: hop ascendente, depois (source, predicate, target).
+    `extra_edges`: produção SQLite (OpenIE promovido / inject) unida ao léxico.
     """
     if not seeds or lexicon is None:
         return []
     hops = max(1, min(MAX_GRAPH_HOPS, int(max_hops)))
-    typed = [
+    typed_set: set[tuple[str, str, str]] = {
         (a, rel, b) for a, rel, b in lexicon.typed_edges
         if rel in TYPED_PREDICATES
-    ]
-    # ordenação estável do léxico para o walk
-    typed.sort(key=lambda e: (e[0], e[1], e[2]))
+    }
+    for a, rel, b in (extra_edges or []):
+        if rel in TYPED_PREDICATES:
+            typed_set.add((a, rel, b))
+    typed = sorted(typed_set, key=lambda e: (e[0], e[1], e[2]))
 
     collected: list[tuple[int, str, str, str]] = []  # hop, a, rel, b
     seen: set[tuple[str, str, str]] = set()
@@ -412,7 +439,11 @@ def typed_triples_with_provenance(
     cap = max(0, int(max_triples))
     if cap == 0:
         return []
-    candidate_edges = candidate_typed_edges(lexicon, seeds, max_hops=max_hops)
+    # léxico + edges de produção (OpenIE promovido / inject); pending nunca está aqui
+    candidate_edges = candidate_typed_edges(
+        lexicon, seeds, max_hops=max_hops,
+        extra_edges=production_typed_edges(conn),
+    )
     if not candidate_edges:
         return []
 
@@ -453,7 +484,34 @@ def typed_triples_with_provenance(
             "page_end": row["page_end"],
         }
 
-    def _provenance(a: str, b: str) -> dict | None:
+    def _openie_promoted_prov(a: str, rel: str, b: str) -> dict | None:
+        """Provenance explícita do gate OpenIE (#21) — só status=promoted."""
+        try:
+            row = conn.execute(
+                "SELECT source_chunk_id, document_id, citation_label, "
+                "page_start, page_end FROM openie_candidates "
+                "WHERE status='promoted' AND source=? AND predicate=? AND target=? "
+                "ORDER BY id ASC LIMIT 1",
+                (a, rel, b),
+            ).fetchone()
+        except sqlite3.Error:
+            return None
+        if row is None or not (row["citation_label"] or "").strip():
+            return None
+        return {
+            "chunk_id": int(row["source_chunk_id"]),
+            "document_id": int(row["document_id"]) if row["document_id"] is not None else 0,
+            "citation_label": row["citation_label"],
+            "page_start": row["page_start"],
+            "page_end": row["page_end"],
+        }
+
+    def _provenance(a: str, b: str, rel: str | None = None) -> dict | None:
+        # 0) OpenIE promovido com citation gravada no gate
+        if rel:
+            op = _openie_promoted_prov(a, rel, b)
+            if op is not None:
+                return op
         # 1) interseção de chunks indexados para ambas entidades
         ca, cb = _chunks_for_entity(a), _chunks_for_entity(b)
         shared = ca & cb
@@ -489,7 +547,7 @@ def typed_triples_with_provenance(
         key = (a, rel, b)
         if key in seen:
             continue
-        prov = _provenance(a, b)
+        prov = _provenance(a, b, rel)
         if prov is None or not prov.get("citation_label"):
             continue
         seen.add(key)

@@ -384,7 +384,7 @@ async def rag_search_tool(query: str) -> str:
         f"[{h.get('citation_label', '?')}]\n{h.get('chunk_text', '')}" for h in hits)
 
 
-async def _parecer_meissa(messages: list[dict]) -> tuple[str | None, str, float]:
+async def _parecer_meissa(messages: list[dict]) -> tuple[str | None, str, float, str | None]:
     """Parecer do especialista, o **porquê** de não ter vindo, e quanto demorou.
 
     `simvera.meissa` dizia só "ok"/"off", e "off" escondia três causas distintas —
@@ -401,7 +401,8 @@ async def _parecer_meissa(messages: list[dict]) -> tuple[str | None, str, float]
     # um passo de NTP no wall clock daria número negativo ou absurdo justo aqui.
     t = time.monotonic()
     try:
-        parecer = await asyncio.wait_for(meissa_opinion(messages), timeout=MEISSA_DEADLINE)
+        parecer, modelo = await asyncio.wait_for(meissa_opinion(messages),
+                                                 timeout=MEISSA_DEADLINE)
     except asyncio.TimeoutError:
         # Precisa vir ANTES do except Exception: em Python 3.13 asyncio.TimeoutError É o
         # TimeoutError builtin, que herda de Exception. Inverter as duas cláusulas
@@ -409,25 +410,33 @@ async def _parecer_meissa(messages: list[dict]) -> tuple[str | None, str, float]
         # para criar. Nota: um TimeoutError vindo de DENTRO de meissa_opinion também cai
         # aqui — httpx não levanta esse tipo (usa TransportError), então fica aceito.
         log.warning("Meissa estourou %.1fs — seguindo só com evidência", MEISSA_DEADLINE)
-        return None, "timeout", time.monotonic() - t
+        return None, "timeout", time.monotonic() - t, None
     except Exception as exc:  # noqa: BLE001 — qualquer falha degrada, não invalida
         log.warning("Meissa falhou (%s) — seguindo só com evidência", type(exc).__name__)
-        return None, "erro", time.monotonic() - t
+        return None, "erro", time.monotonic() - t, None
     dur = time.monotonic() - t
     if not (parecer or "").strip():
         # Meissa responde "<think></think>" sem conteúdo útil depois da tool. Chamar
         # isso de timeout faria alguém subir o prazo achando que resolveria.
         log.info("Meissa devolveu parecer vazio em %.1fs", dur)
-        return None, "vazio", dur
-    return parecer, "ok", dur
+        return None, "vazio", dur, modelo
+    return parecer, "ok", dur, modelo
 
 
-async def meissa_opinion(messages: list[dict]) -> str | None:
+async def meissa_opinion(messages: list[dict]) -> tuple[str | None, str | None]:
     """Meissa-4B com rag_search exposto como tool, loop agêntico limitado.
 
-    Retorna None em qualquer falha: o parecer é ENRIQUECIMENTO. A âncora é o
-    evidence-pack; perder o Meissa degrada a resposta, não a invalida.
+    Devolve `(parecer, modelo_ecoado)`. O parecer é None em qualquer falha: ele é
+    ENRIQUECIMENTO, a âncora é o evidence-pack, e perder o Meissa degrada a resposta
+    sem invalidá-la.
+
+    O segundo elemento existe para a provenance (#53): antes declarávamos o id que
+    PEDIMOS (`MEISSA_MODEL`, default "meissa"), que é um apelido — a mesma classe de
+    coisa que a issue #50 declarou insuficiente para o Gemma. O upstream ecoa qual
+    modelo respondeu; agora esse eco chega ao registro de auditoria. Fica None quando
+    nenhuma resposta chegou, e nesse caso quem consome cai para o id pedido.
     """
+    modelo: str | None = None
     convo = [{"role": "system",
               "content": "Você é um especialista médico. Use rag_search para fundamentar "
                          "sua análise no corpus antes de concluir. Seja conciso e técnico."}]
@@ -443,12 +452,14 @@ async def meissa_opinion(messages: list[dict]) -> str | None:
                                      "tool_choice": "auto", "max_tokens": 900, "stream": False},
                                timeout=MEISSA_TIMEOUT)
         r.raise_for_status()
-        msg = (r.json().get("choices") or [{}])[0].get("message", {})
+        corpo = r.json()
+        modelo = corpo.get("model") or modelo
+        msg = (corpo.get("choices") or [{}])[0].get("message", {})
         calls = msg.get("tool_calls")
         if not calls:
             # Meissa costuma responder "<think></think>" sem conteúdo útil depois da tool;
             # nesse caso não há parecer, e seguir só com a evidência é o certo.
-            return strip_think(msg.get("content") or "") or None
+            return strip_think(msg.get("content") or "") or None, modelo
         convo.append(msg)
         for call in calls:
             fn = call.get("function", {})
@@ -459,7 +470,7 @@ async def meissa_opinion(messages: list[dict]) -> str | None:
             convo.append({"role": "tool", "tool_call_id": call.get("id", ""),
                           "content": await rag_search_tool(q) if q else "query vazia"})
     # Estourou as rodadas ainda pedindo ferramenta: sem parecer utilizável.
-    return None
+    return None, modelo
 
 
 # Schema fechado — espelho do Clinical GraphRAG no evidence-pack (#7/#8).
@@ -593,7 +604,7 @@ def _pack_citations(pack: dict) -> list[dict]:
 
 
 def _provenance_ia(pack: dict | None, gemma_model: str | None,
-                   meissa_status: str) -> dict:
+                   meissa_status: str, meissa_model: str | None = None) -> dict:
     """Quem produziu esta resposta — modelo, versão, runtime, quando.
 
     Risco CFM alto: o destino é prontuário eletrônico. A pergunta que uma auditoria faz
@@ -616,8 +627,11 @@ def _provenance_ia(pack: dict | None, gemma_model: str | None,
         # model só quando a perna participou: num registro de auditoria, presença do
         # modelo tem de significar participação. Em forced_choice o Meissa é desligado
         # de propósito, e declarar um modelo ali sugeriria que ele opinou.
-        "meissa": {"model": MEISSA_MODEL if meissa_status == "ok" else None,
-                   "url": MEISSA_URL, "fonte": "id pedido", "status": meissa_status},
+        "meissa": {"model": (meissa_model or MEISSA_MODEL) if meissa_status == "ok"
+                            else None,
+                   "url": MEISSA_URL,
+                   "fonte": "eco do upstream" if meissa_model else "id pedido",
+                   "status": meissa_status},
         "rag": (pack or {}).get("provenance"),
     }
 
@@ -626,7 +640,8 @@ def _attach_provenance(payload: dict, *, pack: dict | None, parecer: str | None,
                        forced: bool, t0: float, consultation: bool = False,
                        meissa_status: str | None = None,
                        meissa_s: float | None = None,
-                       gemma_model: str | None = None) -> dict:
+                       gemma_model: str | None = None,
+                       meissa_model: str | None = None) -> dict:
     """Campos extras (não-OpenAI) para o harness e auditoria. Clientes ignoram o que não conhecem."""
     abstained = bool(pack and (pack.get("abstain") or not pack.get("chunks")))
     # Recusa e modo consulta NÃO devem vazar chunks espúrios (medido: "Sirius Black"
@@ -660,7 +675,7 @@ def _attach_provenance(payload: dict, *, pack: dict | None, parecer: str | None,
         "supporting_chunks": None if (consultation or abstained) else (pack or {}).get("supporting_chunks"),
         "abstained": abstained,
         # Identidade de quem produziu — exigência CFM, ver _provenance_ia (#50).
-        "provenance": _provenance_ia(pack, gemma_model, _meissa),
+        "provenance": _provenance_ia(pack, gemma_model, _meissa, meissa_model),
     }
     return payload
 
@@ -720,7 +735,7 @@ async def chat(body: dict) -> Any:
     # As duas pernas em paralelo — exceto forced_choice: Meissa disputa o RAG
     # (tool rag_search) e no smoke MedQA-20 gerou 45% de recusa por timeout 20s.
     pack_task = asyncio.create_task(rag_evidence(query))
-    meissa_status, meissa_s = "off", None
+    meissa_status, meissa_s, meissa_model = "off", None, None
     if forced:
         # Sem gather(return_exceptions): await puro propaga — capturamos para o
         # mesmo caminho de recusa que o modo normal.
@@ -749,7 +764,7 @@ async def chat(body: dict) -> Any:
             parecer, meissa_status = None, "erro"
             meissa_s = round(time.monotonic() - t_pernas, 2)
         else:
-            parecer, meissa_status, dur = meissa_res
+            parecer, meissa_status, dur, meissa_model = meissa_res
             meissa_s = round(dur, 2)
 
     # Âncora ausente ou fraca → recusa. Nunca cai para o Gemma sozinho.
@@ -760,13 +775,13 @@ async def chat(body: dict) -> Any:
         return _emit(_refusal_text(
             f"O serviço de RAG não respondeu (`{type(pack).__name__}`)."),
             stream, cid, pack=None, parecer=None, forced=forced, t0=t0,
-            meissa_status=meissa_status, meissa_s=meissa_s)
+            meissa_status=meissa_status, meissa_s=meissa_s, meissa_model=meissa_model)
     if pack.get("abstain") or not pack.get("chunks"):
         log.info("RAG absteve para %r (meissa=%s/%ss)", query[:80], meissa_status, meissa_s)
         return _emit(_refusal_text(
             "O corpus não tem evidência suficiente para sustentar uma resposta a esta pergunta."),
             stream, cid, pack=pack, parecer=None, forced=forced, t0=t0,
-            meissa_status=meissa_status, meissa_s=meissa_s)
+            meissa_status=meissa_status, meissa_s=meissa_s, meissa_model=meissa_model)
 
     log.info("query=%r rag=%d chunks conf=%.3f meissa=%s/%ss forced=%s t=%.2fs",
              query[:60], len(pack["chunks"]), pack.get("confidence_precheck", 0),
@@ -787,13 +802,14 @@ async def chat(body: dict) -> Any:
                 {"role": "user", "content": build_context(pack, parecer)}]
     return await _forward_gemma(enriched, body, stream, cid,
                                 forced=forced, pack=pack, parecer=parecer, t0=t0,
-                                meissa_status=meissa_status, meissa_s=meissa_s)
+                                meissa_status=meissa_status, meissa_s=meissa_s,
+                                meissa_model=meissa_model)
 
 
 def _emit(text: str, stream: bool, cid: str, *, pack: dict | None = None,
           parecer: str | None = None, forced: bool = False, t0: float | None = None,
           consultation: bool = False, meissa_status: str | None = None,
-          meissa_s: float | None = None) -> Any:
+          meissa_s: float | None = None, meissa_model: str | None = None) -> Any:
     """Resposta local (recusa / PRECISO_SABER) nos dois formatos."""
     t0 = t0 if t0 is not None else time.time()
     if not stream:
@@ -804,7 +820,7 @@ def _emit(text: str, stream: bool, cid: str, *, pack: dict | None = None,
                          "finish_reason": "stop"}]}
         _attach_provenance(body, pack=pack, parecer=parecer, forced=forced, t0=t0,
                            consultation=consultation, meissa_status=meissa_status,
-                           meissa_s=meissa_s)
+                           meissa_s=meissa_s, meissa_model=meissa_model)
         return JSONResponse(body)
 
     async def gen():
@@ -815,7 +831,7 @@ def _emit(text: str, stream: bool, cid: str, *, pack: dict | None = None,
         final = _msg_chunk(cid, "", finish="stop")
         _attach_provenance(final, pack=pack, parecer=parecer, forced=forced, t0=t0,
                            consultation=consultation, meissa_status=meissa_status,
-                           meissa_s=meissa_s)
+                           meissa_s=meissa_s, meissa_model=meissa_model)
         yield _sse(final)
         yield b"data: [DONE]\n\n"
 
@@ -827,7 +843,8 @@ async def _forward_gemma(messages: list[dict], body: dict, stream: bool,
                          forced: bool = False, pack: dict | None = None,
                          parecer: str | None = None, t0: float | None = None,
                          meissa_status: str | None = None,
-                         meissa_s: float | None = None) -> Any:
+                         meissa_s: float | None = None,
+                         meissa_model: str | None = None) -> Any:
     t0 = t0 if t0 is not None else time.time()
     if system:
         messages = [{"role": "system", "content": system},
@@ -873,7 +890,7 @@ async def _forward_gemma(messages: list[dict], body: dict, stream: bool,
             choice["message"] = msg
         _attach_provenance(out, pack=pack, parecer=parecer, forced=forced, t0=t0,
                            meissa_status=meissa_status, meissa_s=meissa_s,
-                           gemma_model=gemma_model)
+                           gemma_model=gemma_model, meissa_model=meissa_model)
         return JSONResponse(out)
 
     async def gen():
@@ -887,7 +904,7 @@ async def _forward_gemma(messages: list[dict], body: dict, stream: bool,
             nonlocal prov_enviada
             _attach_provenance(obj, pack=pack, parecer=parecer, forced=forced, t0=t0,
                                meissa_status=meissa_status, meissa_s=meissa_s,
-                               gemma_model=gemma_model)
+                               gemma_model=gemma_model, meissa_model=meissa_model)
             prov_enviada = True
             return obj
 

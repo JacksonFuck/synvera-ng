@@ -74,8 +74,14 @@ class BgeM3Embedder:
     def embed(self, texts: list[str]) -> list[list[float]]:
         if not texts:
             return []
-        dense = self._load().encode(
-            texts, batch_size=self._batch_size, max_length=8192)["dense_vecs"]
+        # _load() FORA da trava: threading.Lock não é reentrante e _load() já a usa.
+        modelo = self._load()
+        # Mesma corrida do reranker (#33): o tokenizer fast é Rust `tokenizers` com
+        # RwLock interno, e encode() muta estado compartilhado. Duas threads do FastAPI
+        # no mesmo singleton levantam "Already borrowed" → 500 → recusa espúria.
+        with self._lock:
+            dense = modelo.encode(
+                texts, batch_size=self._batch_size, max_length=8192)["dense_vecs"]
         return [[float(x) for x in v] for v in dense]
 
     def info(self) -> dict:

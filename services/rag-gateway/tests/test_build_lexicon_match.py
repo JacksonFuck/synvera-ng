@@ -70,3 +70,47 @@ def test_disease_id_is_surface():
     surfs = [bl.normalize(s) for s in by_id["sepse"]["surfaces"]]
     assert "sepse" in surfs
 
+
+
+# ── surfaces sem o parêntese (#38) ────────────────────────────────────────────
+
+def test_variante_sem_parenteses():
+    """"Tromboembolismo pulmonar (TEP)" precisa casar "tromboembolismo pulmonar".
+
+    O nome canônico traz a sigla entre parênteses, mas ninguém digita o parêntese: a
+    query real é "tromboembolismo pulmonar de alto risco". Sem esta variante a entidade
+    não era detectada — medido em 2026-08-06, 22 das 226 entidades tinham a lacuna,
+    incluindo TEP, TVP, PCR, TCE e pneumonia adquirida na comunidade.
+    """
+    assert bl._base_sem_parenteses("Tromboembolismo pulmonar (TEP)") == "Tromboembolismo pulmonar"
+    assert bl._base_sem_parenteses("Pneumonia adquirida na comunidade (PAC)") == (
+        "Pneumonia adquirida na comunidade")
+
+
+def test_sem_parenteses_nao_inventa_variante():
+    assert bl._base_sem_parenteses("Sepse e choque séptico") is None
+    assert bl._base_sem_parenteses("Noradrenalina") is None
+
+
+def test_sem_parenteses_ignora_base_curta_demais():
+    """"AVC (acidente vascular cerebral)" viraria a surface "avc", já coberta pelo id.
+
+    Base com menos de 3 chars vira ruído no índice de detecção, que exige >=3.
+    """
+    assert bl._base_sem_parenteses("AV (bloqueio)") is None
+
+
+def test_doenca_ganha_a_variante_no_lexicon():
+    """Ponta a ponta no extrator, não só no helper."""
+    ts = """
+  {
+    id: 'tep',
+    nome: 'Tromboembolismo pulmonar (TEP)',
+    conduta: { titulo: 'x', itens: [ 'anticoagular' ] },
+  },
+"""
+    ents = bl.extract_doencas(ts)
+    assert ents, "o bloco de teste precisa ser extraído"
+    surfaces = [s.lower() for s in ents[0]["surfaces"]]
+    assert "tromboembolismo pulmonar" in surfaces
+    assert "tromboembolismo pulmonar (tep)" in surfaces, "a forma canônica não some"

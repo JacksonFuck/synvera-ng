@@ -85,3 +85,64 @@ def test_provenance_sem_status_mantem_o_comportamento_antigo() -> None:
         {}, pack=None, parecer=None, forced=False, t0=0.0)
     assert payload["simvera"]["meissa"] == "off"
     assert payload["simvera"]["meissa_s"] is None
+
+
+# ── o encanamento, não o classificador ───────────────────────────────────────
+# Os testes acima provam a classificação. O que apodrece é o repasse de
+# meissa_status/meissa_s por seis caminhos de retorno em três funções: bastaria
+# alguém acrescentar um `return` ou esquecer um kwarg para a ambiguidade que a
+# issue #36 descreve voltar com a suíte inteira verde.
+
+def _corpo(resposta) -> dict:
+    import json
+    return json.loads(resposta.body)
+
+
+def test_status_sobrevive_a_recusa_por_abstain(monkeypatch) -> None:
+    """A recusa é onde mais se quer saber por que o parecer não veio."""
+    async def absteve(_q):
+        return {"abstain": True, "chunks": []}
+
+    async def lento(_m):
+        await asyncio.sleep(5)
+        return "tarde demais"
+
+    monkeypatch.setattr(orch, "rag_evidence", absteve)
+    monkeypatch.setattr(orch, "meissa_opinion", lento)
+    monkeypatch.setattr(orch, "MEISSA_DEADLINE", 0.05)
+
+    r = _rodar(orch.chat({"messages": [
+        {"role": "user", "content": "Quais os critérios de Wells?"}]}))
+    sim = _corpo(r)["simvera"]
+    assert sim["meissa"] == "timeout"
+    assert sim["meissa_s"] is not None
+
+
+def test_status_sobrevive_a_recusa_por_rag_fora_do_ar(monkeypatch) -> None:
+    async def caiu(_q):
+        raise ConnectionError("rag fora do ar")
+
+    async def bom(_m):
+        return "Parecer do especialista."
+
+    monkeypatch.setattr(orch, "rag_evidence", caiu)
+    monkeypatch.setattr(orch, "meissa_opinion", bom)
+
+    r = _rodar(orch.chat({"messages": [
+        {"role": "user", "content": "Quais os critérios de Wells?"}]}))
+    sim = _corpo(r)["simvera"]
+    assert sim["meissa"] == "ok", "a perna concluiu; a recusa foi do RAG, não do Meissa"
+    assert sim["meissa_s"] is not None
+
+
+def test_modo_consulta_nao_inventa_status(monkeypatch) -> None:
+    """PRECISO_SABER corta antes do RAG e do Meissa — nada de status fabricado."""
+    async def nunca(_q):
+        raise AssertionError("o gate de consulta deveria ter cortado antes do RAG")
+
+    monkeypatch.setattr(orch, "rag_evidence", nunca)
+    r = _rodar(orch.chat({"messages": [
+        {"role": "user", "content": "Paciente com dor torácica, o que faço?"}]}))
+    sim = _corpo(r)["simvera"]
+    assert sim["meissa"] == "off"
+    assert sim["meissa_s"] is None

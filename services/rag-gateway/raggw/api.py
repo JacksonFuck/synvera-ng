@@ -178,6 +178,22 @@ def create_app(*, db_path=None, embedder: Embedder | None = None,
     embedder_kind = type(embedder).__name__
     reranker_kind = type(reranker).__name__
     vector_store_kind = type(vector_store).__name__ if vector_store is not None else "BruteForceStore"
+
+    def _provenance_rag() -> dict:
+        """Identidade de quem recuperou — sem PHI, sem conteúdo, só versões e modelos.
+
+        Risco CFM alto: o destino é prontuário. A pergunta que uma auditoria faz meses
+        depois é "qual versão de qual componente produziu aquela conduta", e sem isto
+        não há como responder (#50). O léxico entra porque o grafo tipado decide que
+        evidência aparece — trocá-lo muda a resposta sem mudar uma linha de código.
+        """
+        return {
+            "raggw_version": __version__,
+            "embedder": embedder_kind,
+            "reranker": reranker_kind,
+            "vector_store": vector_store_kind,
+            "lexicon_typed_edges": len(graph_lexicon.typed_edges) if graph_lexicon else 0,
+        }
     embedder_info = embedder.info() if hasattr(embedder, "info") else {}
 
     @asynccontextmanager
@@ -376,6 +392,10 @@ def create_app(*, db_path=None, embedder: Embedder | None = None,
         finally:
             conn.close()
         pack["retrieval"] = diagnostics  # contribuição do grafo + plano (mensurável, #321)
+        # Quem recuperou esta evidência. O orquestrador repassa no simvera.provenance:
+        # risco CFM alto exige poder responder, meses depois, qual versão de qual
+        # componente produziu aquela conduta (#50). Só identidade — nada de PHI.
+        pack["provenance"] = _provenance_rag()
         # contagem auditável no diagnostics espelhado
         if isinstance(pack.get("retrieval"), dict):
             pack["retrieval"]["graph_triples"] = len(pack.get("graph_triples") or [])

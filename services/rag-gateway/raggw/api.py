@@ -15,6 +15,35 @@ from pydantic import BaseModel
 
 log = logging.getLogger("raggw.search")
 
+_PACOTE = Path(__file__).resolve().parent
+
+
+def _code_mtime(raiz: Path = _PACOTE) -> float:
+    """mtime mais recente entre os .py do serviço.
+
+    Responde a uma pergunta que ninguém tinha como fazer: *o processo carregou o que
+    está em disco?* A falha que motivou isto (#35) não dá erro — o orquestrador rodou
+    3h com código anterior a um merge e devolveu `graph_triples` vazio o tempo todo,
+    indistinguível de "esta query não tem triplas". Nenhum log, nenhum teste vermelho.
+
+    Não usa git de propósito: pega também edição não commitada, que é o outro jeito de
+    o processo divergir do disco.
+    """
+    return max((p.stat().st_mtime for p in raiz.rglob("*.py")), default=0.0)
+
+
+_CODE_MTIME_BOOT = _code_mtime()
+
+
+def _code_status() -> dict:
+    """`stale=True` significa: reinicie o serviço, ele não é o código que você lê."""
+    disco = _code_mtime()
+    return {
+        "loaded_mtime": round(_CODE_MTIME_BOOT, 3),
+        "disk_mtime": round(disco, 3),
+        "stale": disco > _CODE_MTIME_BOOT,
+    }
+
 from . import __version__, admin, agents, db, jobs, retrieval
 from .config import get_settings
 from .embedding import Embedder, make_embedder
@@ -236,6 +265,7 @@ def create_app(*, db_path=None, embedder: Embedder | None = None,
             "agents": n_agents,
             "graph_enabled": graph_lexicon is not None,
             "graph": graph,
+            "code": _code_status(),
             "simvera_version": "2.0",
             "multi_retriever": {
                 "enabled": len(multi_embedder.models) > 1,

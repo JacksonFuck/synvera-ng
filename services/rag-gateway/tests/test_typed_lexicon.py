@@ -93,3 +93,16 @@ def test_gemma_index_blocks_cloud_urls():
 def test_clinical_data_vendored():
     assert (CLIN / "doencas.ts").exists()
     assert (CLIN / "bulario.ts").exists()
+
+
+def test_artefato_detecta_tep_sem_o_parentese():
+    """#38: trava o lexicon.json COMMITADO, não só o script que o gera.
+
+    Os testes de build_lexicon alimentam entrada sintética. Se alguém reverter o
+    script, regenerar de um checkout velho ou o artefato divergir do .ts, aqueles
+    continuam verdes e o TEP volta a abster em silêncio. Este é o que quebra.
+    """
+    lex = load_lexicon(LEX)
+    assert "tep" in lex.detect("Como manejar tromboembolismo pulmonar de alto risco?")
+    assert "pac" in lex.detect("pneumonia adquirida na comunidade")
+    assert "tvp" in lex.detect("trombose venosa profunda")

@@ -70,8 +70,6 @@ def test_disease_id_is_surface():
     surfs = [bl.normalize(s) for s in by_id["sepse"]["surfaces"]]
     assert "sepse" in surfs
 
-
-
 # ── surfaces sem o parêntese (#38) ────────────────────────────────────────────
 
 def test_variante_sem_parenteses():
@@ -114,3 +112,48 @@ def test_doenca_ganha_a_variante_no_lexicon():
     surfaces = [s.lower() for s in ents[0]["surfaces"]]
     assert "tromboembolismo pulmonar" in surfaces
     assert "tromboembolismo pulmonar (tep)" in surfaces, "a forma canônica não some"
+
+
+@pytest.mark.parametrize("nome", [
+    "Foo (a (b))",      # aninhado
+    "Foo (a) bar",      # parêntese no meio, não no fim
+    "Foo (a",           # não fechado
+    "(TEP)",            # inteiramente parentético — base vazia
+    "AV (bloqueio)",    # base com menos de 3 chars
+    "Foo (a) (b)",      # dois parênteses: a base ainda teria um sobrando
+])
+def test_sem_parenteses_devolve_none_nas_bordas(nome):
+    """Os None são o comportamento de SEGURANÇA — sem teste, ninguém os defende.
+
+    O caso de dois parênteses importa por um motivo específico: os dois matchers
+    discordam de pontuação. `Lexicon.detect` casa a surface normalizada, que mantém
+    o parêntese; `pad_for_match` o remove. Gerar surface meio-normalizada cria uma
+    assimetria que só aparece muito depois.
+    """
+    assert bl._base_sem_parenteses(nome) is None
+
+
+def test_variante_nao_duplica_sinonimo_em_outra_caixa():
+    """"Paracetamol" ao lado do sinônimo "paracetamol" não muda detecção nenhuma.
+
+    load_lexicon normaliza, então a duplicata é invisível em runtime — mas incha um
+    artefato versionado cujo diff é registro de auditoria.
+    """
+    surfaces = ["Dipirona (metamizol)", "dipirona"]
+    bl._acrescenta_variante_sem_parenteses(surfaces, "Dipirona (metamizol)")
+    assert surfaces == ["Dipirona (metamizol)", "dipirona"], "não devia acrescentar nada"
+
+
+def test_farmaco_ganha_a_variante_no_lexicon():
+    """extract_bulario também foi alterado — cobre o outro extrator."""
+    ts = """
+  {
+    id: 'escopolamina',
+    nome: 'Butilescopolamina (escopolamina)',
+    usoClinico: { titulo: 'x', itens: [ 'colica' ] },
+  },
+"""
+    ents = bl.extract_bulario(ts)
+    assert ents, "o bloco de teste precisa ser extraído"
+    surfaces = [s.lower() for s in ents[0]["surfaces"]]
+    assert "butilescopolamina" in surfaces

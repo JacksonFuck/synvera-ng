@@ -153,7 +153,31 @@ def _base_sem_parenteses(nome: str) -> str | None:
     if not m:
         return None
     base = m.group(1).strip()
-    return base if len(base) >= 3 else None
+    if len(base) < 3 or "(" in base:
+        # Nome com dois parênteses ("Foo (a) (b)") deixaria um sobrando na base. Hoje
+        # não existe nenhum assim nos dados, mas os dois matchers discordam de
+        # pontuação — detect() casa a surface normalizada, que MANTÉM o parêntese,
+        # enquanto pad_for_match o remove. Surface meio-normalizada vira dor de cabeça
+        # daqui a seis meses; melhor não gerar.
+        return None
+    return base
+
+
+def _acrescenta_variante_sem_parenteses(surfaces: list[str], nome: str) -> None:
+    """Anexa a forma sem parêntese se ela ainda não existir em nenhuma grafia.
+
+    Dedup pelo normalizado, e só DEPOIS de sinônimos/CID entrarem na lista: com
+    comparação exata e antes deles, "Paracetamol" era acrescentado ao lado do
+    sinônimo "paracetamol" que já cobria o caso. Isso não muda detecção nenhuma
+    (load_lexicon normaliza), mas incha um artefato versionado — e aqui o diff do
+    lexicon.json é registro de auditoria, não ruído aceitável.
+    """
+    base = _base_sem_parenteses(nome)
+    if not base:
+        return
+    if normalize(base) in {normalize(s) for s in surfaces}:
+        return
+    surfaces.append(base)
 
 
 def extract_doencas(ts: str) -> list[dict]:
@@ -168,16 +192,14 @@ def extract_doencas(ts: str) -> list[dict]:
         eid = mid.group(1)
         if eid and eid not in surfaces:
             surfaces.append(eid)
-        # "Tromboembolismo pulmonar (TEP)" também precisa casar sem o parêntese (#38)
-        base = _base_sem_parenteses(mnome.group(1))
-        if base and base not in surfaces:
-            surfaces.append(base)
         sm = _SINONIMOS.search(blk)
         if sm:
             surfaces += _STR_ITEMS.findall(sm.group(1))
         cm = _CID.search(blk)
         if cm:
             surfaces += _STR_ITEMS.findall(cm.group(1))
+        # Por último, para o dedup enxergar sinônimos e CID (#38).
+        _acrescenta_variante_sem_parenteses(surfaces, mnome.group(1))
         out.append({
             "id": eid,
             "label": _clean(mnome.group(1)),
@@ -200,13 +222,11 @@ def extract_bulario(ts: str) -> list[dict]:
         mp = _PRINCIPIO.search(blk)
         if mp:
             surfaces.append(mp.group(1))
-        # mesma lacuna do lado dos fármacos, ex.: "Brometo de escopolamina (…)" (#38)
-        base = _base_sem_parenteses(mnome.group(1))
-        if base and base not in surfaces:
-            surfaces.append(base)
         sm = _SINONIMOS.search(blk)
         if sm:
             surfaces += _STR_ITEMS.findall(sm.group(1))
+        # Mesma lacuna do lado dos fármacos, ex.: "Brometo de escopolamina (…)" (#38).
+        _acrescenta_variante_sem_parenteses(surfaces, mnome.group(1))
         out.append({
             "id": f"drug-{mid.group(1)}",
             "label": _clean(mnome.group(1)),

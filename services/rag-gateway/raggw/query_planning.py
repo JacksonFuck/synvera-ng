@@ -37,9 +37,19 @@ def plan_query(query: str, lexicon: Lexicon | None = None) -> QueryPlan:
 
     expansions: list[str] = []
     if lexicon is not None:
-        # Exact + 1-edit fuzzy detection so a misspelled clinical term still recalls the
-        # entity's canonical surfaces (typo tolerance, #321 AC).
-        seeds = lexicon.detect(query) | lexicon.detect_fuzzy(query)
+        # Detecção exata primeiro; o fuzzy de 1 edição entra só como REDE DE SEGURANÇA,
+        # quando a exata não achou nada — aí é plausível que seja erro de digitação, que
+        # é o propósito dele (typo tolerance, #321 AC).
+        #
+        # Antes os dois eram unidos, e o fuzzy competia em vez de socorrer. Medido em
+        # 2026-08-06 (#44) sobre as 20 queries do gold_multihop: ele nunca foi a única
+        # fonte de entidade, e nas 3 vezes em que falou junto com a exata, falou errado
+        # — "como"→coma em duas delas. "Como" abre metade das perguntas clínicas em
+        # português, então isso injetava coma-rebaixamento na expansão o tempo todo.
+        # O efeito nunca foi erro: era confiança de recuperação menor, e em #38 recusa.
+        seeds = lexicon.detect(query)
+        if not seeds:
+            seeds = lexicon.detect_fuzzy(query)
         for eid in sorted(seeds):
             ent = lexicon.get(eid)
             if ent:

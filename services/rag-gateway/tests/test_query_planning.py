@@ -57,3 +57,43 @@ def test_plan_simple_query_has_no_subqueries():
 def test_plan_without_lexicon_has_no_expansions():
     plan = plan_query("tratamento da sepse")
     assert plan.expansions == []
+
+
+# ── fuzzy como rede de segurança, não competidor (#44) ───────────────────────
+
+def _lex_minimo():
+    from raggw.graph.lexicon import Entity, Lexicon
+    return Lexicon(entities=[
+        Entity(id="sepse", label="Sepse", kind="disease",
+               surfaces=("sepse", "choque septico")),
+        Entity(id="coma-rebaixamento", label="Coma", kind="disease",
+               surfaces=("coma", "rebaixamento de consciencia")),
+    ])
+
+
+def test_fuzzy_nao_injeta_quando_a_deteccao_exata_acertou():
+    """"Como" dista 1 edição de "coma" e abre metade das perguntas clínicas.
+
+    Medido em 2026-08-06 (#44): nas 20 queries do gold_multihop o fuzzy nunca foi a
+    única fonte de entidade, e nas 3 vezes em que falou junto com a detecção exata,
+    falou errado — 2 delas exatamente este "como"→coma. O efeito não é erro: é
+    confiança de recuperação mais baixa, e no caso de #38 foi recusa.
+    """
+    plano = plan_query("Como manejar sepse grave?", _lex_minimo())
+    juntas = " ".join(plano.expansions)
+    assert "choque septico" in juntas, "a entidade certa precisa continuar expandindo"
+    assert "rebaixamento" not in juntas, "coma-rebaixamento não tem o que fazer aqui"
+
+
+def test_fuzzy_ainda_salva_erro_de_digitacao():
+    """A rede de segurança precisa continuar valendo — é para isso que ele existe.
+
+    Sem detecção exata para "sepe", o fuzzy é a única chance de recuperar a entidade.
+    """
+    plano = plan_query("conduta na sepe", _lex_minimo())
+    assert "choque septico" in " ".join(plano.expansions)
+
+
+def test_sem_entidade_nenhuma_nao_explode():
+    plano = plan_query("pergunta sobre nada disso", _lex_minimo())
+    assert plano.expansions == []

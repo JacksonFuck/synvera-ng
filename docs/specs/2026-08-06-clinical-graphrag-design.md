@@ -1,8 +1,8 @@
 # Clinical GraphRAG — Design (Synvera-ng)
 
-**Data:** 2026-08-06  
-**Issue:** #4 (Fase 0–1), #6 (Fase 2)  
-**Status:** Fase 0–2 **entregues** (PRs #5, #11–#14). Observabilidade residual #15.
+**Data:** 2026-08-06 (status 2026-08-07)  
+**Issue:** #4 (Fase 0–1), #6 (Fase 2), #17 (Fase 3)  
+**Status:** Fases 0–3 **entregues** (PRs #5, #11–#14, #16, #22–#25).
 
 ## Objetivo
 

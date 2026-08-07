@@ -3,19 +3,27 @@
 Estado vivo do trabalho. Atualizado ao fim de cada fase. Se você é o agente que
 assume, leia isto inteiro antes de tocar em qualquer coisa.
 
-**Última atualização:** 2026-08-06 — Clinical GraphRAG Fase 0–2 em `main`
-(PRs #5, #11–#14). Issues #3/#6 fechadas. Em curso: #15 health graph metrics.
+**Última atualização:** 2026-08-07 — Clinical GraphRAG Fases 0–3 em `main`.
 
-### GraphRAG (estado 2026-08-06)
+### GraphRAG (estado 2026-08-07)
 
 | Fase | Estado | Entrega |
 |------|--------|---------|
-| 0–1 typed edges + harness | done | ~773 typed_edges, inject SQLite, gold multi-hop |
-| 2 pack de triplas + consolidação | done | evidence-pack `graph_triples`, GRAFO CLÍNICO no orch, `simvera`, caps k≤2/top-N, harness `--pack` |
-| OpenIE Gemma-local com gate | **não iniciado** | ver design; nunca auto-merge |
+| 0–1 typed edges + harness | done | ~773 typed_edges, inject SQLite, gold multi-hop (PR #5) |
+| 2 pack de triplas + consolidação | done | evidence-pack `graph_triples`, GRAFO CLÍNICO, `simvera`, caps k≤2/top-N (PRs #11–#14) |
+| 3 OpenIE local + gate manual | done | candidates → extract Gemma → promote/reject → pack só promoted (PRs #22–#25; #17) |
+| Health graph metrics | done | `GET /health` → `graph.*` (PR #16 / #15) |
 
-Seam de contrato: `POST /rag/evidence-pack` + espelho `simvera.graph_triples`.  
-Harness: `services/eval/graph/README.md`.
+Seam de contrato: `POST /rag/evidence-pack` + `simvera.graph_triples`.  
+OpenIE: offline only; **nunca** auto-merge; gate manual.  
+Harness: `services/eval/graph/README.md` (incl. `openie_*` stats).
+
+### Próximo (sem ticket aberto)
+
+- Melhorar gold triple recall (~0.47) se prioridade de cobertura
+- Path pruning opcional além dos caps
+- Rodar extract+gate em amostra real de corpus (operacional, não código)
+- Fora do GraphRAG: latência sob stack completa Meissa+Gemma (ver secção latência)
 
 > **Latência (2026-08-04, ainda válido):** query clínica quente ~1,1–1,5s RAG;
 > 1ª query pós-restart sem preload ~22s. Ver secção de latência abaixo.

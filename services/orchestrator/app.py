@@ -28,6 +28,7 @@ import os
 import re
 import time
 import uuid
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -69,6 +70,10 @@ GEMMA_URL = os.environ.get("SIMVERA_GEMMA_URL", "http://127.0.0.1:8081/v1")
 MEISSA_URL = os.environ.get("SIMVERA_MEISSA_URL", "http://127.0.0.1:8003/v1")
 
 MODEL_ID = os.environ.get("SIMVERA_MODEL_ID", "simvera-triangulo")
+# Ids pedidos aos upstreams. Eram literais no corpo do request; viraram constantes para
+# a provenance poder declará-los sem repetir a string (#50).
+GEMMA_MODEL = os.environ.get("SIMVERA_GEMMA_MODEL", "gemma")
+MEISSA_MODEL = os.environ.get("SIMVERA_MEISSA_MODEL", "meissa")
 RAG_TOP_K = int(os.environ.get("SIMVERA_RAG_TOP_K", "6"))
 RAG_TIMEOUT = float(os.environ.get("SIMVERA_RAG_TIMEOUT", "20"))
 MEISSA_TIMEOUT = float(os.environ.get("SIMVERA_MEISSA_TIMEOUT", "25"))
@@ -434,7 +439,7 @@ async def meissa_opinion(messages: list[dict]) -> str | None:
 
     for _ in range(MEISSA_TOOL_ROUNDS + 1):
         r = await _client.post(f"{MEISSA_URL}/chat/completions",
-                               json={"model": "meissa", "messages": convo, "tools": RAG_TOOL,
+                               json={"model": MEISSA_MODEL, "messages": convo, "tools": RAG_TOOL,
                                      "tool_choice": "auto", "max_tokens": 900, "stream": False},
                                timeout=MEISSA_TIMEOUT)
         r.raise_for_status()
@@ -587,10 +592,38 @@ def _pack_citations(pack: dict) -> list[dict]:
     return out
 
 
+def _provenance_ia(pack: dict | None, gemma_model: str | None,
+                   meissa_status: str | None) -> dict:
+    """Quem produziu esta resposta — modelo, versão, runtime, quando.
+
+    Risco CFM alto: o destino é prontuário eletrônico. A pergunta que uma auditoria faz
+    meses depois é *qual versão de qual modelo produziu aquela conduta*, e o shim não
+    tinha como responder (#50) — `payload["model"]` é `simvera-triangulo`, um apelido
+    OpenAI-compatible, e o modelo real que o upstream devolvia era sobrescrito por ele.
+
+    Assimetria proposital entre os dois campos, para não declarar mais do que se sabe:
+    `gemma.model` é o que o upstream **ecoou** na resposta; `meissa.model` é o id que
+    **pedimos**, porque `meissa_opinion` não repassa o eco. Os containers são fixados
+    por `ops/llama/start-server.sh`, então o pedido identifica o runtime — mas o eco é
+    mais forte, e capturá-lo para o Meissa também fica como trabalho seguinte.
+
+    Só identidade: nada de prompt, conteúdo de parecer ou dado de paciente.
+    """
+    return {
+        "ts": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "shim": MODEL_ID,  # apelido do endpoint, NÃO um modelo
+        "gemma": {"model": gemma_model, "url": GEMMA_URL, "fonte": "eco do upstream"},
+        "meissa": {"model": MEISSA_MODEL, "url": MEISSA_URL,
+                   "fonte": "id pedido", "status": meissa_status or "off"},
+        "rag": (pack or {}).get("provenance"),
+    }
+
+
 def _attach_provenance(payload: dict, *, pack: dict | None, parecer: str | None,
                        forced: bool, t0: float, consultation: bool = False,
                        meissa_status: str | None = None,
-                       meissa_s: float | None = None) -> dict:
+                       meissa_s: float | None = None,
+                       gemma_model: str | None = None) -> dict:
     """Campos extras (não-OpenAI) para o harness e auditoria. Clientes ignoram o que não conhecem."""
     abstained = bool(pack and (pack.get("abstain") or not pack.get("chunks")))
     # Recusa e modo consulta NÃO devem vazar chunks espúrios (medido: "Sirius Black"
@@ -619,6 +652,8 @@ def _attach_provenance(payload: dict, *, pack: dict | None, parecer: str | None,
         "confidence_precheck": None if (consultation or abstained) else (pack or {}).get("confidence_precheck"),
         "supporting_chunks": None if (consultation or abstained) else (pack or {}).get("supporting_chunks"),
         "abstained": abstained,
+        # Identidade de quem produziu — exigência CFM, ver _provenance_ia (#50).
+        "provenance": _provenance_ia(pack, gemma_model, meissa_status),
     }
     return payload
 
@@ -792,7 +827,7 @@ async def _forward_gemma(messages: list[dict], body: dict, stream: bool,
     else:
         max_tokens = max(int(body.get("max_tokens") or 0), MIN_GEMMA_TOKENS)
         temperature = body.get("temperature", 0.3)
-    payload = {"model": "gemma", "messages": messages, "stream": stream,
+    payload = {"model": GEMMA_MODEL, "messages": messages, "stream": stream,
                "max_tokens": max_tokens, "temperature": temperature}
     if not GEMMA_THINKING:
         # Medido: com thinking ligado o Gemma gasta ~20s raciocinando ANTES do primeiro
@@ -807,6 +842,9 @@ async def _forward_gemma(messages: list[dict], body: dict, stream: bool,
                                timeout=GEMMA_TIMEOUT)
         r.raise_for_status()
         out = r.json()
+        # O upstream ecoa qual modelo gerou; a linha seguinte o sobrescreve pelo apelido
+        # que o cliente OpenAI-compatible espera. Captura antes: é a provenance (#50).
+        gemma_model = out.get("model")
         out["model"] = MODEL_ID
         choice = (out.get("choices") or [{}])[0]
         msg = choice.get("message", {})
@@ -820,7 +858,8 @@ async def _forward_gemma(messages: list[dict], body: dict, stream: bool,
                 else "⚠️ O modelo não produziu resposta. Tente reformular a pergunta.")
             choice["message"] = msg
         _attach_provenance(out, pack=pack, parecer=parecer, forced=forced, t0=t0,
-                           meissa_status=meissa_status, meissa_s=meissa_s)
+                           meissa_status=meissa_status, meissa_s=meissa_s,
+                           gemma_model=gemma_model)
         return JSONResponse(out)
 
     async def gen():

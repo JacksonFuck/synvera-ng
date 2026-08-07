@@ -26,11 +26,13 @@ def _rodar(coro):
 
 def test_parecer_bom_vira_ok(monkeypatch) -> None:
     async def falso(_messages):
-        return "Parecer do especialista."
+        return "Parecer do especialista.", "meissa-4b-Q8_0"
 
     monkeypatch.setattr(orch, "meissa_opinion", falso)
-    parecer, status, dur = _rodar(orch._parecer_meissa([{"role": "user", "content": "x"}]))
+    parecer, status, dur, modelo = _rodar(
+        orch._parecer_meissa([{"role": "user", "content": "x"}]))
     assert (parecer, status) == ("Parecer do especialista.", "ok")
+    assert modelo == "meissa-4b-Q8_0", "o eco do upstream precisa chegar (#53)"
     assert dur >= 0
 
 
@@ -39,10 +41,10 @@ def test_parecer_vazio_nao_e_timeout(monkeypatch, vazio) -> None:
     """O Meissa responde `<think></think>` sem conteúdo — chamar isso de timeout
     faria alguém subir o prazo achando que resolveria."""
     async def falso(_messages):
-        return vazio
+        return vazio, "meissa-4b-Q8_0"
 
     monkeypatch.setattr(orch, "meissa_opinion", falso)
-    parecer, status, _ = _rodar(orch._parecer_meissa([{"role": "user", "content": "x"}]))
+    parecer, status, _, _ = _rodar(orch._parecer_meissa([{"role": "user", "content": "x"}]))
     assert parecer is None
     assert status == "vazio"
 
@@ -50,11 +52,11 @@ def test_parecer_vazio_nao_e_timeout(monkeypatch, vazio) -> None:
 def test_estouro_de_prazo_vira_timeout(monkeypatch) -> None:
     async def lento(_messages):
         await asyncio.sleep(5)
-        return "tarde demais"
+        return "tarde demais", "meissa-4b-Q8_0"
 
     monkeypatch.setattr(orch, "meissa_opinion", lento)
     monkeypatch.setattr(orch, "MEISSA_DEADLINE", 0.05)
-    parecer, status, dur = _rodar(orch._parecer_meissa([{"role": "user", "content": "x"}]))
+    parecer, status, dur, _ = _rodar(orch._parecer_meissa([{"role": "user", "content": "x"}]))
     assert parecer is None
     assert status == "timeout"
     assert dur < 1, "o prazo precisa cortar de verdade, não só rotular"
@@ -65,7 +67,7 @@ def test_falha_vira_erro(monkeypatch) -> None:
         raise ConnectionError("meissa fora do ar")
 
     monkeypatch.setattr(orch, "meissa_opinion", quebrado)
-    parecer, status, _ = _rodar(orch._parecer_meissa([{"role": "user", "content": "x"}]))
+    parecer, status, _, _ = _rodar(orch._parecer_meissa([{"role": "user", "content": "x"}]))
     assert parecer is None
     assert status == "erro"
 
@@ -105,7 +107,7 @@ def test_status_sobrevive_a_recusa_por_abstain(monkeypatch) -> None:
 
     async def lento(_m):
         await asyncio.sleep(5)
-        return "tarde demais"
+        return "tarde demais", "meissa-4b-Q8_0"
 
     monkeypatch.setattr(orch, "rag_evidence", absteve)
     monkeypatch.setattr(orch, "meissa_opinion", lento)
@@ -123,7 +125,7 @@ def test_status_sobrevive_a_recusa_por_rag_fora_do_ar(monkeypatch) -> None:
         raise ConnectionError("rag fora do ar")
 
     async def bom(_m):
-        return "Parecer do especialista."
+        return "Parecer do especialista.", "meissa-4b-Q8_0"
 
     monkeypatch.setattr(orch, "rag_evidence", caiu)
     monkeypatch.setattr(orch, "meissa_opinion", bom)

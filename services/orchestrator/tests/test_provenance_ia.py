@@ -173,3 +173,25 @@ def test_meissa_sem_participacao_nao_declara_modelo() -> None:
         t0=0.0, meissa_status="off", gemma_model="gemma-4")
     assert payload["simvera"]["provenance"]["meissa"]["model"] is None
     assert payload["simvera"]["provenance"]["meissa"]["status"] == "off"
+
+
+def test_meissa_prefere_o_eco_ao_id_pedido() -> None:
+    """#53: declarar o id pedido era a mesma classe de coisa que #50 recusou no Gemma."""
+    payload = orch._attach_provenance(
+        {}, pack={"chunks": [{"citation_label": "x"}]}, parecer="p", forced=False,
+        t0=0.0, meissa_status="ok", gemma_model="g", meissa_model="meissa-4b-Q8_0")
+    m = payload["simvera"]["provenance"]["meissa"]
+
+    assert m["model"] == "meissa-4b-Q8_0"
+    assert m["fonte"] == "eco do upstream"
+
+
+def test_meissa_cai_para_o_id_pedido_quando_nao_houve_eco() -> None:
+    """Sem eco, declarar o id pedido e DIZER que é o id pedido — não inventar."""
+    payload = orch._attach_provenance(
+        {}, pack={"chunks": [{"citation_label": "x"}]}, parecer="p", forced=False,
+        t0=0.0, meissa_status="ok", gemma_model="g", meissa_model=None)
+    m = payload["simvera"]["provenance"]["meissa"]
+
+    assert m["model"] == orch.MEISSA_MODEL
+    assert m["fonte"] == "id pedido"

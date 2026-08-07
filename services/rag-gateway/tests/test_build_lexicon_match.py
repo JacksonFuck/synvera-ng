@@ -157,3 +157,25 @@ def test_farmaco_ganha_a_variante_no_lexicon():
     assert ents, "o bloco de teste precisa ser extraído"
     surfaces = [s.lower() for s in ents[0]["surfaces"]]
     assert "butilescopolamina" in surfaces
+
+
+def test_sinonimo_com_parenteses_tambem_ganha_a_variante():
+    """#49: o #47 cobriu o nome canônico; sinônimo tem a mesma forma e ficou de fora.
+
+    Medido em 2026-08-07: um único sinônimo no léxico tinha a lacuna
+    (`drug-butilescopolamina` → `brometo de escopolamina`), e zero bases de uma palavra
+    — o risco de falso positivo que a issue temia não existe nestes dados.
+    """
+    ts = """
+  {
+    id: 'butilescopolamina',
+    nome: 'Butilescopolamina',
+    sinonimos: [ 'brometo de escopolamina (butilbrometo de hioscina)' ],
+    usoClinico: { titulo: 'x', itens: [ 'colica' ] },
+  },
+"""
+    ents = bl.extract_bulario(ts)
+    assert ents
+    surfaces = [s.lower() for s in ents[0]["surfaces"]]
+    assert "brometo de escopolamina" in surfaces
+    assert "brometo de escopolamina (butilbrometo de hioscina)" in surfaces

@@ -127,12 +127,27 @@ SEM_MAIS_PERGUNTAS = (
 
 # ── modo consulta (determinístico) ───────────────────────────────────────────
 # Vinheta / pedido de conduta sobre um caso. Conceitual puro NÃO entra.
-_VIGNETTE_RE = re.compile(
+# Paciente concreto na conversa. Basta isto para ser vinheta.
+_PACIENTE_RE = re.compile(
     r"\b(paciente|doente|caso\s+cl[ií]nico|senhor[a]?|crian[cç]a|"
-    r"homem|mulher|lactente|neonato)\b|"
+    r"homem|mulher|lactente|neonato)\b",
+    re.IGNORECASE,
+)
+# Fraseado de pedido de conduta. Sozinho NÃO decide — ver _e_vinheta().
+_CONDUTA_RE = re.compile(
     r"o que\s+(fa[cç]o|fazer)\b|qual\s+(a\s+)?conduta\b|"
     r"como\s+(manejar|conduzir|abordar|tratar)\s+(este|esse|esta|o\s+paciente)|"
     r"manejo\s+(inicial|deste|desse|desta)\b",
+    re.IGNORECASE,
+)
+# O mesmo fraseado amarrado a um TEMA por preposição ("conduta NA cetoacidose").
+# Tema no lugar de paciente = pergunta de conhecimento.
+_CONDUTA_SOBRE_TEMA_RE = re.compile(
+    r"(o que\s+fa[cç]o|o que\s+fazer|"
+    r"qual\s+(?:[oa]\s+)?(?:conduta|manejo)(?:\s+inicial)?|"
+    r"manejo\s+inicial|"
+    r"como\s+(?:manejar|conduzir|abordar|tratar))"
+    r"\s+(?:n[oa]s?|d[oa]s?|em|para|com)\s+\w",
     re.IGNORECASE,
 )
 # Pergunta de conhecimento (escore, dose, definição) — responde sem interrogar.
@@ -191,6 +206,25 @@ def _slots_present(text: str) -> dict[str, bool]:
     return {name: bool(rx.search(text or "")) for name, rx, _ in _SLOT_QUESTIONS}
 
 
+def _e_vinheta(blob: str, last: str) -> bool:
+    """Há um paciente concreto na conversa, ou só um tema clínico?
+
+    Substantivo de paciente basta, venha de qualquer turno. Fraseado de conduta
+    também conta — "O que faço?" sem contexto merece pergunta — mas **não** quando a
+    pergunta atual o amarra a um tema: "Qual a conduta na cetoacidose diabética
+    grave?" é pergunta sobre uma doença, e pedir a idade de ninguém é ruído (#37).
+
+    Não use "algum slot preenchido" como sinal de vinheta: nomes de doença casam os
+    regexes de slot ("cetoacidose **diabét**ica" preenche contexto), e o bug volta.
+
+    Errar para o lado de perguntar é barato. Errar para o outro remove o humano no
+    loop que o risco CFM alto exige — na dúvida, interrogar.
+    """
+    if _PACIENTE_RE.search(blob):
+        return True
+    return bool(_CONDUTA_RE.search(blob)) and not _CONDUTA_SOBRE_TEMA_RE.search(last)
+
+
 def _perguntas_faltantes(messages: list[dict]) -> list[str] | None:
     """Se o caso é vinheta incompleta, devolve até 3 perguntas; senão None.
 
@@ -202,7 +236,7 @@ def _perguntas_faltantes(messages: list[dict]) -> list[str] | None:
     blob = _user_blob(messages)
     if not last:
         return None
-    vignette = bool(_VIGNETTE_RE.search(blob))
+    vignette = _e_vinheta(blob, last)
     conceptual = bool(_CONCEPTUAL_RE.search(last))
     # "Quais critérios de Wells?" → responde. "Paciente com dor, o que faço?" → pergunta.
     if conceptual and not vignette:

@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "spec": {
+    "plano": "docs/HANDOFF.md",
+    "regras": [
+      "CLAUDE.md",
+      "AGENTS.md",
+      "README.md"
+    ]
+  },
+  "derivado_de_github": {
+    "verificado_em": "2026-08-31T21:57:35Z",
+    "main_sha": "a40d6fa1f5d453734b8d3a44d0a881a4bfa40eeb",
+    "testes": {
+      "total": 0,
+      "verdes": 0,
+      "comando": "ver docs/plans e services/*/tests — suíte não é um único npm test"
+    },
+    "fases": [
+      {
+        "fase": "GraphRAG + smoke ponta a ponta (handoff 2026-08-07)",
+        "issue": null,
+        "pr": 58,
+        "status": "mergeada",
+        "nota": "origin/main a40d6fa docs/handoff-fim-de-sessao"
+      },
+      {
+        "fase": "/health do RAG barato (hoje 89s, orquestrador acha RAG fora)",
+        "issue": 59,
+        "pr": null,
+        "status": "em-andamento",
+        "nota": "branch local perf/59-health-barato; sem PR aberto"
+      }
+    ]
+  },
+  "intencao": {
+    "proximo_passo": "Fechar #59: /health do RAG não pode levar 89s — a branch perf/59-health-barato já existe; abrir PR quando verde.",
+    "pendencias": [
+      {
+        "id": "p-59",
+        "texto": "perf(rag): /health 89s faz o orquestrador reportar RAG fora do ar.",
+        "dono": "agente",
+        "origem": "genesis"
+      },
+      {
+        "id": "p-testes",
+        "texto": "Contagem da suíte não conferida neste genesis.",
+        "dono": "agente",
+        "origem": "genesis"
+      }
+    ],
+    "bloqueios": [],
+    "avisos_operacionais": [
+      "CLI skill-state: node ~/.claude/skills/skill-state/bin/cli.mjs — não editar STATE.json à mão.",
+      "Dados do corpus não estão no git; vivem em ~/synvera-data/.",
+      "Este genesis é do Synvera-ng, não do repo antigo SYNVERA (branch simvera-2.0)."
+    ]
+  },
+  "meta": {
+    "patch_seq": 1,
+    "ultimo_hash": "a5951818c397ea437739d585b48d233b0872359c73e3d5fc8924c77ca5d2d650",
+    "atualizado_em": "2026-08-31T21:57:35Z"
+  }
+}
